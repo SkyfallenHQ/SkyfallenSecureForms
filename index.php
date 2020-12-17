@@ -21,6 +21,7 @@ include_once SSF_ABSPATH."/Configuration/UpdaterConfiguration.php" or die("Missi
 
 // Include all the classes
 include_once SSF_ABSPATH."/FunctionSets/DBSettings.php";
+include_once SSF_ABSPATH."/FunctionSets/SSF_Router.php";
 
 // Include the router file
 include_once SSF_ABSPATH."/router.php";
