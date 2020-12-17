@@ -33,12 +33,12 @@ define("SECUREFORMS_DBSERVER","###");
 // Stop editing here. Rest of this file is the source code.
 
 // Attempt to connect to the SQL Server
-$connection = mysqli_connect(SECUREFORMS_DBSERVER,SECUREFORMS_DBUSER,SECUREFORMS_DBPASSWORD,SECUREFORMS_DBNAME,3306);
+$connection = new mysqli(SECUREFORMS_DBSERVER,SECUREFORMS_DBUSER,SECUREFORMS_DBPASSWORD,SECUREFORMS_DBNAME,3306);
 
 // Check if connection has failed
-if($connection === false){
+if($connection->connect_error){
     // Connection Failed. Stop execution.
-    die("Database Connection Failed. ".mysqli_connect_error());
+    die("Database Connection Failed. ".$connection->connect_error);
 }
 
 // EOF
