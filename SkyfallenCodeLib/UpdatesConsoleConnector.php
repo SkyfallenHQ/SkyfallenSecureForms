@@ -3,6 +3,14 @@
 
 namespace SkyfallenCodeLibrary;
 
+/***********************************************************************************/
+/*                          (C) 2020 - Skyfallen                                   */
+/*                    Skyfallen Secure Forms Developed by                          */
+/*                          The Skyfallen Company                                  */
+/*                                                                                 */
+/*                         File Since: SFR-301002                                  */
+/*    This class handles the connection to update server. It is not documented.    */
+/***********************************************************************************/
 
 class UpdatesConsoleConnector
 {
