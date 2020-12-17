@@ -1,0 +1,44 @@
+<?php
+/***********************************************************************************/
+/*                          (C) 2020 - Skyfallen                                   */
+/*                    Skyfallen Secure Forms Developed by                          */
+/*                          The Skyfallen Company                                  */
+/*                                                                                 */
+/*                         File Since: SFR-301002                                  */
+/*      This file stores the database configuration for the application.           */
+/*  This file should be modified by the user according to their configuration.     */
+/*               SecureForms only works with MYSQL Databases.                      */
+/*    Rename this file to SecureForDatabaseConfiguration.php after editing         */
+/***********************************************************************************/
+
+
+
+
+// Start editing here. You can't edit all of the file.
+// Replace the ### signs with your own data.
+
+
+// Define the database name
+define("SECUREFORMS_DBNAME","###");
+
+// Define the user with access to this database
+// MYSQL Username
+define("SECUREFORMS_DBUSER","###");
+// MYSQL Password
+define("SECUREFORMS_DBPASSWORD","###");
+
+// Define the MYSQL Server, this is generally localhost, meaning the database is on the same server.
+define("SECUREFORMS_DBSERVER","###");
+
+// Stop editing here. Rest of this file is the source code.
+
+// Attempt to connect to the SQL Server
+$connection = mysqli_connect(SECUREFORMS_DBSERVER,SECUREFORMS_DBUSER,SECUREFORMS_DBPASSWORD,SECUREFORMS_DBNAME,3306);
+
+// Check if connection has failed
+if($connection === false){
+    // Connection Failed. Stop execution.
+    die("Database Connection Failed. ".mysqli_connect_error());
+}
+
+// EOF
