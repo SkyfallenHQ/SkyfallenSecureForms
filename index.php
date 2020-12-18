@@ -8,20 +8,24 @@
 /* This file is where all requests are redirected to. All file inclusions are here.*/
 /***********************************************************************************/
 
+error_reporting(E_ALL);
+ini_set("display_errors",1);
+ini_set("display_startup_errors",1);
+
 
 // Define the application's ABSOLUTE FS Path
-define("SSF_ABSPATH",getcwd());
-
-// Define the request url according to the current request.
-define("REQUEST",$_GET["path"]);
+define("SSF_ABSPATH", dirname(__FILE__));
 
 // Include All Configuration Files
-include_once SSF_ABSPATH."/Configuration/SecureFormDatabaseConfiguration.php" or die("Missing Database Configuration");
-include_once SSF_ABSPATH."/Configuration/UpdaterConfiguration.php" or die("Missing Updater Configuration");
+include_once SSF_ABSPATH."/Configuration/SecureFormDatabaseConfiguration.php";
+include_once SSF_ABSPATH."/Configuration/UpdaterConfiguration.php";
 
 // Include all the classes
 include_once SSF_ABSPATH."/FunctionSets/DBSettings.php";
 include_once SSF_ABSPATH."/FunctionSets/SSF_Router.php";
 
-// Include the router file
+// Include the URL Handler to verify the URL and the request.
+include_once SSF_ABSPATH."/URLHandler.php";
+
+// Include the router file to route the URLs
 include_once SSF_ABSPATH."/router.php";
