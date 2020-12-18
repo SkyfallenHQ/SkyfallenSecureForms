@@ -1,4 +1,6 @@
 .DS_Store
 .idea/
 SecureFormDatabaseConfiguration.php
+SecureFormDatabaseConfiguration.php.noindex
 .htaccess
+file_header_template
