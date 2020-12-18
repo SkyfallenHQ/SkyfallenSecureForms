@@ -9,7 +9,7 @@ class DBSettings
 {
     /**
      * Deletes a key from the Settings Table
-     * @param String $keyname
+     * @param String $keyname Name of the key to delete
      */
     public static function deleteKey($keyname){
         global $connection;
@@ -21,8 +21,8 @@ class DBSettings
 
     /**
      * Sets a value for the given key in the Settings Database
-     * @param String $keyname
-     * @param String $keyvalue
+     * @param String $keyname Name of the key
+     * @param String $keyvalue Value of the key
      */
     public static function setKey($keyname,$keyvalue){
         global $connection;
@@ -53,7 +53,7 @@ class DBSettings
 
     /**
      * Fetches a key's value from the Settings Table
-     * @param String $keyname
+     * @param String $keyname Name of the key whose value will be retrieved
      * @return String Returns key's value in the table
      * @return Boolean if fails to execute
      */
