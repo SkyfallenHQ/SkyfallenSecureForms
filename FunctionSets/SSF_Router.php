@@ -39,11 +39,12 @@ class SSF_Router
      * @param String $fallbackfunc What to do if user is not logged in, name of a function
      */
     public static function routePrefix($prefix,$func,$noEndTrailingSlash = false,$requireLogin = false, $fallbackfunc = "null"){
-        if(substr(REQUEST,0,strlen($prefix)) == $prefix."/"){
+        if(substr(REQUEST,0,strlen($prefix)+1) == $prefix."/"){
                 $remainingPath = "";
                 if($noEndTrailingSlash && substr(REQUEST,strlen(REQUEST)-2,strlen(REQUEST)-1) == "/"){
                     $remainingPath = substr(REQUEST,strlen($prefix),strlen(REQUEST)-2);
                 }
+                $remainingPath = substr(REQUEST,strlen($prefix)+1,strlen(REQUEST));
                 $func($remainingPath);
         }
     }
