@@ -32,3 +32,4 @@ if(isset($_SESSION["loggedin"]) && isset($_SESSION["username"]) && isset($_SESSI
     define("ISLOGGEDIN",false);
 }
 
+// Start routing all urls
