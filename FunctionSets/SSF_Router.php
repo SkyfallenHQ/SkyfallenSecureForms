@@ -48,4 +48,14 @@ class SSF_Router
                 $func($remainingPath);
         }
     }
+
+    /**
+     * Renders a static html page
+     * @param String $filename Name of the html file without extension
+     * @param String $dir The directory that html file exist inside. Defaults to 'static/html'
+     */
+
+    public static function render_html($filename,$dir = "static/html"){
+        include SSF_ABSPATH."/".$dir."/".$filename.".html";
+    }
 }
