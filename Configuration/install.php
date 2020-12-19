@@ -50,9 +50,8 @@ if(!empty($_POST)){
             // Database is empty. Free the previous variables.
             $stmt->close();
             $result->free();
-
             // Get the install SQL Files
-            if (@$install_sql = file_get_contents("../install.sql")){
+            if (@$install_sql = file_get_contents(SSF_ABSPATH."install.sql")){
 
                 // Prepare the statement to install
                 $install_stmt = $conn_test->prepare($install_sql);
