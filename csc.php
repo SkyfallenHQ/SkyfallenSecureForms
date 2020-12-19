@@ -6,7 +6,7 @@
 /*                                                                                 */
 /*                     csc.php - Create Server Config                              */
 /*                         File Since: SFR-301002                                  */
-/*  This file rename the ApacheHtaccess file to be affective on the first install  */
+/*  This file renames the ApacheHtaccess file to be affective on the first install */
 /***********************************************************************************/
 
 // Open .htaccess File in Writeable Mode, Stop execution otherwise to notify the user to do this manually.
