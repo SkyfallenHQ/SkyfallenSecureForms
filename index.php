@@ -8,6 +8,10 @@
 /* This file is where all requests are redirected to. All file inclusions are here.*/
 /***********************************************************************************/
 
+error_reporting(E_ALL);
+ini_set("display_errors",1);
+ini_set("display_startup_errors",1);
+
 // Define the application's ABSOLUTE FS Path
 define("SSF_ABSPATH", dirname(__FILE__));
 
@@ -18,8 +22,11 @@ include_once SSF_ABSPATH."/thisversion.php";
 
 // Unless the installation was complete, the Database Config should exist, if not, run the install.
 if((@include_once SSF_ABSPATH . "/Configuration/SecureFormDatabaseConfiguration.php") === false){
+
     // Include the install file
-    include_once SSF_ABSPATH."";
+    include_once SSF_ABSPATH."/Configuration/install.php";
+
+    // Stop further execution
     die();
 }
 
