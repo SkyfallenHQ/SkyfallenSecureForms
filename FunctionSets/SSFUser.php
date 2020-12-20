@@ -62,6 +62,11 @@ class SSFUser
 
         global $connection;
 
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+
+
         $hashed_password = password_hash($password,PASSWORD_DEFAULT);
 
         $stmt = $connection->stmt_init();
