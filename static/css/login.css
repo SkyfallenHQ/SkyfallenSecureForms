@@ -1,0 +1,70 @@
+body{
+    margin: 0;
+}
+
+@media screen and (max-width: 1024px) {
+    .left-col{
+        display: none !important;
+    }
+}
+
+.left-col{
+    height: 100%;
+    width: 70%;
+    display: inline-block;
+    float: left;
+}
+
+.right-col{
+    height: 100%;
+    width: 30%;
+    display: inline-block;
+}
+
+.skyfallen-logo{
+    margin-top: 30%;
+    text-align: center;
+}
+
+.skyfallen-logo-img{
+    height: 80px;
+}
+
+#mainform{
+    text-align: center;
+    margin-top: 10%;
+}
+
+.std-input {
+    border-radius: 3px;
+    border: 2.5px solid #dedede;
+    line-height: 50px;
+    height: 50px;
+    width: 400px;
+    margin-top: 10px;
+    padding-left: 5px;
+    font-size: large;
+}
+
+.std-input:focus{
+    outline: none;
+}
+
+.std-submit{
+    margin-top: 50px;
+    height: 40px;
+    width: 90px;
+    background: black;
+    color:white;
+    font-size: medium;
+    border-radius: 15px;
+    border: none;
+}
+
+.std-submit:focus{
+    outline: none;
+}
+
+.std-submit:hover{
+    background: #2b2b2b;
+}
