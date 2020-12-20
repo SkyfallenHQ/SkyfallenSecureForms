@@ -15,7 +15,7 @@ defined("SSF_ABSPATH") or die();
  * Redirects user to the login page
  */
 function redirect_to_login(){
-    header("location:".WEB_URL."");
+    ssf_redirect("accounts/login");
 }
 
 /**
@@ -24,4 +24,23 @@ function redirect_to_login(){
 
 function render_login(){
 
+    ?>
+    <html>
+        <head>
+            <title>Skyfallen SecureForms: Login</title>
+            <link rel="stylesheet" type="text/css" href="<?php the_fileurl("static/css/login.css"); ?>">
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+        </head>
+
+        <body>
+            <div class="left-col"></div>
+            <div class="right-col">
+                <div class="loginform">
+
+                </div>
+            </div>
+        </body>
+    </html>
+    <?php
 }
