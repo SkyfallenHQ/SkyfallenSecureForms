@@ -33,3 +33,13 @@ if(isset($_SESSION["loggedin"]) && isset($_SESSION["username"]) && isset($_SESSI
 }
 
 // Start routing all urls
+
+
+
+// If nothing was routed, display 404
+if(!defined("ROUTED")){
+
+    // Include the 404 Page.
+    include_once SSF_ABSPATH."/SSF_Includes/404.php";
+
+}
