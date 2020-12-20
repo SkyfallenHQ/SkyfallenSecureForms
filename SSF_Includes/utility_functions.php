@@ -30,3 +30,11 @@ function the_fileurl($path){
 function ssf_redirect($to){
     header("location: ".WEB_URL.$to);
 }
+
+/**
+ * Generates a random MD5 Hash
+ * @return String Hash
+ */
+function rand_md5_hash(){
+    return md5(uniqid(rand(), true));
+}
