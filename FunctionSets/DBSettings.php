@@ -35,7 +35,6 @@ class DBSettings
         $res->free();
         $stmt->close();
 
-
         if($numrows == 1){
             $delete_stmt = $connection->stmt_init();
             $delete_stmt->prepare("DELETE FROM ssf_settings WHERE setting=?");
