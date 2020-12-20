@@ -35,6 +35,9 @@ if((@include_once SSF_ABSPATH . "/Configuration/SecureFormDatabaseConfiguration.
 include_once SSF_ABSPATH."/FunctionSets/DBSettings.php";
 include_once SSF_ABSPATH."/FunctionSets/SSF_Router.php";
 
+// Include all of SSF_Includes
+include_once SSF_ABSPATH."/SSF_Includes/utility_functions.php";
+
 // Include the URL Handler to verify the URL and the request.
 include_once SSF_ABSPATH."/URLHandler.php";
 
