@@ -30,13 +30,16 @@ if((@include_once SSF_ABSPATH . "/Configuration/SecureFormDatabaseConfiguration.
     die();
 }
 
+// Include Helpers
+include_once SSF_ABSPATH."/SSF_Includes/CSRF_Session_Helper.php";
+
+// Include all of SSF_Includes
+include_once SSF_ABSPATH."/SSF_Includes/utility_functions.php";
 
 // Include all the classes
 include_once SSF_ABSPATH."/FunctionSets/DBSettings.php";
 include_once SSF_ABSPATH."/FunctionSets/SSF_Router.php";
-
-// Include all of SSF_Includes
-include_once SSF_ABSPATH."/SSF_Includes/utility_functions.php";
+include_once SSF_ABSPATH."/FunctionSets/SSF_CSRF.php";
 
 // Include the URL Handler to verify the URL and the request.
 include_once SSF_ABSPATH."/URLHandler.php";
