@@ -102,11 +102,16 @@ if(!empty($_POST)){
                             // We have the file, now include it to create the first user
                             include_once SSF_ABSPATH."/Configuration/SecureFormDatabaseConfiguration.php";
 
-                            // We also need the user function set
+                            // We also need some function sets
                             include_once SSF_ABSPATH."/FunctionSets/SSFUser.php";
+                            include_once SSF_ABSPATH."/FunctionSets/DBSettings.php";
 
                             // Now Create the user
                             if(SSFUser::createNewUser($form_user,$form_email,"SUPERUSER",$form_password)){
+
+                                // Save the WEB_URL for future reference
+                                DBSettings::setKey("WEB_URL",(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
+
                                 $success = true;
                                 $wizard_title = "Install Successfully Completed";
                                 $wizard_description = "Welcome to the future of form processing...";
