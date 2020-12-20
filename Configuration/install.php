@@ -15,6 +15,7 @@ defined("SSF_ABSPATH") or die("Nope! We have thought of that before you did!");
 $wizard_title = "Welcome";
 $wizard_description = "We'll guide you through the steps to install Skyfallen Secure Forms";
 $debug_msg = "OK";
+$success = false;
 
 // Check if form was submitted
 if(!empty($_POST)){
@@ -51,24 +52,94 @@ if(!empty($_POST)){
             $stmt->close();
             $result->free();
             // Get the install SQL Files
-            if (@$install_sql = file_get_contents(SSF_ABSPATH."install.sql")){
 
-                // Prepare the statement to install
-                $install_stmt = $conn_test->prepare($install_sql);
+            if (@$install_sql = file_get_contents(SSF_ABSPATH."/install.sql")){
 
-            // Execute the install
-            $install_stmt->execute();
+                // Separate SQL commands one by one
+                $installation_commands = explode(";", $install_sql);
+
+                // Create an empty var to see if have failed to execute any of the commands
+                $failed_commands = false;
+
+                // Go through each command
+                foreach ($installation_commands as $command) {
+                    $command = trim($command);
+                    if (empty($command))
+                    {
+                        continue;
+                    }
+                    $q_res = $conn_test->query($command);
+                    if ($q_res === false)
+                    {
+                        $failed_commands = true;
+                    }
+                }
 
             // Check for errors
-            if (!($install_stmt->error)) {
-                // No fail
-                $wizard_title = "Successfully Completed the install.";
-                $wizard_description = "Welcome to the future of form processing.";
+            if (!$failed_commands) {
+                // No fail on db installation,
+
+                // Read the DBConfig Template
+                if(@$config_temp_file = fopen(SSF_ABSPATH."/Configuration/SecureFormDatabaseConfiguration.php.template","r")) {
+                    $config_temp_text = fread($config_temp_file, filesize(SSF_ABSPATH."/Configuration/SecureFormDatabaseConfiguration.php.template"));
+
+                    // Replace the empty spaces with information
+                    $config_temp_text = str_replace('db_name_here',$form_dbname,$config_temp_text);
+                    $config_temp_text = str_replace('db_user_here',$form_dbuser,$config_temp_text);
+                    $config_temp_text = str_replace('db_server_here',$form_dbhost,$config_temp_text);
+                    $config_temp_text = str_replace('db_password_here',$form_dbpassword,$config_temp_text);
+
+                    // Save the file
+
+                    if(@$config_file = fopen(SSF_ABSPATH."/Configuration/SecureFormDatabaseConfiguration.php","a+")){
+
+                        // Save the buffer to the file
+                        @fwrite($config_file,$config_temp_text);
+
+                        // Check if we have the file
+                        if(file_exists(SSF_ABSPATH."/Configuration/SecureFormDatabaseConfiguration.php")){
+
+                            // We have the file, now include it to create the first user
+                            include_once SSF_ABSPATH."/Configuration/SecureFormDatabaseConfiguration.php";
+
+                            // We also need the user function set
+                            include_once SSF_ABSPATH."/FunctionSets/SSFUser.php";
+
+                            // Now Create the user
+                            if(SSFUser::createNewUser($form_user,$form_email,"SUPERUSER",$form_password)){
+                                $success = true;
+                                $wizard_title = "Install Successfully Completed";
+                                $wizard_description = "Welcome to the future of form processing...";
+
+                            } else {
+                                // Fail
+                                $wizard_title = "Failure, Please try again.";
+                                $wizard_description = "We attempted to create an user account but there was an error. Please delete your config file and try again.";
+                            }
+
+
+                        } else {
+                            // Fail
+                            $wizard_title = "Failure, Please try again.";
+                            $wizard_description = "We attempted to write to the config but the changes were not saved.";
+                        }
+
+                    } else {
+                        // Fail
+                        $wizard_title = "Failure, Please try again.";
+                        $wizard_description = "We couldn't write to the config file. This may indicate a write permission error.";
+                    }
+
+                } else {
+                    // Fail
+                    $wizard_title = "Failure, Please try again.";
+                    $wizard_description = "We couldn't read the config template. This file is probably renamed or deleted.";
+                }
+
             } else {
                 // Failed while installing the SQL Database
                 $wizard_title = "Failure, Please try again.";
                 $wizard_description = "An unknown error occurred .";
-                $debug_msg = $install_stmt->error;
             }
             } else {
                 // We couldn't find the install file.
@@ -91,6 +162,15 @@ if(!empty($_POST)){
         <link href="https://fonts.googleapis.com/css2?family=Spartan:wght@500&display=swap" rel="stylesheet">
         <script src="static/js/anime.min.js" defer></script>
         <script>
+            <?php
+                if($success){
+            ?>
+             window.setTimeout(function(){
+                location.reload();
+            }, 5000);
+            <?php
+                }
+            ?>
             var currentTab = 0;
             function showTab(n) {
                 var x = document.getElementsByClassName("tab");
@@ -186,6 +266,13 @@ if(!empty($_POST)){
                 position: relative;
             }
             .next-btn{
+            <?php
+                if($success){
+                    ?>
+                display: none;
+                    <?php
+                }
+            ?>
                 position: absolute;
                 bottom: 10px;
                 right: 15px;
