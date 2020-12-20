@@ -24,6 +24,8 @@ function redirect_to_login(){
 
 function render_login(){
 
+    $CSRF = new SSF_CSRF();
+
     ?>
     <html>
         <head>
@@ -34,10 +36,21 @@ function render_login(){
         </head>
 
         <body>
-            <div class="left-col"></div>
+            <div class="left-col" style="background: url('<?php the_fileurl("static/img/color_splash.jpg"); ?>') center"></div>
             <div class="right-col">
                 <div class="loginform">
-
+                    <div class="skyfallen-logo">
+                        <img src="<?php the_fileurl("static/img/Skyfallen_Logo.png"); ?>" class="skyfallen-logo-img">
+                    </div>
+                    <form id="mainform" method="post">
+                        <?php
+                            $CSRF->put();
+                        ?>
+                        <input class="std-input" name="username" placeholder="Username" type="text">
+                        <input class="std-input" name="password" placeholder="Password" type="password">
+                        <br>
+                        <input class="std-submit" name="submit-form" type="submit" value="Login">
+                    </form>
                 </div>
             </div>
         </body>
