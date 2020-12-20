@@ -9,7 +9,7 @@
 /***********************************************************************************/
 
 /**
- * Echos the WEB URL of current application
+ * Echos the WEB_URL of current application
  */
 function the_weburl(){
     echo WEB_URL;
@@ -21,4 +21,12 @@ function the_weburl(){
  */
 function the_fileurl($path){
     echo WEB_URL.$path;
+}
+
+/**
+ * Redirects the user using headers
+ * @param String $to The path after the domain to redirect to
+ */
+function ssf_redirect($to){
+    header("location: ".WEB_URL.$to);
 }
