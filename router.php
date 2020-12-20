@@ -34,6 +34,11 @@ if(isset($_SESSION["loggedin"]) && isset($_SESSION["username"]) && isset($_SESSI
 
 // Start routing all urls
 
+// Redirects for the login page
+include_once SSF_ABSPATH."/views/login.php";
+SSF_Router::routePage("/","redirect_to_login");
+SSF_Router::routePage("accounts/login","render_login");
+
 
 
 // If nothing was routed, display 404
