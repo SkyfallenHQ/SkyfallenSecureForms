@@ -15,20 +15,20 @@
 
 
 // Start editing here. You can't edit all of the file.
-// Replace the ### signs with your own data.
+// Replace the following definitions with your own data.
 
 
 // Define the database name
-define("SECUREFORMS_DBNAME","###");
+define("SECUREFORMS_DBNAME","db_name_here");
 
 // Define the user with access to this database
 // MYSQL Username
-define("SECUREFORMS_DBUSER","###");
+define("SECUREFORMS_DBUSER","db_user_here");
 // MYSQL Password
-define("SECUREFORMS_DBPASSWORD","###");
+define("SECUREFORMS_DBPASSWORD","db_password_here");
 
 // Define the MYSQL Server, this is generally localhost, meaning the database is on the same server.
-define("SECUREFORMS_DBSERVER","###");
+define("SECUREFORMS_DBSERVER","db_server_here");
 
 // Stop editing here. Rest of this file is the source code.
 
