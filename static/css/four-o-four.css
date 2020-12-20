@@ -1,0 +1,16 @@
+.basic-wrapper-01{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 0.1px solid #c8c8c8;
+    border-radius: 15px;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+    height: 15%;
+    width: 20%;
+    margin-right: auto;
+    margin-left: auto;
+    font-family: 'Roboto', sans-serif;
+}
