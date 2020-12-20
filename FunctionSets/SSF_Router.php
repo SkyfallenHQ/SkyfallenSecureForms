@@ -17,14 +17,17 @@ class SSF_Router
         if($requireLogin) {
             if(ISLOGGEDIN) {
                 if (REQUEST == $path or REQUEST == $path . "/") {
+                    define("ROUTED",true);
                     $func();
                 }
             } else {
+                define("ROUTED",true);
                 $fallbackfunc();
             }
         }
         else {
             if (REQUEST == $path or REQUEST == $path . "/") {
+                define("ROUTED",true);
                 $func();
             }
         }
@@ -45,6 +48,7 @@ class SSF_Router
                     $remainingPath = substr(REQUEST,strlen($prefix),strlen(REQUEST)-2);
                 }
                 $remainingPath = substr(REQUEST,strlen($prefix)+1,strlen(REQUEST));
+                define("ROUTED",true);
                 $func($remainingPath);
         }
     }
