@@ -8,6 +8,9 @@
 /*   This file contains some utility functions that help with the development.     */
 /***********************************************************************************/
 
+// Check if called from the main file
+defined("SSF_ABSPATH") or die("Stop it!");
+
 /**
  * Echos the WEB_URL of current application
  */
@@ -16,11 +19,28 @@ function the_weburl(){
 }
 
 /**
+ * Echos the url concatenated with an page's url
+ * @param String $path Path to the page
+ */
+function the_pageurl($path){
+    echo WEB_URL.$path;
+}
+
+/**
  * Echos the url concatenated with an asset's url
  * @param String $path Path to the url inside the app
  */
 function the_fileurl($path){
     echo WEB_URL.$path;
+}
+
+/**
+ * Echos the links required for
+ */
+function link_std_inputs(){
+?>
+<link href="<?php the_fileurl("static/standard-input/css/std-inputs.css"); ?>" rel="stylesheet" type="text/css">
+<?php
 }
 
 /**
