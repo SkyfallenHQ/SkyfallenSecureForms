@@ -18,14 +18,17 @@ session_name("SecureFormSession");
 session_start();
 
 // Check if we are logged in
-if(isset($_SESSION["loggedin"]) && isset($_SESSION["username"]) && isset($_SESSION["user_role"])){
+if(isset($_SESSION["loggedin"]) && isset($_SESSION["username"])){
 
     // We are logged in.
     define("ISLOGGEDIN",true);
 
     // Define user data as constants.
     define("USERNAME",$_SESSION["username"]);
-    define("CURRENT_ROLE",$_SESSION["user_role"]);
+
+    // Fetch the current user
+    $currentUser = new SSFUser(USERNAME);
+
 } else {
 
     // We are not logged in.
@@ -38,8 +41,12 @@ if(isset($_SESSION["loggedin"]) && isset($_SESSION["username"]) && isset($_SESSI
 include_once SSF_ABSPATH."/views/login.php";
 SSF_Router::routePage("/","redirect_to_login");
 SSF_Router::routePage("accounts/login","render_login");
+//SSF_Router::routePage("accounts/logout","do_logout");
 
-
+// Redirects for the user's panel
+include_once SSF_ABSPATH."/views/userpage.php";
+SSF_Router::routePage("accounts/dashboard","render_dashboard",true,"redirect_to_login");
+SSF_Router::routePage("accounts/dashboard/newform","render_page_new_form",true,"redirect_to_login");
 
 // If nothing was routed, display 404
 if(!defined("ROUTED")){
