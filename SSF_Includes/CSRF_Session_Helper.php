@@ -8,6 +8,9 @@
 /*           This file prepares the session for use of CSRF Tokens                 */
 /***********************************************************************************/
 
+// Check if called from the main file
+defined("SSF_ABSPATH") or die("Ouch.");
+
 // Check if SESSION has CSRF started
 
 if(!isset($_SESSION["csrf_codes"])){
