@@ -31,12 +31,6 @@ class SSFUser
      */
     private $type;
 
-
-    /**
-     * @var String $hashed_password Hashed Password of the user that the current object belongs to. Not retrievable.
-     */
-    private $hashed_password;
-
     /**
      * SSFUser constructor.
      * @param String $username The user to assign the new object to.
@@ -45,6 +39,32 @@ class SSFUser
     {
         global $connection;
 
+        $stmt = $connection->stmt_init();
+
+        $stmt->prepare("SELECT email,role,type FROM ssf_users WHERE username=?");
+
+        $stmt->bind_param("s",$username);
+
+        $stmt->execute();
+
+        if($stmt->error){
+            $this->error = $stmt->error;
+            return false;
+        }
+
+        $result = $stmt->get_result();
+
+        if($result->num_rows == 1){
+            $row = $result->fetch_assoc();
+            $this->username = $username;
+            $this->role = $row["role"];
+            $this->email = $row["email"];
+            $this->type = $row["type"];
+            return true;
+        } else {
+            $this->error = "No such user.";
+            return false;
+        }
 
     }
 
@@ -178,4 +198,61 @@ class SSFUser
         }
     }
 
+    /**
+     * Used to verify the password of the current object's user.
+     * @param String $password Plain password to check.
+     * @return Bool true on correct password, false on invalid password.
+     */
+    function verifyPassword($password){
+
+        global $connection;
+
+        $stmt = $connection->stmt_init();
+
+        $stmt->prepare("SELECT hashed_password FROM ssf_users WHERE username=?");
+
+        $stmt->bind_param("s",$this->username);
+
+        $stmt->execute();
+
+        if($stmt->error){
+            $this->error = $stmt->error;
+            return false;
+        }
+
+        $result = $stmt->get_result();
+
+        if($result->num_rows == 1){
+            $psr = $result->fetch_assoc();
+            $hashed_password = $psr["hashed_password"];
+
+            if(password_verify($password,$hashed_password)){
+                return true;
+            } else {
+                $this->error = "Invalid Password.";
+                return false;
+            }
+        } else {
+            $this->error = "No saved password found.";
+            return false;
+        }
+
+    }
+
+    /**
+     * Sets up the environment values to represent the current user.
+     */
+    public function login(){
+
+        $_SESSION["loggedin"] = true;
+        $_SESSION["username"] = $this->username;
+
+    }
+
+    public static function logout(){
+
+        unset($_SESSION["username"]);
+        unset($_SESSION["loggedin"]);
+
+    }
 }
