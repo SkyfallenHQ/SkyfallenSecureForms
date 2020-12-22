@@ -35,12 +35,16 @@ class SSF_CSRF
      */
     public static function verifyCSRF(){
 
-        $form_csrf_id = $_POST["csrf_id"];
+        if(isset($_POST["csrf_id"]) && isset($_POST["csrf_token"])) {
+            $form_csrf_id = $_POST["csrf_id"];
 
-        $form_csrf_token = $_POST["csrf_token"];
+            $form_csrf_token = $_POST["csrf_token"];
 
-        if(@$_SESSION["csrf_codes"][$form_csrf_id] == $form_csrf_token){
-            return true;
+            if (isset($_SESSION["csrf_codes"][$form_csrf_id]) && (@$_SESSION["csrf_codes"][$form_csrf_id] == $form_csrf_token)) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
@@ -62,6 +66,15 @@ class SSF_CSRF
     public static function clearTokens(){
 
         $_SESSION["csrf_codes"] = array();
+
+    }
+
+    /**
+     * This function will invalidate the current CSRF
+     */
+    public static function invalidateCurrentCSRF(){
+
+        unset($_SESSION[$_POST["csrf_id"]]);
 
     }
 }
