@@ -11,6 +11,11 @@
 // Check if called from the main file
 defined("SSF_ABSPATH") or die();
 
+function do_logout(){
+    SSFUser::logout();
+    ssf_redirect("accounts/login");
+}
+
 /**
  * Redirects user to the login page
  */
@@ -24,7 +29,36 @@ function redirect_to_login(){
 
 function render_login(){
 
+    if(ISLOGGEDIN){
+        ssf_redirect("accounts/dashboard");
+    }
+
     $CSRF = new SSF_CSRF();
+
+    $errorMessage = "OK";
+
+    if(!empty($_POST)){
+        if(SSF_CSRF::verifyCSRF()){
+            SSF_CSRF::invalidateCurrentCSRF();
+            if(isset($_POST["username"]) && isset($_POST["password"])){
+                $user = new SSFUser($_POST["username"]);
+                if($user->error != "No such user."){
+                    if($user->verifyPassword($_POST["password"])){
+                        $user->login();
+                        ssf_redirect("accounts/dashboard");
+                    } else {
+                        $errorMessage = "Invalid password.";
+                    }
+                } else {
+                    $errorMessage = "No such user found.";
+                }
+            } else {
+                $errorMessage = "All fields are required.";
+            }
+        } else {
+            $errorMessage = "Invalid CSRF Token!";
+        }
+    }
 
     ?>
     <html>
@@ -42,6 +76,15 @@ function render_login(){
                     <div class="skyfallen-logo">
                         <img src="<?php the_fileurl("static/img/Skyfallen_Logo.png"); ?>" class="skyfallen-logo-img">
                     </div>
+                    <?php
+                        if($errorMessage != "OK"){
+                            ?>
+                            <div class="error-msg">
+                                <p><?php echo $errorMessage; ?></p>
+                            </div>
+                            <?php
+                        }
+                    ?>
                     <form id="mainform" method="post">
                         <?php
                             $CSRF->put();
