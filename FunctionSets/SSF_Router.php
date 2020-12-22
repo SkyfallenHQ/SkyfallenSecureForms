@@ -15,14 +15,14 @@ class SSF_Router
      */
     public static function routePage($path, $func,$requireLogin = false, $fallbackfunc = "null"){
         if($requireLogin) {
-            if(ISLOGGEDIN) {
-                if (REQUEST == $path or REQUEST == $path . "/") {
+            if (REQUEST == $path or REQUEST == $path . "/") {
+                if(ISLOGGEDIN) {
                     define("ROUTED",true);
                     $func();
+                } else {
+                    define("ROUTED",true);
+                    $fallbackfunc();
                 }
-            } else {
-                define("ROUTED",true);
-                $fallbackfunc();
             }
         }
         else {
