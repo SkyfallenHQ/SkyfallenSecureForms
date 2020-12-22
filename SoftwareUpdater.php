@@ -13,7 +13,7 @@ require_once "Configuration/UpdaterConfiguration.php";
 
 // Check if Session is already open otherwise create a new one.
 if(session_status() == PHP_SESSION_NONE) {
-    session_name("SECIRE");
+    session_name("SecureFormsSession");
     session_start();
 } else {
     // Make sure we are logged in and update s authorised.
