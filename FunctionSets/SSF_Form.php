@@ -82,7 +82,7 @@ class SSF_Form
         }
 
         $addval_stmt = $connection->stmt_init();
-        $addval_stmt->prepare("INSERT INTO ssf_form_meta (form_id,form_meta,form_meta_value) VALUES (?,?,?)");
+        $addval_stmt->prepare("INSERT INTO ssf_form_meta (formid,form_meta,form_meta_value) VALUES (?,?,?)");
         $addval_stmt->bind_param("ss",$this->formid,$keyname,$keyvalue);
         $addval_stmt->execute();
     }
@@ -127,13 +127,21 @@ class SSF_Form
 
         $available_visibility_options = array("link_only");
 
-        if(array_key_exists($form_visibility,$available_visibility_options)){
+        if(in_array($form_visibility,$available_visibility_options)){
 
             $stmt = $connection->stmt_init();
 
             $stmt->prepare("INSERT INTO ssf_forms (formid,formname,formcreator,formcreationtime,formdomain,formtype,formvisibility) VALUES (?,?,?,?,?,?,?)");
 
-            $stmt->bind_param("sssssss",rand_md5_hash(),$form_name,USERNAME,time(),"NYI:FAQ301-001","NYI:FAQ301-002",$form_visibility);
+            $time_now = time();
+
+            $rand_formid = rand_md5_hash();
+
+            $current_Username = USERNAME;
+
+            $faq_code = "NYI:FAQ301-001";
+
+            $stmt->bind_param("sssssss",$rand_formid,$form_name,$current_Username,$time_now,$faq_code,$faq_code,$form_visibility);
 
             $stmt->execute();
 
@@ -148,4 +156,127 @@ class SSF_Form
         }
 
     }
+
+    /**
+     * Checks the SQL database for all formids that are created by the given user.
+     * @param String $username Username to look for in the database
+     * @return array containing all Form ID's that belong to the user.
+     */
+    public static function listUserForms($username){
+
+        global $connection;
+
+        $stmt = $connection->stmt_init();
+
+        $stmt->prepare("SELECT formid FROM ssf_forms WHERE formcreator=?");
+
+        $stmt->bind_param("s",$username);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        $user_formids = array();
+
+        if($result->num_rows){
+
+            while($row = $result->fetch_assoc()){
+
+                array_push($user_formids,$row["formid"]);
+
+            }
+
+        }
+
+        return $user_formids;
+    }
+
+    /**
+     * Gets the form name for the current form object from the SQL Database
+     * @return false|mixed False on error, form name on success
+     */
+    public function getFormName(){
+
+        global $connection;
+
+        $stmt = $connection->prepare("SELECT formname FROM ssf_forms WHERE formid=?");
+
+        $stmt->bind_param("s",$this->formid);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if($result->num_rows == 1){
+
+            $row = $result->fetch_assoc();
+
+            return $row["formname"];
+
+        } else {
+
+            return false;
+
+        }
+    }
+
+    /**
+     * Gets the form creation date in epoch format for the current form object from the SQL Database
+     * @return false|mixed False on error, form creation date in epoch format on success
+     */
+    public function getFormEpochDate(){
+
+        global $connection;
+
+        $stmt = $connection->prepare("SELECT formcreationtime FROM ssf_forms WHERE formid=?");
+
+        $stmt->bind_param("s",$this->formid);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if($result->num_rows == 1){
+
+            $row = $result->fetch_assoc();
+
+            return $row["formcreationtime"];
+
+        } else {
+
+            return false;
+
+        }
+    }
+
+    /**
+     * Gets the form creation date in readable format for the current form object from the SQL Database
+     * @return false|mixed False on error, form creation date on success
+     */
+    public function getFormCreationDate(){
+
+        global $connection;
+
+        $stmt = $connection->prepare("SELECT formcreationtime FROM ssf_forms WHERE formid=?");
+
+        $stmt->bind_param("s",$this->formid);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if($result->num_rows == 1){
+
+            $row = $result->fetch_assoc();
+
+            return gmdate('d M Y H:i',$row["formcreationtime"]);
+
+        } else {
+
+            return false;
+
+        }
+    }
+
+
 }
