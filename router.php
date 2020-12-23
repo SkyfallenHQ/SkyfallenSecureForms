@@ -52,6 +52,10 @@ SSF_Router::routePage("accounts/dashboard/newform","render_page_new_form",true,"
 include_once SSF_ABSPATH."/views/form_editor.php";
 SSF_Router::routePrefix("forms/edit","render_form_editor",true,true,"redirect_to_login");
 
+// Redirects for the form renderer
+include_once SSF_ABSPATH."/views/form_view.php";
+SSF_Router::routePrefix("form","render_form",true);
+
 // If nothing was routed, display 404
 if(!defined("ROUTED")){
 
