@@ -63,6 +63,7 @@ a {
     grid-auto-rows: 200px;
     justify-content: center;
     align-content: center;
+    grid-gap: 20px;
 }
 
 .tile-parent {
@@ -116,4 +117,31 @@ a {
     width: 400px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.tile-form-name{
+    font-family: sans-serif, 'Roboto';
+    font-size: 50px;
+    word-wrap: break-word;
+    hyphens: auto;
+    background-color: #ffffff;
+    border: 1px solid black;
+    border-radius: 20px 20px 0px 0px;
+    border-bottom: none;
+    height: 130px;
+}
+
+.tile-form-name-text{
+    margin-top: -6px;
+    padding: 10px;
+}
+
+.tile-form-creation-date{
+    background-color: #d9d5d5;
+    font-family: sans-serif, 'Roboto';
+    font-weight: lighter;
+    height: 70px;
+    margin-top: -16px;
+    border-radius: 0px 0px 20px 20px;
+    padding: 10px;
 }
