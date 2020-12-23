@@ -15,6 +15,9 @@ defined("SSF_ABSPATH") or die("Not funny.");
  * Renders the dashboard
  */
 function render_dashboard(){
+
+    $user_created_forms = SSF_Form::listUserForms(USERNAME);
+
 ?>
 <html>
     <head>
@@ -27,9 +30,11 @@ function render_dashboard(){
 
     <body>
         <div class="top-bar">
-            <div class="skyfallen-logo">
-                <img src="<?php the_fileurl("static/img/Skyfallen_Logo.png"); ?>" class="skyfallen-logo-img">
-            </div>
+            <a href="<?php the_pageurl("accounts/dashboard"); ?>">
+                <div class="skyfallen-logo">
+                    <img src="<?php the_fileurl("static/img/Skyfallen_Logo.png"); ?>" class="skyfallen-logo-img">
+                </div>
+            </a>
             <div class="user-col-parent">
                 <div class="user-col">
                     <a href="<?php the_pageurl("accounts/logout"); ?>"><h3>Logged in as <?php echo USERNAME; ?>. Log out?</h3></a>
@@ -39,6 +44,13 @@ function render_dashboard(){
         <div class="forms-overview">
             <?php
             render_form_tile_add();
+
+            foreach ($user_created_forms as $user_created_form) {
+
+                render_created_form_tile($user_created_form);
+
+            }
+
             ?>
         </div>
     </body>
@@ -62,6 +74,26 @@ function render_form_tile_add(){
 }
 
 /**
+ * Renders a tile for a given form id
+ */
+function render_created_form_tile($formid){
+
+    $form_obj = new SSF_Form($formid);
+?>
+    <a href="<?php the_pageurl("forms/edit/".$formid); ?>">
+        <div class="tile-parent">
+            <div class="tile-form-name">
+                <p class="tile-form-name-text"><?php echo $form_obj->getFormName(); ?></p>
+            </div>
+            <div class="tile-form-creation-date">
+                <p class="tile-form-creation-date-text">Created: <?php echo $form_obj->getFormCreationDate(); ?></p>
+            </div>
+        </div>
+    </a>
+<?php
+}
+
+/**
  * Renders the page to create a new form
  */
 function render_page_new_form(){
@@ -71,7 +103,8 @@ function render_page_new_form(){
     if(!empty($_POST)){
         if(SSF_CSRF::verifyCSRF()){
             SSF_CSRF::invalidateCurrentCSRF();
-            echo SSF_Form::newForm($_POST["new_form_name"],$_POST["form_visibility"]);
+            SSF_Form::newForm($_POST["new_form_name"],$_POST["form_visibility"]);
+            ssf_redirect("accounts/dashboard");
         } else {
             $errorMessage = "Invalid form CSRF; Please check if cookies are enabled in your browser.";
         }
@@ -89,9 +122,11 @@ function render_page_new_form(){
 
     <body>
     <div class="top-bar">
-        <div class="skyfallen-logo">
-            <img src="<?php the_fileurl("static/img/Skyfallen_Logo.png"); ?>" class="skyfallen-logo-img">
-        </div>
+        <a href="<?php the_pageurl("accounts/dashboard"); ?>">
+            <div class="skyfallen-logo">
+                <img src="<?php the_fileurl("static/img/Skyfallen_Logo.png"); ?>" class="skyfallen-logo-img">
+            </div>
+        </a>
         <div class="user-col-parent">
             <div class="user-col">
                 <a href="<?php the_pageurl("accounts/logout"); ?>"><h3>Logged in as <?php echo USERNAME; ?>. Log out?</h3></a>
