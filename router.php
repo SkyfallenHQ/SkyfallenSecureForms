@@ -41,12 +41,16 @@ if(isset($_SESSION["loggedin"]) && isset($_SESSION["username"])){
 include_once SSF_ABSPATH."/views/login.php";
 SSF_Router::routePage("/","redirect_to_login");
 SSF_Router::routePage("accounts/login","render_login");
-//SSF_Router::routePage("accounts/logout","do_logout");
+SSF_Router::routePage("accounts/logout","do_logout");
 
 // Redirects for the user's panel
 include_once SSF_ABSPATH."/views/userpage.php";
 SSF_Router::routePage("accounts/dashboard","render_dashboard",true,"redirect_to_login");
 SSF_Router::routePage("accounts/dashboard/newform","render_page_new_form",true,"redirect_to_login");
+
+// Redirects for the form editor
+include_once SSF_ABSPATH."/views/form_editor.php";
+SSF_Router::routePrefix("forms/edit","render_form_editor",true,true,"redirect_to_login");
 
 // If nothing was routed, display 404
 if(!defined("ROUTED")){
