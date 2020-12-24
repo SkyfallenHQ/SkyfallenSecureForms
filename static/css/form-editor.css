@@ -1,0 +1,156 @@
+body {
+
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+
+}
+
+.editor-wrapper{
+
+    width: 50%;
+    min-width: 800px;
+    min-height: 80%;
+    border: 1px solid #d9d5d5;
+    border-radius: 21px;
+    margin-top: 100px;
+    background: snow;
+    margin-bottom: 100px;
+    padding-top: 0;
+    padding-bottom: 30px;
+
+}
+
+.form-title-container {
+
+    width: 100%;
+    height: 200px;
+    border-radius: 20px 20px 0px 0px;
+    background: #f1d4d4;
+    border-bottom: 1px solid pink;
+    display: flex;
+
+}
+
+.form-title-hdg{
+
+    padding-left: 20px;
+    font-size: 100px;
+    margin-top: 100px;
+    position: relative;
+    bottom: 0;
+    padding-bottom: 0;
+    display: block;
+
+}
+
+.hovering-controls{
+
+    top: 50px;
+    right: 30px;
+    position: fixed;
+    text-align: center;
+    display: block;
+    width: 45px;
+    height: 100px;
+    background-color: snow;
+    border-radius: 20px;
+    border: 1px solid #dbc6c6;
+    padding-top: 10px;
+    box-shadow: 3px 3px 3px 3px #d9d8d8;
+
+}
+
+.hover-ctrl-btn {
+
+    border: none;
+    background-color: #e5c4c4;
+    border-radius: 20px;
+    height: 40px;
+    width: 40px;
+    color: #ac7676;
+    font-size: 30px;
+    padding: 0;
+
+}
+
+.hover-ctrl-btn:hover {
+
+    border: none;
+    background-color: #b7afaf;
+    border-radius: 20px;
+    height: 40px;
+    width: 40px;
+
+}
+
+.hover-ctrl-btn:focus {
+
+    outline: none;
+    color: white;
+
+}
+
+.field-container{
+
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 30px;
+    background: #a79898;
+    border: none;
+    border-radius: 20px;
+
+}
+
+
+.field-label-selector{
+
+    border-radius: 20px 20px 0px 0px;
+    background-color: #948888;
+    padding: 10px;
+
+}
+
+.field-type-select {
+
+    width: 20%;
+    display: inline;
+
+}
+
+.field-label-input{
+
+    width: 60%;
+    display: inline;
+
+}
+
+.field-label-domlabel{
+
+    color: white;
+    border-bottom: 1px solid white;
+
+}
+
+.preview-label-explanation{
+
+    line-height: 0px;
+    padding-left: 10px;
+    font-family: sans-serif, 'Roboto';
+    font-size: 20px;
+    width: 100%;
+
+}
+
+hr {
+
+    color: white;
+
+}
+
+.field-preview-selector {
+
+    padding: 20px;
+
+}
