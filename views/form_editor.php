@@ -30,14 +30,30 @@ function render_form_editor($form_id){
 <html>
     <head>
         <title>Edit SecureForm: <?php echo $form_object->getFormName(); ?></title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
         <?php link_std_inputs(); ?>
-        <link type="text/css" rel="stylesheet" href="<?php the_fileurl("assets/css/form-editor.css"); ?>">
-        <script src="<?php the_fileurl("assets/js/jquery.min.js"); ?>" defer></script>
-        <script src="<?php the_fileurl("assets/js/form-editor.js"); ?>" defer></script>
+        <?php link_fa_icons(); ?>
+        <link type="text/css" rel="stylesheet" href="<?php the_fileurl("static/css/form-editor.css"); ?>">
+        <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" defer></script>
+        <script src="<?php the_fileurl("static/js/jquery-ui.min.js"); ?>" defer></script>
+        <script src="<?php the_fileurl("static/js/form-editor.js"); ?>" defer></script>
     </head>
 
     <body>
-        
+        <div class="hovering-controls">
+            <button class="hover-ctrl-btn" onclick="add_new_field()">
+                <i class="fa fa-plus-circle"></i>
+            </button>
+            <button class="hover-ctrl-btn" style="margin-top: 5px;" onclick="return_to_dashboard()">
+                <i class="fa fa-sign-out-alt"></i>
+            </button>
+        </div>
+        <div class="editor-wrapper">
+            <div class="form-title-container">
+                <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
+            </div>
+        </div>
     </body>
 </html>
 <?php
