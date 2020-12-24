@@ -35,12 +35,21 @@ function the_fileurl($path){
 }
 
 /**
- * Echos the links required for
+ * Echos the links required for standard input styles
  */
 function link_std_inputs(){
-?>
-<link href="<?php the_fileurl("static/standard-input/css/std-inputs.css"); ?>" rel="stylesheet" type="text/css">
-<?php
+    ?>
+    <link href="<?php the_fileurl("static/standard-input/css/std-inputs.css"); ?>" rel="stylesheet" type="text/css">
+    <?php
+}
+
+/**
+ * Echos the links required for fontawesome
+ */
+function link_fa_icons(){
+    ?>
+    <link href="<?php the_fileurl("static/fontawesome/css/all.min.css"); ?>" rel="stylesheet" type="text/css">
+    <?php
 }
 
 /**
