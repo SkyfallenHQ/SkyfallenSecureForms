@@ -7,7 +7,7 @@ CREATE TABLE `ssf_fields` (
   `form_id` varchar(512) COLLATE utf8_unicode_ci NOT NULL,
   `field_order` varchar(11) COLLATE utf8_unicode_ci NOT NULL,
   `field_type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `field_id` varchar(2048) COLLATE utf8_unicode_ci NOT NULL,
+  `field_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `field_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `field_description` varchar(512) COLLATE utf8_unicode_ci NOT NULL,
   `field_charlimit` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
@@ -65,6 +65,9 @@ ALTER TABLE `ssf_settings`
 
 ALTER TABLE `ssf_users`
   ADD UNIQUE KEY `id` (`id`);
+
+ALTER TABLE `ssf_fields`
+    ADD UNIQUE KEY `field_id` (`field_id`);
 
 ALTER TABLE `ssf_users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
