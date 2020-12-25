@@ -167,8 +167,8 @@ function saveForm(){
         Http.send();
 
         Http.onreadystatechange = (e) => {
-            if(Http.responseText == "{\"status\":\"OK\"}"){
 
+            if(Http.responseText == "{\"status\":\"OK\"}"){
                 $('.field-container').each(function (field_pos, dom_obj){
 
                     var current_field_id = dom_obj.id;
@@ -258,5 +258,11 @@ function validateForm() {
 function deleteField(field_id){
 
     $("#"+field_id).remove();
+
+}
+
+function redirect_to_form_respond(){
+
+    window.location.href = web_url+"form/"+current_form_id;
 
 }
