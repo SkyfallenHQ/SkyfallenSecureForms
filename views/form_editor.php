@@ -41,6 +41,23 @@ function render_form_editor($form_id){
     </head>
 
     <body>
+        <noscript>Skyfallen SecureForms is heavily dependent on JavaScript. Please enable it on your browser to proceed.
+        <style>
+
+            .hovering-controls{
+                display: none !important;
+            }
+
+            .form-title-container{
+                display: none !important;
+            }
+
+            .editor-wrapper{
+                display: none !important;
+            }
+
+        </style>
+        </noscript>
         <div class="hovering-controls">
             <button class="hover-ctrl-btn" onclick="add_new_field()">
                 <i class="fa fa-plus-circle"></i>
@@ -49,10 +66,10 @@ function render_form_editor($form_id){
                 <i class="fa fa-sign-out-alt"></i>
             </button>
         </div>
+        <div class="form-title-container">
+            <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
+        </div>
         <div class="editor-wrapper">
-            <div class="form-title-container">
-                <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
-            </div>
         </div>
     </body>
 </html>
