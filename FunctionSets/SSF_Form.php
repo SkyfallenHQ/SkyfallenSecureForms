@@ -278,5 +278,44 @@ class SSF_Form
         }
     }
 
+    /**
+     * Deletes a form
+     * @param String $formid Form ID that will be deleted
+     */
+    public static function deleteForm($formid)
+    {
+
+        global $connection;
+
+        $stmt = $connection->stmt_init();
+
+        $stmt->prepare("SELECT formid FROM ssf_forms WHERE formid=?");
+
+        $stmt->bind_param("s",$formid);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if($result->num_rows == 1){
+
+            $stmtdel = $connection->stmt_init();
+
+            $stmtdel->prepare("DELETE FROM ssf_forms WHERE formid=?");
+
+            $stmtdel->bind_param("s",$formid);
+
+            $stmtdel->execute();
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }
+
+    }
+
 
 }
