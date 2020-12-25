@@ -56,6 +56,10 @@ SSF_Router::routePrefix("forms/edit","render_form_editor",true,true,"redirect_to
 include_once SSF_ABSPATH."/views/form_view.php";
 SSF_Router::routePrefix("form","render_form",true);
 
+// Redirects for the JS API
+include_once SSF_ABSPATH."/SSF_Includes/ssf_js_api.php";
+SSF_Router::routePrefix("jsapi","handle_js_api",true,true,"redirect_to_login");
+
 // If nothing was routed, display 404
 if(!defined("ROUTED")){
 
