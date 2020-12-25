@@ -17,6 +17,13 @@ defined("SSF_ABSPATH") or die("Screw It!");
  */
 function handle_js_api($afterPrefix){
 
+    $user_created_forms = SSF_Form::listUserForms(USERNAME);
+
+    if(!in_array($_GET["form_id"],$user_created_forms)){
+        include_once SSF_ABSPATH."/SSF_Includes/404.php";
+        die();
+    }
+
     $retJSON["status"] = "OK";
 
     switch ($afterPrefix){
