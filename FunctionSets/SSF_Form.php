@@ -281,6 +281,7 @@ class SSF_Form
     /**
      * Deletes a form
      * @param String $formid Form ID that will be deleted
+     * @return bool true on success, false on failure
      */
     public static function deleteForm($formid)
     {
@@ -317,5 +318,34 @@ class SSF_Form
 
     }
 
+    /**
+     * Gets the form creator for the current form object from the SQL Database
+     * @return false|mixed False on error, form creator on success
+     */
+    public function getFormCreator(){
+
+        global $connection;
+
+        $stmt = $connection->prepare("SELECT formcreator FROM ssf_forms WHERE formid=?");
+
+        $stmt->bind_param("s",$this->formid);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if($result->num_rows == 1){
+
+            $row = $result->fetch_assoc();
+
+            return $row["formcreator"];
+
+        } else {
+
+            return false;
+
+        }
+
+    }
 
 }
