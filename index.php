@@ -42,6 +42,7 @@ include_once SSF_ABSPATH."/FunctionSets/SSF_Router.php";
 include_once SSF_ABSPATH."/FunctionSets/SSF_CSRF.php";
 include_once SSF_ABSPATH."/FunctionSets/SSFUser.php";
 include_once SSF_ABSPATH."/FunctionSets/SSF_Form.php";
+include_once SSF_ABSPATH."/FunctionSets/SSF_FormField.php";
 
 // Include the URL Handler to verify the URL and the request.
 include_once SSF_ABSPATH."/URLHandler.php";
