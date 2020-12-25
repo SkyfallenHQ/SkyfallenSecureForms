@@ -26,6 +26,13 @@ function render_form_editor($form_id){
         die();
     }
 
+    $user_created_forms = SSF_Form::listUserForms(USERNAME);
+
+    if(!in_array($form_id,$user_created_forms)){
+        include_once SSF_ABSPATH."/SSF_Includes/404.php";
+        die();
+    }
+
 ?>
 <html>
     <head>
@@ -96,6 +103,9 @@ function render_form_editor($form_id){
             </button>
             <button class="hover-ctrl-btn" style="margin-top: 5px;" onclick="saveForm()">
                 <i class="fa fa-save"></i>
+            </button>
+            <button class="hover-ctrl-btn" style="margin-top: 5px;" onclick="redirect_to_form_respond()">
+                <i class="fa fa-external-link-square-alt"></i>
             </button>
         </div>
         <div class="form-title-container">
