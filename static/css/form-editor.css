@@ -12,23 +12,25 @@ body {
     min-width: 800px;
     min-height: 80%;
     border: 1px solid #d9d5d5;
-    border-radius: 21px;
-    margin-top: 100px;
+    border-radius: 0px 0px 20px 20px;
+    margin-top: 250px;
     background: snow;
     margin-bottom: 100px;
-    padding-top: 0;
     padding-bottom: 30px;
 
 }
 
 .form-title-container {
 
-    width: 100%;
+    margin-top: 50px;
+    width: 50%;
+    min-width: 800px;
     height: 200px;
     border-radius: 20px 20px 0px 0px;
     background: #f1d4d4;
+    border: 1px solid #f1d4d4;
     border-bottom: 1px solid pink;
-    display: flex;
+    position: absolute;
 
 }
 
@@ -58,6 +60,7 @@ body {
     border: 1px solid #dbc6c6;
     padding-top: 10px;
     box-shadow: 3px 3px 3px 3px #d9d8d8;
+    z-index: 100;
 
 }
 
