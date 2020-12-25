@@ -12,7 +12,7 @@
 defined("SSF_ABSPATH") or die("Screw It!");
 
 /**
- * Handles JS Requests
+ * Handles JS API Requests
  * @param String $afterPrefix Passed by the routing mechanism.
  */
 function handle_js_api($afterPrefix){
