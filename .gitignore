@@ -4,3 +4,4 @@ SecureFormDatabaseConfiguration.php
 SecureFormDatabaseConfiguration.php.noindex
 .htaccess
 file_header_template
+DataSecurity/RSA_KEYS/*
