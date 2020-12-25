@@ -108,3 +108,15 @@ body {
     display: block;
 
 }
+
+#responded{
+
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    align-items: center;
+
+}
