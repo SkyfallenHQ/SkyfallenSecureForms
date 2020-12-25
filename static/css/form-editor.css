@@ -6,6 +6,44 @@ body {
 
 }
 
+@media only screen and (max-width: 840px){
+
+    .editor-wrapper {
+        width: 100% !important;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+        border: none !important;
+        background: transparent !important;
+        min-height: initial !important;
+    }
+
+    .form-title-container{
+        width: 100% !important;
+        border-radius: 0 !important;
+    }
+
+    .field-type-select {
+
+        width: 100% !important;
+
+    }
+
+    .std-textinput {
+        width: 100% !important;
+    }
+
+    .std-textarea {
+        min-width: initial !important;
+        width: 100% !important;
+        resize: none !important;
+    }
+
+    .std-select {
+        width: 100% !important;
+    }
+
+}
+
 .swal-modal {
 
     background-color: #f1d4d4;
@@ -64,7 +102,7 @@ body {
     text-align: center;
     display: block;
     width: 45px;
-    height: 140px;
+    height: 180px;
     background-color: snow;
     border-radius: 20px;
     border: 1px solid #dbc6c6;
