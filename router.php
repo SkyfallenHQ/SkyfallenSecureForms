@@ -37,6 +37,10 @@ SSF_Router::routePrefix("form","render_form",true);
 include_once SSF_ABSPATH."/SSF_Includes/ssf_js_api.php";
 SSF_Router::routePrefix("jsapi","handle_js_api",true,true,"redirect_to_login");
 
+// Redirects for the Respond API
+include_once SSF_ABSPATH."/SSF_Includes/respond_api.php";
+SSF_Router::routePage("respond","handle_respond_api");
+
 // If nothing was routed, display 404
 if(!defined("ROUTED")){
 
