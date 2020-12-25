@@ -11,30 +11,6 @@
 // Check if our ABSPATH is defined
 defined("SSF_ABSPATH") or die("Don't mess!");
 
-// Name our session
-session_name("SecureFormSession");
-
-// Start our session
-session_start();
-
-// Check if we are logged in
-if(isset($_SESSION["loggedin"]) && isset($_SESSION["username"])){
-
-    // We are logged in.
-    define("ISLOGGEDIN",true);
-
-    // Define user data as constants.
-    define("USERNAME",$_SESSION["username"]);
-
-    // Fetch the current user
-    $currentUser = new SSFUser(USERNAME);
-
-} else {
-
-    // We are not logged in.
-    define("ISLOGGEDIN",false);
-}
-
 // Start routing all urls
 
 // Redirects for the login page
@@ -47,6 +23,7 @@ SSF_Router::routePage("accounts/logout","do_logout");
 include_once SSF_ABSPATH."/views/userpage.php";
 SSF_Router::routePage("accounts/dashboard","render_dashboard",true,"redirect_to_login");
 SSF_Router::routePage("accounts/dashboard/newform","render_page_new_form",true,"redirect_to_login");
+SSF_Router::routePrefix("forms/delete","render_page_delete_form",true,true,"redirect_to_login");
 
 // Redirects for the form editor
 include_once SSF_ABSPATH."/views/form_editor.php";
