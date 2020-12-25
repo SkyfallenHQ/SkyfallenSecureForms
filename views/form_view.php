@@ -24,16 +24,87 @@ function render_form($form_id){
         die();
     }
 
+    $form_CSRF = new SSF_CSRF();
+
+    $currentFormFields = SSF_FormField::listFields($form_id);
+
 ?>
 <html>
     <head>
         <title><?php echo $form_object->getFormName(); ?></title>
         <?php link_std_inputs(); ?>
         <link href="<?php the_fileurl("static/css/form.css"); ?>" rel="stylesheet" type="text/css">
+        <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
+        <script src="<?php the_fileurl("static/js/jsencrypt.min.js"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form.js"); ?>"></script>
+        <script>
+            const current_form_id = '<?php echo $form_id; ?>';
+        </script>
     </head>
 
     <body>
+    <div class="form-title-container">
+        <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
+    </div>
+    <div class="form-wrapper">
+        <?php
+            foreach ($currentFormFields as $formFieldID) {
 
+                $formField = new SSF_FormField($formFieldID);
+
+                switch ($formField->field_type) {
+
+                    default:
+                        die("Execution Stopped due to corrupted form field;");
+                        break;
+
+                    case "textinput":
+                    ?>
+                        <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-input' class="std-label"><?php echo $formField->field_name; ?></label>
+                        <input class="std-textinput formfield" type="text" id="<?php echo $formFieldID; ?>-input">
+                    <?php
+                        break;
+
+                    case "textarea":
+                    ?>
+                        <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
+                        <textarea class="std-textarea formfield" id="<?php echo $formFieldID; ?>-input"></textarea>
+                    <?php
+                        break;
+
+                    case "dropdown":
+                    ?>
+                        <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
+                        <select id="<?php echo $formFieldID; ?>-previewinput" class="std-select formfield">
+                            <?php
+
+                            $selectOptionsForField = explode("\n",$formField->field_options);
+
+                            $i = 1;
+
+                            foreach ($selectOptionsForField as $selectOptionForField){
+
+                                echo "<option value='".$i."'>".$selectOptionForField."</option>";
+
+                                $i = $i+1;
+
+                            }
+                            ?>
+                        </select>
+                    <?php
+                        break;
+
+                }
+
+            }
+
+            $form_CSRF->put();
+        ?>
+        <div class="submitparent">
+            <input type="button" class="std-inputsubmit" value="Submit" onclick="submitForm()">
+        </div>
+    </div>
     </body>
 </html>
 <?php
