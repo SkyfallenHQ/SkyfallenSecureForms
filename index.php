@@ -31,7 +31,9 @@ if((@include_once SSF_ABSPATH . "/Configuration/SecureFormDatabaseConfiguration.
 }
 
 // Include Helpers
+include_once SSF_ABSPATH."/SSF_Includes/UserSession_Helper.php";
 include_once SSF_ABSPATH."/SSF_Includes/CSRF_Session_Helper.php";
+include_once SSF_ABSPATH."/SSF_Includes/RSA_Helper.php";
 
 // Include all of SSF_Includes
 include_once SSF_ABSPATH."/SSF_Includes/utility_functions.php";
