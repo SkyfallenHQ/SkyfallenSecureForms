@@ -30,7 +30,7 @@ function handle_js_api($afterPrefix){
             break;
 
         case "newField":
-            @SSF_FormField::addField($_GET["form_id"],$_GET["field_position"],$_GET["field_type"],$_GET["field_label"],$_GET["field_options"]);
+            @SSF_FormField::addField($_GET["form_id"],$_GET["field_position"],$_GET["field_type"],$_GET["field_id"],$_GET["field_label"],$_GET["field_options"]);
             break;
     }
 
