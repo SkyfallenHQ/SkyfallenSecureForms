@@ -35,9 +35,38 @@ function render_form_editor($form_id){
         <?php link_std_inputs(); ?>
         <?php link_fa_icons(); ?>
         <link type="text/css" rel="stylesheet" href="<?php the_fileurl("static/css/form-editor.css"); ?>">
-        <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" defer></script>
-        <script src="<?php the_fileurl("static/js/jquery-ui.min.js"); ?>" defer></script>
-        <script src="<?php the_fileurl("static/js/form-editor.js"); ?>" defer></script>
+        <script defer>
+            const web_url = '<?php the_weburl(); ?>';
+            const current_form_id = '<?php echo $form_id; ?>';
+        </script>
+        <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
+        <script src="<?php the_fileurl("static/js/jquery-ui.min.js"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form-editor.js"); ?>"></script>
+        <?php
+
+        $currentFormFields = SSF_FormField::listFields($form_id);
+
+        if(count($currentFormFields) != 0) {
+        ?>
+        <script>
+
+            $( document ).ready(function() {
+
+                <?php
+
+                foreach ($currentFormFields as $formFieldID) {
+
+                    echo "preparePreviousField('".$formFieldID."');";
+
+                }
+
+                ?>
+
+            });
+
+        </script>
+    <?php } ?>
     </head>
 
     <body>
@@ -65,11 +94,114 @@ function render_form_editor($form_id){
             <button class="hover-ctrl-btn" style="margin-top: 5px;" onclick="return_to_dashboard()">
                 <i class="fa fa-sign-out-alt"></i>
             </button>
+            <button class="hover-ctrl-btn" style="margin-top: 5px;" onclick="saveForm()">
+                <i class="fa fa-save"></i>
+            </button>
         </div>
         <div class="form-title-container">
             <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
         </div>
         <div class="editor-wrapper">
+            <?php
+
+                foreach ($currentFormFields as $formFieldID){
+
+                    $formField = new SSF_FormField($formFieldID);
+
+                    switch ($formField->field_type) {
+
+                        case "textinput":
+                        ?>
+                            <div class="field-container" id='<?php echo $formFieldID; ?>'>
+                                <div class="field-label-selector" id='<?php echo $formFieldID; ?>-labelselector'>
+                                    <label for='<?php echo $formFieldID; ?>-labelset' class="std-label field-label-domlabel">Field Label:</label>
+                                    <input class="std-textinput field-label-input" type="text" id='<?php echo $formFieldID; ?>-labelset' placeholder="Field Label" value="<?php echo $formField->field_name; ?>">
+                                    <select class="std-select field-type-select" id='<?php echo $formFieldID; ?>-typeselect'>
+                                        <option value='textinput' selected>Text Input</option>
+                                        <option value='textarea'>Textarea</option>
+                                        <option value='dropdown'>Dropdown</option>
+                                    </select>
+                                </div>
+                                <p class="preview-label-explanation">Preview: <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button></p>
+                                <hr>
+                                <div class="field-preview-selector">
+                                    <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
+                                    <input class="std-textinput" type="text" id="<?php echo $formFieldID; ?>-previewinput">
+                                </div>
+                            </div>
+                        <?php
+                            break;
+
+                        case "textarea":
+                        ?>
+                            <div class="field-container" id='<?php echo $formFieldID; ?>'>
+                                <div class="field-label-selector" id='<?php echo $formFieldID; ?>-labelselector'>
+                                    <label for='<?php echo $formFieldID; ?>-labelset' class="std-label field-label-domlabel">Field Label:</label>
+                                    <input class="std-textinput field-label-input" type="text" id='<?php echo $formFieldID; ?>-labelset' placeholder="Field Label" value="<?php echo $formField->field_name; ?>">
+                                    <select class="std-select field-type-select" id='<?php echo $formFieldID; ?>-typeselect'>
+                                        <option value='textinput'>Text Input</option>
+                                        <option value='textarea' selected>Textarea</option>
+                                        <option value='dropdown'>Dropdown</option>
+                                    </select>
+                                </div>
+                                <p class="preview-label-explanation">Preview: <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button></p>
+                                <hr>
+                                <div class="field-preview-selector">
+                                    <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
+                                    <textarea class="std-textarea" id="<?php echo $formFieldID; ?>-previewinput"></textarea>
+                                </div>
+                            </div>
+                        <?php
+                            break;
+
+                        case "dropdown":
+                        ?>
+                            <div class="field-container" id='<?php echo $formFieldID; ?>'>
+                                <div class="field-label-selector" id='<?php echo $formFieldID; ?>-labelselector'>
+                                    <label for='<?php echo $formFieldID; ?>-labelset' class="std-label field-label-domlabel">Field Label:</label>
+                                    <input class="std-textinput field-label-input" type="text" id='<?php echo $formFieldID; ?>-labelset' placeholder="Field Label" value="<?php echo $formField->field_name; ?>">
+                                    <select class="std-select field-type-select" id='<?php echo $formFieldID; ?>-typeselect'>
+                                        <option value='textinput'>Text Input</option>
+                                        <option value='textarea'>Textarea</option>
+                                        <option value='dropdown' selected>Dropdown</option>
+                                    </select>
+                                    <label for="<?php echo $formFieldID; ?>-dropdown-objects" id="<?php echo $formFieldID; ?>-dropdown-objects-label" class="std-label" style="color: white;">Dropdown Options:</label>
+                                    <textarea class="std-textarea" style="width: 550px; height: 100px; resize: none;" placeholder="Seperated by a line break" id="<?php echo $formFieldID; ?>-dropdown-objects"><?php echo $formField->field_options; ?></textarea>
+                                </div>
+                                <p class="preview-label-explanation">Preview: <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button></p>
+                                <hr>
+                                <div class="field-preview-selector">
+                                    <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
+                                    <select id="<?php echo $formFieldID; ?>-previewinput" class="std-select">
+                                        <?php
+
+                                            $selectOptionsForField = explode("\n",$formField->field_options);
+
+                                            $i = 1;
+
+                                            foreach ($selectOptionsForField as $selectOptionForField){
+
+                                                echo "<option value='".$i."'>".$selectOptionForField."</option>";
+
+                                                $i = $i+1;
+
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                        <?php
+                            break;
+
+                        default:
+                            echo "CORRUPTED FIELD.";
+                            break;
+
+                    }
+
+                }
+
+            ?>
         </div>
     </body>
 </html>
