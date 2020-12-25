@@ -145,4 +145,25 @@ class SSF_FormField
         }
 
     }
+
+    /**
+     * Saves a response for a given field
+     * @param String $form_id Form ID
+     * @param String $respondent_id Respondent ID
+     * @param String $field_id ID of the filed to save the response of
+     * @param String $response Response to save
+     */
+    public static function respond($form_id,$respondent_id,$field_id,$response){
+
+        global $connection;
+
+        $stmt = $connection->stmt_init();
+
+        $stmt->prepare("INSERT INTO ssf_responses (ssf_form_id, ssf_respondent_id, ssf_form_field_id, ssf_field_response) VALUES (?,?,?,?)");
+
+        $stmt->bind_param("ssss",$form_id,$respondent_id,$field_id,$response);
+
+        $stmt->execute();
+
+    }
 }
