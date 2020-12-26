@@ -166,4 +166,86 @@ class SSF_FormField
         $stmt->execute();
 
     }
+
+    /**
+     * Returns an array containing all the respondent IDs
+     * @param String $form_id Form ID
+     * @return array Containing all respondent IDs
+     */
+    public static function listRespondents($form_id){
+
+        $respondents = array();
+
+        global $connection;
+
+        $stmt = $connection->stmt_init();
+
+        $stmt->prepare("SELECT ssf_respondent_id FROM ssf_responses WHERE ssf_form_id=?");
+
+        $stmt->bind_param("s",$form_id);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if($result->num_rows > 0){
+
+            while($row = $result->fetch_assoc()){
+
+                if(!in_array($row["ssf_respondent_id"],$respondents)){
+                    array_push($respondents,$row["ssf_respondent_id"]);
+                }
+
+            }
+
+        }
+
+        return $respondents;
+
+    }
+
+    /**
+     * Returns a string for a given field
+     * @param String $form_id Form ID
+     * @param String $field_id Field ID
+     * @param String $respondent_id Respondent ID
+     * @param String $privKey Private RSA Key to decrypt
+     */
+    public static function getResponse($form_id, $field_id, $respondent_id, $privKey){
+
+        global $connection;
+
+        $stmt = $connection->stmt_init();
+
+        $stmt->prepare("SELECT ssf_field_response FROM ssf_responses WHERE ssf_form_id=? and ssf_form_field_id=? and ssf_respondent_id=?");
+
+        $stmt->bind_param("sss",$form_id, $field_id, $respondent_id);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if($result->num_rows == 1){
+
+            $row = $result->fetch_assoc();
+
+            $encrypted_response = $row["ssf_field_response"];
+
+            $privKey_res = openssl_get_privatekey($privKey);
+
+            $encrypted_response = trim($encrypted_response);
+
+            openssl_private_decrypt($encrypted_response, $decrypted_response,$privKey_res);
+
+            echo openssl_error_string();
+
+            return $decrypted_response;
+
+        } else {
+
+            return false;
+
+        }
+
+    }
 }
