@@ -109,3 +109,11 @@
 .std-select:focus{
     outline: none;
 }
+
+.std-checkbox {
+
+    height: 20px;
+    width: 20px;
+    border: 2px solid saddlebrown;
+
+}
