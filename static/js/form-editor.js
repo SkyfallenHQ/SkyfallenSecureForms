@@ -89,6 +89,10 @@ function add_new_field(){
         "                        <option value='textarea'>Textarea</option>\n" +
         "                        <option value='dropdown'>Dropdown</option>\n" +
         "                    </select>\n" +
+        "                    <div class=\"text-right\">\n" +
+        "                            <label class=\"isrequiredlabel\" for=\""+field_id+"-isrequired\">Is Required?</label>\n" +
+        "                            <input type=\"checkbox\" id=\""+field_id+"-isrequired\" class=\"std-checkbox\">\n" +
+        "                    </div>"+
         "                </div>\n" +
         "                <p class=\"preview-label-explanation\">Preview: <button class='trash-field' onclick=\"deleteField('"+field_id+"')\"><i class='fa fa-trash'></i></button></p>\n" +
         "                <hr>\n" +
@@ -167,10 +171,12 @@ function saveForm(){
         Http.send();
 
         Http.onreadystatechange = (e) => {
+            console.log("Clearing Fields:"+Http.responseText);
 
             if(Http.responseText == "{\"status\":\"OK\"}"){
-                $('.field-container').each(function (field_pos, dom_obj){
 
+                $('.field-container').each(function (field_pos, dom_obj){
+                    console.log("Iterating Fields:"+field_pos);
                     var current_field_id = dom_obj.id;
 
                     var current_field_labelset = document.getElementById(current_field_id+"-labelset");
@@ -198,11 +204,14 @@ function saveForm(){
                     url.searchParams.set('field_label', field_label);
                     url.searchParams.set('field_options', field_options);
                     url.searchParams.set('field_position', field_pos);
+                    url.searchParams.set('is_required', $("#"+current_field_id+"-isrequired").is(':checked'));
                     Http2.open("GET", url);
+                    console.log("Sending a new field to the API:"+url.searchParams.toString());
                     Http2.send();
 
                     Http2.onreadystatechange = (e) => {
-                        if(Http2.responseText == "{\"status\":\"OK\"}"){
+                        console.log("API RESPONSE RECEIVED:"+Http2.responseText);
+                        if(Http2.responseText.includes("{\"status\":\"OK\"}")){
                             swal("Saved Successfully.");
                         }
 
@@ -215,7 +224,7 @@ function saveForm(){
 
     } else {
 
-        swal("You haven't filled all of the required information.");
+        swal("Some fields don't have a label.");
 
     }
 
