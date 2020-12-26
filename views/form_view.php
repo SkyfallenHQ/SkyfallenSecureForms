@@ -28,8 +28,8 @@ function render_form($form_id){
 
     $currentFormFields = SSF_FormField::listFields($form_id);
 
-?>
-<html>
+    ?>
+    <html>
     <head>
         <title><?php echo $form_object->getFormName(); ?></title>
         <?php link_std_inputs(); ?>
@@ -63,74 +63,72 @@ function render_form($form_id){
 
         ?>
     </textarea>
-    <div id="body-wrap">
         <div class="form-title-container">
             <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
         </div>
         <div class="form-wrapper">
             <?php
-                foreach ($currentFormFields as $formFieldID) {
+            foreach ($currentFormFields as $formFieldID) {
 
-                    $formField = new SSF_FormField($formFieldID);
+                $formField = new SSF_FormField($formFieldID);
 
-                    switch ($formField->field_type) {
+                switch ($formField->field_type) {
 
-                        default:
-                            die("Execution Stopped due to corrupted form field;");
-                            break;
+                    default:
+                        die("Execution Stopped due to corrupted form field;");
+                        break;
 
-                        case "textinput":
+                    case "textinput":
                         ?>
-                            <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-input' class="std-label"><?php echo $formField->field_name; ?></label>
-                            <input class="std-textinput formfield" type="text" id="<?php echo $formFieldID; ?>-input">
+                        <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-input' class="std-label"><?php echo $formField->field_name; ?></label>
+                        <input class="std-textinput formfield" type="text" id="<?php echo $formFieldID; ?>-input">
                         <?php
-                            break;
+                        break;
 
-                        case "textarea":
+                    case "textarea":
                         ?>
-                            <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
-                            <textarea class="std-textarea formfield" id="<?php echo $formFieldID; ?>-input"></textarea>
+                        <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
+                        <textarea class="std-textarea formfield" id="<?php echo $formFieldID; ?>-input"></textarea>
                         <?php
-                            break;
+                        break;
 
-                        case "dropdown":
+                    case "dropdown":
                         ?>
-                            <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
-                            <select id="<?php echo $formFieldID; ?>-previewinput" class="std-select formfield">
-                                <?php
+                        <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
+                        <select id="<?php echo $formFieldID; ?>-previewinput" class="std-select formfield">
+                            <?php
 
-                                $selectOptionsForField = explode("\n",$formField->field_options);
+                            $selectOptionsForField = explode("\n",$formField->field_options);
 
-                                $i = 1;
+                            $i = 1;
 
-                                foreach ($selectOptionsForField as $selectOptionForField){
+                            foreach ($selectOptionsForField as $selectOptionForField){
 
-                                    echo "<option value='".$i."'>".$selectOptionForField."</option>";
+                                echo "<option value='".$i."'>".$selectOptionForField."</option>";
 
-                                    $i = $i+1;
+                                $i = $i+1;
 
-                                }
-                                ?>
-                            </select>
+                            }
+                            ?>
+                        </select>
                         <?php
-                            break;
-
-                    }
+                        break;
 
                 }
 
-                $form_CSRF->put();
+            }
+
+            $form_CSRF->put();
             ?>
             <div class="submitparent">
                 <input type="button" class="std-inputsubmit" value="Submit" onclick="submitForm()">
             </div>
         </div>
-    </div>
 
     <div id="responded" style="display: none;">
         <h2 style="font-family: sans-serif, 'Roboto'; ">Your response was saved.</h2>
     </div>
     </body>
-</html>
-<?php
+    </html>
+    <?php
 }
