@@ -266,3 +266,9 @@ function redirect_to_form_respond(){
     window.location.href = web_url+"form/"+current_form_id;
 
 }
+
+function redirect_to_form_responses(){
+
+    window.location.href = web_url+"forms/responses/"+current_form_id;
+
+}
