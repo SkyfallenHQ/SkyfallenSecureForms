@@ -85,6 +85,8 @@ body {
 
     margin-left: auto;
     margin-right: auto;
+    padding-top: 8px;
+    display: inline !important;
 
 }
 
@@ -139,5 +141,23 @@ body {
     height: 100%;
     width: 100%;
     align-items: center;
+
+}
+
+.nextprev-btn {
+
+    border:none;
+    background: grey;
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    font-size: 30px;
+    display: inline;
+
+}
+
+.nextprev-btn:focus {
+
+    outline: none;
 
 }
