@@ -1,0 +1,16 @@
+{
+    "name": "skyfallen/secureformsrsa",
+    "description": "Process forms with privacy. RSA_LIBRARIES",
+    "type": "project",
+    "require": {
+        "phpseclib/phpseclib": "^2.0",
+        "paragonie/easyrsa": "^0.5.2"
+    },
+    "license": "Skyfallen Open-Source License",
+    "authors": [
+        {
+            "name": "Yigit Kerem Oktay",
+            "email": "yigitkerem@theskyfallen.com"
+        }
+    ]
+}
