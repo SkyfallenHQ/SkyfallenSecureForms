@@ -35,15 +35,16 @@ function submitForm() {
 
         $(".formfield").each(function (index,obj) {
 
-            console.log(encryptor.encrypt(obj.value));
+            console.log(obj.value);
 
-            post_params = post_params + "&field_"+index.toString()+"="+encryptor.encrypt(obj.value);
+            post_params = post_params + "&field_"+index.toString()+"="+obj.value;
 
         })
 
         xhttp.send(post_params);
 
         xhttp.onreadystatechange = function() {
+            alert(this.responseText)
             if (this.readyState == 4 && this.status == 200) {
                 $(document).ready(function () {
                     document.getElementsByClassName("form-wrapper")[0].style.display = "none";
