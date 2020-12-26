@@ -134,8 +134,13 @@ function render_form_editor($form_id){
                                         <option value='textarea'>Textarea</option>
                                         <option value='dropdown'>Dropdown</option>
                                     </select>
+                                    <div class="text-right">
+                                        <label class="isrequiredlabel" for="<?php echo $formFieldID; ?>-isrequired">Is Required?</label>
+                                        <input type="checkbox" id="<?php echo $formFieldID; ?>-isrequired" class="std-checkbox" <?php $formField->getRequiredChecked(); ?>>
+                                    </div>
                                 </div>
-                                <p class="preview-label-explanation">Preview: <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button></p>
+                                <p class="preview-label-explanation">Preview:
+                                    <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button></p>
                                 <hr>
                                 <div class="field-preview-selector">
                                     <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
@@ -156,6 +161,10 @@ function render_form_editor($form_id){
                                         <option value='textarea' selected>Textarea</option>
                                         <option value='dropdown'>Dropdown</option>
                                     </select>
+                                    <div class="text-right">
+                                        <label class="isrequiredlabel" for="<?php echo $formFieldID; ?>-isrequired">Is Required?</label>
+                                        <input type="checkbox" id="<?php echo $formFieldID; ?>-isrequired" class="std-checkbox" <?php $formField->getRequiredChecked(); ?>>
+                                    </div>
                                 </div>
                                 <p class="preview-label-explanation">Preview: <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button></p>
                                 <hr>
@@ -178,6 +187,10 @@ function render_form_editor($form_id){
                                         <option value='textarea'>Textarea</option>
                                         <option value='dropdown' selected>Dropdown</option>
                                     </select>
+                                    <div class="text-right">
+                                        <label class="isrequiredlabel" for="<?php echo $formFieldID; ?>-isrequired">Is Required?</label>
+                                        <input type="checkbox" id="<?php echo $formFieldID; ?>-isrequired" class="std-checkbox" <?php $formField->getRequiredChecked(); ?>>
+                                    </div>
                                     <label for="<?php echo $formFieldID; ?>-dropdown-objects" id="<?php echo $formFieldID; ?>-dropdown-objects-label" class="std-label" style="color: white;">Dropdown Options:</label>
                                     <textarea class="std-textarea" style="width: 550px; height: 100px; resize: none;" placeholder="Seperated by a line break" id="<?php echo $formFieldID; ?>-dropdown-objects"><?php echo $formField->field_options; ?></textarea>
                                 </div>
