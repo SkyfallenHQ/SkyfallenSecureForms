@@ -46,6 +46,10 @@ include_once SSF_ABSPATH."/FunctionSets/SSFUser.php";
 include_once SSF_ABSPATH."/FunctionSets/SSF_Form.php";
 include_once SSF_ABSPATH."/FunctionSets/SSF_FormField.php";
 
+
+// Include all RSA Libraries
+include_once SSF_ABSPATH."/DataSecurity/RSA_Libraries/vendor/autoload.php";
+
 // Include the URL Handler to verify the URL and the request.
 include_once SSF_ABSPATH."/URLHandler.php";
 
