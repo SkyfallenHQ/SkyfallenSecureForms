@@ -15,9 +15,9 @@
 define("UC_API_ENDPOINT","https://swupdate.theskyfallen.com");
 
 // Set the VERIFIED App Tokens(This ID won't be verified if changed.)
-define("UC_API_APPID","");
+define("UC_API_APPID","822951c3ff237385241bd8d5b5b2a5f4");
 
 // Set the APP Update Seed
-define("UC_API_APPSEED","");
+define("UC_API_APPSEED","Stable");
 
 // EOF
