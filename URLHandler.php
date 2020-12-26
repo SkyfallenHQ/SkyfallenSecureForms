@@ -12,6 +12,9 @@
 // Prevent direct execution of the file
 defined("SSF_ABSPATH") or die("Don't mess!");
 
+// Set custom Powered by Header
+header('X-Powered-By: SkyfallenSecureForms');
+
 // Check if Web Server has set the path parameter
 if(isset($_GET["path"])) {
     // Get full request url
