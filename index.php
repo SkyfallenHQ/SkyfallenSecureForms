@@ -33,7 +33,6 @@ if((@include_once SSF_ABSPATH . "/Configuration/SecureFormDatabaseConfiguration.
 // Include Helpers
 include_once SSF_ABSPATH."/SSF_Includes/UserSession_Helper.php";
 include_once SSF_ABSPATH."/SSF_Includes/CSRF_Session_Helper.php";
-include_once SSF_ABSPATH."/SSF_Includes/RSA_Helper.php";
 
 // Include all of SSF_Includes
 include_once SSF_ABSPATH."/SSF_Includes/utility_functions.php";
@@ -49,6 +48,9 @@ include_once SSF_ABSPATH."/FunctionSets/SSF_FormField.php";
 
 // Include all RSA Libraries
 include_once SSF_ABSPATH."/DataSecurity/RSA_Libraries/vendor/autoload.php";
+
+// Include POST-Load Helpers
+include_once SSF_ABSPATH."/SSF_Includes/RSA_Helper.php";
 
 // Include the URL Handler to verify the URL and the request.
 include_once SSF_ABSPATH."/URLHandler.php";
