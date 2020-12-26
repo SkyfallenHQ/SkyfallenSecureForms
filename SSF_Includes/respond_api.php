@@ -20,13 +20,18 @@ function handle_respond_api(){
 
     if(!empty($_POST)){
 
-        echo $_POST["csrf_id"];
-
         if(SSF_CSRF::verifyCSRF()){
 
             SSF_CSRF::invalidateCurrentCSRF();
 
             $fieldIDs = SSF_FormField::listFields($_POST["form_id"]);
+
+            $form_obj = new SSF_Form($_POST["form_id"]);
+            $formcreator = $form_obj->getFormCreator();
+
+            include_once SSF_ABSPATH."/DataSecurity/RSA_KEYS/".$formcreator."-key.php";
+
+            $pubKey = new \ParagonIE\EasyRSA\PublicKey(constant($formcreator."-PUBLICKEY"));
 
             $i = 0;
 
@@ -36,7 +41,9 @@ function handle_respond_api(){
 
                 $var_post_val = $_POST[$var_post_param];
 
-                SSF_FormField::respond($_POST["form_id"],$_POST["respondent_id"],$fieldID,$var_post_val);
+                SSF_FormField::respond($_POST["form_id"],$_POST["respondent_id"],$fieldID,\ParagonIE\EasyRSA\EasyRSA::encrypt($var_post_val,$pubKey));
+
+                $i = $i+1;
 
             }
 
