@@ -40,6 +40,9 @@ function render_dashboard(){
                 <div class="user-col">
                     <a href="<?php the_pageurl("accounts/logout"); ?>"><h3>Logged in as <?php echo USERNAME; ?>. Log out?</h3></a>
                 </div>
+                <div class="user-col">
+                    <a href="<?php the_pageurl("updates"); ?>"><h3>Software Update</h3></a>
+                </div>
             </div>
         </div>
         <div class="forms-overview">
