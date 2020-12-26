@@ -45,6 +45,10 @@ SSF_Router::routePrefix("jsapi","handle_js_api",true,true,"redirect_to_login");
 include_once SSF_ABSPATH."/SSF_Includes/respond_api.php";
 SSF_Router::routePage("respond","handle_respond_api");
 
+// Redirects for the Software Update Page
+include_once SSF_ABSPATH."/views/updates_page.php";
+SSF_Router::routePage("updates","render_updates_page",true,"redirect_to_login");
+
 // If nothing was routed, display 404
 if(!defined("ROUTED")){
 
