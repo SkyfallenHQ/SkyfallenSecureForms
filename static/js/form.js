@@ -2,7 +2,7 @@ function validateFields(){
 
     var status = true;
 
-    $(".formfield").each(function (index,obj) {
+    $(".required-field").each(function (index,obj) {
 
         if(!obj.value){
 
