@@ -49,6 +49,9 @@ include_once SSF_ABSPATH."/FunctionSets/SSF_FormField.php";
 // Include all RSA Libraries
 include_once SSF_ABSPATH."/DataSecurity/RSA_Libraries/vendor/autoload.php";
 
+// Include all SCL Libraries
+include_once SSF_ABSPATH."/SkyfallenCodeLib/UpdatesConsoleConnector.php";
+
 // Include POST-Load Helpers
 include_once SSF_ABSPATH."/SSF_Includes/RSA_Helper.php";
 
