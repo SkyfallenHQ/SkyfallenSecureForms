@@ -205,13 +205,13 @@ class SSF_FormField
     }
 
     /**
-     * Returns a string for a given field
+     * Returns an encrypted response for a given field
      * @param String $form_id Form ID
      * @param String $field_id Field ID
      * @param String $respondent_id Respondent ID
-     * @param String $privKey Private RSA Key to decrypt
+     * @return bool|mixed false on failure, encrypted response on success
      */
-    public static function getResponse($form_id, $field_id, $respondent_id, $privKey){
+    public static function getResponse($form_id, $field_id, $respondent_id){
 
         global $connection;
 
@@ -229,17 +229,7 @@ class SSF_FormField
 
             $row = $result->fetch_assoc();
 
-            $encrypted_response = $row["ssf_field_response"];
-
-            $privKey_res = openssl_get_privatekey($privKey);
-
-            $encrypted_response = trim($encrypted_response);
-
-            openssl_private_decrypt($encrypted_response, $decrypted_response,$privKey_res);
-
-            echo openssl_error_string();
-
-            return $decrypted_response;
+            return $row["ssf_field_response"];
 
         } else {
 
