@@ -1,0 +1,143 @@
+body{
+
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    font-family: sans-serif, 'Roboto';
+
+}
+
+.infowrap{
+
+    width: 60%;
+    height: 50%;
+    margin: auto;
+    left:0;
+    right:0;
+    padding-top: 30px;
+    background-color: #dbd6d6;
+    border-radius: 20px;
+    position: absolute;
+
+}
+
+.app-branding{
+
+    padding-left: 30px;
+    display: inline;
+
+}
+
+.rel-id{
+
+    display: inline;
+    color: grey;
+    font-weight: normal;
+
+}
+
+hr {
+
+    color: white;
+    padding: 0;
+
+}
+
+.provider-info {
+
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    background: #bfbaba;
+    border-radius: 0px 0px 20px 20px;
+
+}
+
+.provider-info-text{
+
+    padding-left: 30px;
+
+}
+
+.new-version-info{
+
+    min-height: 300px;
+
+}
+
+.noupdates {
+
+    color: white;
+    font-size: 40px;
+
+}
+
+.noupdates-container {
+
+    height: 60%;
+    width: 100%;
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+}
+
+a{
+    color: black;
+    text-decoration: none;
+}
+
+a:focus{
+
+    color: black;
+    text-decoration: none;
+
+}
+
+a:hover{
+
+    color: black;
+    text-decoration: none;
+
+}
+
+.update-btn{
+
+    padding: 10px 20px;
+    background: red;
+    color: white;
+    border-radius: 10px;
+
+}
+
+.update-btn:hover{
+
+    background: #a92222;
+    color: white;
+}
+
+.update-details{
+
+    background: snow;
+    width: 100%;
+    overflow: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+
+}
+
+.update-details-padded-container{
+
+    padding-left: 30px;
+
+}
+
+.text-center {
+
+    text-align: center;
+
+}
