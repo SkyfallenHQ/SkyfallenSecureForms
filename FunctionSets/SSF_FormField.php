@@ -26,6 +26,40 @@ class SSF_FormField
     }
 
     /**
+     * Deletes all metas for a given field.
+     * @param String $field_id Field ID to delete the metas of
+     */
+    public static function clearFieldMetas($field_id){
+
+        global $connection;
+
+        $stmt = $connection->stmt_init();
+
+        $stmt->prepare("DELETE FROM ssf_key_meta WHERE keyid=?");
+
+        $stmt->bind_param("s",$field_id);
+
+        $stmt->execute();
+
+    }
+
+    /**
+     * Clears all fields' metas for a given Form ID
+     * @param String $formid Form ID to clear the fields' metas of
+     */
+    public static function clearAllFieldMetas($formid){
+
+        $form_fields = SSF_FormField::listFields($formid);
+
+        foreach ($form_fields as $form_field){
+
+            SSF_FormField::clearFieldMetas($form_field);
+
+        }
+
+    }
+
+    /**
      * Save a new form field to the database
      * @param String $form_id FORM ID
      * @param String $field_order THE POSITION OF THE FIELD
@@ -238,4 +272,110 @@ class SSF_FormField
         }
 
     }
+
+    /**
+     * Deletes a key from a form's field's meta
+     * @param String $keyname Name of the meta key to delete
+     */
+    public function deleteKey($keyname){
+        global $connection;
+        $stmt = $connection->stmt_init();
+        $stmt->prepare("DELETE FROM ssf_key_meta WHERE keyid=? AND meta=?");
+        $stmt->bind_param("ss",$this->field_id,$keyname);
+        $stmt->execute();
+    }
+
+    /**
+     * Sets a value for the given key in the Form Field Meta Table
+     * @param String $keyname Name of the key
+     * @param String $keyvalue Value of the key
+     */
+    public function setKey($keyname,$keyvalue){
+        global $connection;
+        $stmt = $connection->stmt_init();
+        $stmt->prepare("SELECT value FROM ssf_key_meta WHERE keyid=? AND meta=?");
+        $stmt->bind_param("ss",$this->field_id,$keyname);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $numrows = $res->num_rows;
+        $res->free();
+        $stmt->close();
+
+        if($numrows == 1){
+            $delete_stmt = $connection->stmt_init();
+            $delete_stmt->prepare("DELETE FROM ssf_key_meta WHERE keyid=? AND meta=?");
+            $delete_stmt->bind_param("ss",$this->field_id,$keyname);
+            $delete_stmt->execute();
+        }
+
+        $addval_stmt = $connection->stmt_init();
+        $addval_stmt->prepare("INSERT INTO ssf_key_meta (keyid, meta, value) VALUES (?,?,?)");
+        $addval_stmt->bind_param("sss",$this->field_id,$keyname,$keyvalue);
+        $addval_stmt->execute();
+    }
+
+    /**
+     * Fetches a key's value from the Form Field Meta Table
+     * @param String $keyname Name of the key whose value will be retrieved
+     * @return bool|String Returns key's value in the table, false on failure
+     */
+    public function getKeyValue($keyname){
+
+        global $connection;
+        $value = "";
+        $stmt = $connection->stmt_init();
+        $stmt->prepare("SELECT value FROM ssf_key_meta WHERE keyid=? AND meta=?");
+        $stmt->bind_param("ss",$this->field_id,$keyname);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        if($res->num_rows == 0){
+            $res->free();
+            $stmt->close();
+            return false;
+        } else {
+            while($row = $res->fetch_assoc()){
+                $value = $row["value"];
+            }
+            $res->free();
+            $stmt->close();
+            return $value;
+        }
+    }
+
+    /**
+     * Renders a checked text if fields is required.
+     */
+    public function getRequiredChecked(){
+
+        if($this->getKeyValue("isRequired") == "true"){
+            echo "checked";
+        }
+
+    }
+
+    /**
+     * Renders a new class-name if fields is required.
+     */
+    public function getRequiredClassName(){
+
+        if($this->getKeyValue("isRequired") == "true"){
+            echo "required-field";
+        }
+
+    }
+
+    /**
+     * Tells if a field is required or not
+     * @return bool
+     */
+    public function isRequired(){
+
+        if($this->getKeyValue("isRequired") == "true"){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
 }
