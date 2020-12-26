@@ -80,22 +80,22 @@ function render_form($form_id){
 
                     case "textinput":
                         ?>
-                        <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-input' class="std-label"><?php echo $formField->field_name; ?></label>
-                        <input class="std-textinput formfield" type="text" id="<?php echo $formFieldID; ?>-input">
+                        <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-input' class="std-label <?php if($formField->isRequired()){ echo "required-label"; } ?>"><?php echo $formField->field_name; ?></label>
+                        <input class="std-textinput formfield <?php $formField->getRequiredClassName(); ?>" type="text" id="<?php echo $formFieldID; ?>-input">
                         <?php
                         break;
 
                     case "textarea":
                         ?>
                         <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
-                        <textarea class="std-textarea formfield" id="<?php echo $formFieldID; ?>-input"></textarea>
+                        <textarea class="std-textarea formfield <?php $formField->getRequiredClassName(); ?>" id="<?php echo $formFieldID; ?>-input"></textarea>
                         <?php
                         break;
 
                     case "dropdown":
                         ?>
                         <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
-                        <select id="<?php echo $formFieldID; ?>-previewinput" class="std-select formfield">
+                        <select id="<?php echo $formFieldID; ?>-previewinput" class="std-select formfield <?php $formField->getRequiredClassName(); ?>">
                             <?php
 
                             $selectOptionsForField = explode("\n",$formField->field_options);
