@@ -236,3 +236,18 @@ hr {
     color: white;
 
 }
+
+.isrequiredlabel{
+
+    color: #670b0b;
+    font-size: 20px;
+    font-family: sans-serif, 'Roboto';
+
+}
+
+.text-right{
+
+    width: 100%;
+    text-align: right;
+
+}
