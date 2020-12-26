@@ -46,7 +46,8 @@ function submitForm() {
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 $(document).ready(function () {
-                    document.getElementById("body-wrap").style.display = "none";
+                    document.getElementsByClassName("form-wrapper")[0].style.display = "none";
+                    document.getElementsByClassName("form-title-container")[0].style.display = "none";
                     document.getElementById("responded").style.display = "initial";
                 });
             }
