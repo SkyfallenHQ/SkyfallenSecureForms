@@ -34,10 +34,13 @@ function handle_js_api($afterPrefix){
 
         case "clearAllFields":
             @SSF_FormField::clearFields($_GET["form_id"]);
+            @SSF_FormField::clearAllFieldMetas($_GET["form_id"]);
             break;
 
         case "newField":
             @SSF_FormField::addField($_GET["form_id"],$_GET["field_position"],$_GET["field_type"],$_GET["field_id"],$_GET["field_label"],$_GET["field_options"]);
+            $field = new SSF_FormField($_GET["field_id"]);
+            $field->setKey("isRequired",$_GET["is_required"]);
             break;
     }
 
