@@ -107,6 +107,9 @@ function render_form_editor($form_id){
             <button class="hover-ctrl-btn" style="margin-top: 5px;" onclick="redirect_to_form_respond()">
                 <i class="fa fa-external-link-square-alt"></i>
             </button>
+            <button class="hover-ctrl-btn" style="margin-top: 5px;" onclick="redirect_to_form_responses()">
+                <i class="fa fa-reply-all"></i>
+            </button>
         </div>
         <div class="form-title-container">
             <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
