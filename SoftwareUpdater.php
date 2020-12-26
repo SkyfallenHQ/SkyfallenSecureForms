@@ -10,17 +10,13 @@
 
 // Include Updater Configuration
 require_once "Configuration/UpdaterConfiguration.php";
+session_name("SecureFormSession");
+session_start();
 
-// Check if Session is already open otherwise create a new one.
-if(session_status() == PHP_SESSION_NONE) {
-    session_name("SecureFormsSession");
-    session_start();
-} else {
-    // Make sure we are logged in and update s authorised.
-    if (!$_SESSION["loggedin"] and isset($_SESSION["UPDATE_AUTHORIZED"]) and $_SESSION["UPDATE_AUTHORIZED"] == "TRUE") {
-        // Redirect to / if not.
-        header("Location: /");
-    }
+// Make sure we are logged in and update s authorised.
+if (!$_SESSION["UPDATE_AUTHORIZED"] == "TRUE") {
+    // Stop execution with an error message
+    die("Skyfallen SecureForms stopped execution. Update not authorized.");
 }
 /**
  *  Deletes a folder recursively excluding Configuration and RSA Key Directories
