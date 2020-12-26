@@ -29,6 +29,10 @@ SSF_Router::routePrefix("forms/delete","render_page_delete_form",true,true,"redi
 include_once SSF_ABSPATH."/views/form_editor.php";
 SSF_Router::routePrefix("forms/edit","render_form_editor",true,true,"redirect_to_login");
 
+// Redirects for the form editor
+include_once SSF_ABSPATH."/views/form_responses.php";
+SSF_Router::routePrefix("forms/responses","render_form_responses",true,true,"redirect_to_login");
+
 // Redirects for the form renderer
 include_once SSF_ABSPATH."/views/form_view.php";
 SSF_Router::routePrefix("form","render_form",true);
