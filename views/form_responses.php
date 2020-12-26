@@ -30,11 +30,14 @@ function render_form_responses($form_id){
 
     $privKey = constant(USERNAME."-PRIVATEKEY");
 
+    $pubKey = constant(USERNAME."-PUBLICKEY");
+
     ?>
     <html>
     <head>
         <title><?php echo $form_object->getFormName(); ?></title>
         <?php link_std_inputs(); ?>
+        <?php link_fa_icons(); ?>
         <link href="<?php the_fileurl("static/css/form-responses.css"); ?>" rel="stylesheet" type="text/css">
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/jsencrypt.min.js"); ?>"></script>
@@ -58,6 +61,7 @@ function render_form_responses($form_id){
             <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
         </div>
         <div class="respondent-selector">
+            <button onclick="selectPrev()" class="nextprev-btn"><i class="fa fa-arrow-left"></i></button>
             <select class="std-select std-blockcenter" id="response-select">
                 <?php
                 foreach ($respondents as $respondent) {
@@ -65,6 +69,7 @@ function render_form_responses($form_id){
                 }
                 ?>
             </select>
+            <button onclick="selectNext()" class="nextprev-btn"><i class="fa fa-arrow-right"></i></button>
         </div>
         <?php foreach ($respondents as $respondent) { ?>
         <div class="form-wrapper" id="<?php echo $respondent ?>">
@@ -72,6 +77,8 @@ function render_form_responses($form_id){
             foreach ($currentFormFields as $formFieldID) {
 
                 $formField = new SSF_FormField($formFieldID);
+
+                $privateKey = new \ParagonIE\EasyRSA\PrivateKey($privKey);
 
                 switch ($formField->field_type) {
 
@@ -82,14 +89,14 @@ function render_form_responses($form_id){
                     case "textinput":
                         ?>
                         <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-input' class="std-label"><?php echo $formField->field_name; ?></label>
-                        <input class="std-textinput formfield" type="text" id="<?php echo $formFieldID; ?>-input" disabled value="<?php echo SSF_FormField::getResponse($form_id, $formFieldID, $respondent, $privKey); ?>">
+                        <input class="std-textinput formfield" type="text" id="<?php echo $formFieldID; ?>-input" disabled value="<?php echo \ParagonIE\EasyRSA\EasyRSA::decrypt(SSF_FormField::getResponse($form_id, $formFieldID, $respondent),$privateKey); ?>">
                         <?php
                         break;
 
                     case "textarea":
                         ?>
                         <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
-                        <textarea class="std-textarea formfield" id="<?php echo $formFieldID; ?>-input" disabled><?php echo SSF_FormField::getResponse($form_id, $formFieldID, $respondent, $privKey); ?></textarea>
+                        <textarea class="std-textarea formfield" id="<?php echo $formFieldID; ?>-input" disabled><?php echo \ParagonIE\EasyRSA\EasyRSA::decrypt(SSF_FormField::getResponse($form_id, $formFieldID, $respondent),$privateKey); ?></textarea>
                         <?php
                         break;
 
@@ -97,7 +104,12 @@ function render_form_responses($form_id){
                         ?>
                         <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
                         <select id="<?php echo $formFieldID; ?>-previewinput" class="std-select formfield" disabled>
-                            <option><?php echo SSF_FormField::getResponse($form_id, $formFieldID, $respondent, $privKey); ?></option>
+                            <option><?php
+                                $optionIndex = \ParagonIE\EasyRSA\EasyRSA::decrypt(SSF_FormField::getResponse($form_id, $formFieldID, $respondent),$privateKey);
+                                $field_Obejct = new SSF_FormField($formFieldID);
+                                $field_Options = explode("\n",$field_Obejct->field_options);
+                                echo $field_Options[$optionIndex-1];
+                                ?></option>
                         </select>
                         <?php
                         break;
