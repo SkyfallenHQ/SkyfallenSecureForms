@@ -36,7 +36,7 @@ function render_updates_page() {
     if (THIS_VERSION != $new_vname){
         if(isset($_GET["install"])) {
             if ($_GET["install"] == "start") {
-                $_SESSION["UPDATE_AUTHORIZED"] = true;
+                $_SESSION["UPDATE_AUTHORIZED"] = "TRUE";
                 ssf_redirect("SoftwareUpdater.php");
             }
         }
