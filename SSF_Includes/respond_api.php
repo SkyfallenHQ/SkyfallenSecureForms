@@ -26,22 +26,15 @@ function handle_respond_api(){
 
             $fieldIDs = SSF_FormField::listFields($_POST["form_id"]);
 
-            $form_obj = new SSF_Form($_POST["form_id"]);
-            $formcreator = $form_obj->getFormCreator();
-
-            include_once SSF_ABSPATH."/DataSecurity/RSA_KEYS/".$formcreator."-key.php";
-
-            $pubKey = new \ParagonIE\EasyRSA\PublicKey(constant($formcreator."-PUBLICKEY"));
-
             $i = 0;
 
             foreach ($fieldIDs as $fieldID) {
 
                 $var_post_param = "field_".$i;
 
-                $var_post_val = $_POST[$var_post_param];
+                $var_post_val = binaryToString($_POST[$var_post_param]);
 
-                SSF_FormField::respond($_POST["form_id"],$_POST["respondent_id"],$fieldID,\ParagonIE\EasyRSA\EasyRSA::encrypt($var_post_val,$pubKey));
+                SSF_FormField::respond($_POST["form_id"],$_POST["respondent_id"],$fieldID,$var_post_val);
 
                 $i = $i+1;
 
