@@ -34,8 +34,9 @@ if((@include_once SSF_ABSPATH . "/Configuration/SecureFormDatabaseConfiguration.
 include_once SSF_ABSPATH."/SSF_Includes/UserSession_Helper.php";
 include_once SSF_ABSPATH."/SSF_Includes/CSRF_Session_Helper.php";
 
-// Include all of SSF_Includes
+// Include Utility Functions
 include_once SSF_ABSPATH."/SSF_Includes/utility_functions.php";
+include_once SSF_ABSPATH."/SSF_Includes/BinaryProcessor.php";
 
 // Include all the classes
 include_once SSF_ABSPATH."/FunctionSets/DBSettings.php";
