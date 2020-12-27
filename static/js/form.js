@@ -21,10 +21,6 @@ function submitForm() {
 
     if(validateFields()){
 
-        var encryptor = new JSEncrypt();
-
-        encryptor.setPublicKey(publicEncryptionKey);
-
         var xhttp = new XMLHttpRequest();
 
         xhttp.open("POST", web_url+"respond", true);
@@ -33,7 +29,19 @@ function submitForm() {
 
         $(".formfield").each(function (index,obj) {
 
-            post_params = post_params + "&field_"+index.toString()+"="+obj.value;
+            var publicKey = forge.pki.publicKeyFromPem(publicEncryptionKey);
+
+            var userPlainInput = forge.util.encodeUtf8(obj.value);
+
+            var encryptedInput = publicKey.encrypt(userPlainInput, "RSA-OAEP", {
+                md: forge.md.sha256.create(),
+                mgf1: forge.mgf1.create()
+            });
+            var encodedEncryptedInput = forge.util.encode64(encryptedInput);
+
+            console.log(binarifiy(encodedEncryptedInput));
+
+            post_params = post_params + "&field_"+index.toString()+"="+binarifiy(encodedEncryptedInput);
 
         })
 
@@ -44,7 +52,7 @@ function submitForm() {
                 $(document).ready(function () {
                     document.getElementsByClassName("form-wrapper")[0].style.display = "none";
                     document.getElementsByClassName("form-title-container")[0].style.display = "none";
-                    document.getElementById("responded").style.display = "initial";
+                    document.getElementById("responded").style.display = "flex";
                 });
             }
         };
@@ -55,4 +63,12 @@ function submitForm() {
 
     }
 
+}
+
+function binarifiy(input) {
+    var output = ""
+    for (var i = 0; i < input.length; i++) {
+        output += input[i].charCodeAt(0).toString(2) + " ";
+    }
+    return output;
 }
