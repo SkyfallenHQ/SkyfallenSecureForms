@@ -35,7 +35,7 @@ function render_form($form_id){
         <?php link_std_inputs(); ?>
         <link href="<?php the_fileurl("static/css/form.css"); ?>" rel="stylesheet" type="text/css">
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
-        <script src="<?php the_fileurl("static/js/jsencrypt.min.js"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/forge.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/form.js"); ?>"></script>
         <script>
