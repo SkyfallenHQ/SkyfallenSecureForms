@@ -78,7 +78,7 @@ function render_form_responses($form_id){
 
                 $formField = new SSF_FormField($formFieldID);
 
-                $privateKey = new \ParagonIE\EasyRSA\PrivateKey($privKey);
+                $privateKey = \phpseclib3\Crypt\RSA::loadFormat('PKCS1',$privKey);
 
                 switch ($formField->field_type) {
 
@@ -89,14 +89,14 @@ function render_form_responses($form_id){
                     case "textinput":
                         ?>
                         <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-input' class="std-label"><?php echo $formField->field_name; ?></label>
-                        <input class="std-textinput formfield" type="text" id="<?php echo $formFieldID; ?>-input" disabled value="<?php echo \ParagonIE\EasyRSA\EasyRSA::decrypt(SSF_FormField::getResponse($form_id, $formFieldID, $respondent),$privateKey); ?>">
+                        <input class="std-textinput formfield" type="text" id="<?php echo $formFieldID; ?>-input" disabled value="<?php echo utf8_decode($privateKey->decrypt(base64_decode(SSF_FormField::getResponse($form_id, $formFieldID, $respondent)))); ?>">
                         <?php
                         break;
 
                     case "textarea":
                         ?>
                         <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
-                        <textarea class="std-textarea formfield" id="<?php echo $formFieldID; ?>-input" disabled><?php echo \ParagonIE\EasyRSA\EasyRSA::decrypt(SSF_FormField::getResponse($form_id, $formFieldID, $respondent),$privateKey); ?></textarea>
+                        <textarea class="std-textarea formfield" id="<?php echo $formFieldID; ?>-input" disabled><?php echo utf8_decode($privateKey->decrypt(base64_decode(SSF_FormField::getResponse($form_id, $formFieldID, $respondent)))); ?></textarea>
                         <?php
                         break;
 
@@ -105,9 +105,9 @@ function render_form_responses($form_id){
                         <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
                         <select id="<?php echo $formFieldID; ?>-previewinput" class="std-select formfield" disabled>
                             <option><?php
-                                $optionIndex = \ParagonIE\EasyRSA\EasyRSA::decrypt(SSF_FormField::getResponse($form_id, $formFieldID, $respondent),$privateKey);
-                                $field_Obejct = new SSF_FormField($formFieldID);
-                                $field_Options = explode("\n",$field_Obejct->field_options);
+                                $optionIndex = $privateKey->decrypt(base64_decode(SSF_FormField::getResponse($form_id, $formFieldID, $respondent)));
+                                $field_Object = new SSF_FormField($formFieldID);
+                                $field_Options = explode("\n",$field_Object->field_options);
                                 echo $field_Options[$optionIndex-1];
                                 ?></option>
                         </select>
