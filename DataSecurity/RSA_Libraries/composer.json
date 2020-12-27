@@ -3,8 +3,7 @@
     "description": "Process forms with privacy. RSA_LIBRARIES",
     "type": "project",
     "require": {
-        "phpseclib/phpseclib": "^2.0",
-        "paragonie/easyrsa": "^0.5.2"
+        "phpseclib/phpseclib": "^3.0"
     },
     "license": "Skyfallen Open-Source License",
     "authors": [
