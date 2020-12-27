@@ -78,7 +78,11 @@ function render_form_responses($form_id){
 
                 $formField = new SSF_FormField($formFieldID);
 
-                $privateKey = \phpseclib3\Crypt\RSA::loadFormat('PKCS1',$privKey);
+                try {
+                    $privateKey = \phpseclib3\Crypt\RSA::loadFormat('PKCS1', $privKey);
+                } catch (Exception $e) {
+                    $privateKey = \phpseclib3\Crypt\RSA::loadFormat('PKCS8', $privKey);
+                }
 
                 switch ($formField->field_type) {
 
