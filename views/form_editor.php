@@ -94,6 +94,41 @@ function render_form_editor($form_id){
 
         </style>
         </noscript>
+
+        <div class="settings-modal">
+            <div class="modal-top">
+                <div class="close-modal"><i onclick="closeSettingsModal()" class="fa fa-window-close"></i></div>
+            </div>
+            <div class="modal-tabs">
+                <div class="modal-tab">
+                    <button class="modal-tab-button" id="modal-tab-btn-general" onclick="switchToModalTab('general')"><i class="fa fa-clipboard"></i><span class="span-spacer"></span>General</button>
+                </div>
+                <div class="modal-tab">
+                    <button class="modal-tab-button" id="modal-tab-btn-data-security" onclick="switchToModalTab('data-security')"><i class="fa fa-lock"></i><span class="span-spacer"></span>Data Security</button>
+                </div>
+            </div>
+            <div class="modal-tab-content">
+                <div class="modal-tab-each" id="modal-tab-general">
+                    <label for="settings_form_name" class="std-label">Form Name:</label>
+                    <input class="std-textinput" placeholder="Form Name" id="settings_form_name" value="<?php echo $form_object->getFormName(); ?>">
+                    <input class="std-inputsubmit" type="submit" value="Save" onclick="save_General_Settings()">
+                </div>
+                <div class="modal-tab-each" id="modal-tab-data-security">
+                    <label for="settings_form_name" class="std-label">Encryption Mode:</label>
+                    <select class="std-select" id="encryption-select">
+                        <?php
+
+                        $enc_Std = $form_object->getKeyValue("EncryptionStandard");
+                        ?>
+                        <option value="DISABLED" <?php if($enc_Std == "DISABLED"){ echo "selected"; } ?>>Not Suggested - Disabled</option>
+                        <option value="RSA_ONLY" <?php if($enc_Std == "RSA_ONLY"){ echo "selected"; } ?>>Most Secure - RSA Only (Limits to 200 Character)</option>
+                        <option value="RSA_PLUS_AES" <?php if($enc_Std == "RSA_PLUS_AES"){ echo "selected"; } ?>>Very Secure - RSA+AES (No character limit)</option>
+                    </select>
+                    <input class="std-inputsubmit" type="submit" value="Save" onclick="save_Enc_Std()">
+                </div>
+            </div>
+        </div>
+
         <div class="hovering-controls">
             <button class="hover-ctrl-btn" onclick="add_new_field()">
                 <i class="fa fa-plus-circle"></i>
@@ -110,9 +145,12 @@ function render_form_editor($form_id){
             <button class="hover-ctrl-btn" style="margin-top: 5px;" onclick="redirect_to_form_responses()">
                 <i class="fa fa-reply-all"></i>
             </button>
+            <button class="hover-ctrl-btn" style="margin-top: 5px;" onclick="showSettingsModal()">
+                <i class="fa fa-clipboard"></i>
+            </button>
         </div>
         <div class="form-title-container">
-            <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
+            <h1 class="form-title-hdg" id="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
         </div>
         <div class="editor-wrapper">
             <?php
