@@ -102,7 +102,7 @@ body {
     text-align: center;
     display: block;
     width: 45px;
-    height: 230px;
+    height: 275px;
     background-color: snow;
     border-radius: 20px;
     border: 1px solid #dbc6c6;
@@ -250,4 +250,95 @@ hr {
     width: 100%;
     text-align: right;
 
+}
+
+.settings-modal{
+
+    height: 600px;
+    width: 800px;
+    position: fixed;
+    top: 50%;
+    margin-top: -300px;
+    z-index: 200;
+    background: #eee8e8;
+    border-radius: 20px;
+    display: none;
+    pointer-events: initial;
+
+}
+
+.modal-top{
+
+    border-radius: 20px 20px 0px 0px;
+    border-bottom: 1px solid gray;
+    height: 30px;
+    text-align: right;
+    padding: 10px 10px 10px 0px;
+
+}
+
+.close-modal{
+
+    font-family: sans-serif;
+    font-weight: 400;
+    font-size: 30px;
+    color: black;
+
+}
+
+.close-modal:hover {
+
+    color: grey;
+
+}
+
+.modal-tabs{
+
+    width: 200px;
+    border-right: 0.1px solid black;
+    display: inline-block;
+    height: 549px;
+
+}
+
+.modal-tab-content {
+
+    display: inline-block;
+
+}
+
+.modal-tab{
+
+    height: 50px;
+    width: 200px;
+    margin-bottom: 2px;
+
+}
+
+.modal-tab-button {
+
+    border: none;
+    width: 199px;
+    height: 50px;
+    font-size: 20px;
+    background: #f8f6f6;
+
+}
+
+.modal-tab-button:focus{
+
+    outline: none;
+
+}
+
+.span-spacer{
+
+    margin-left: 10px;
+
+}
+
+.modal-tab-each{
+
+    width: 100%;
+    margin-top: 0;
 }
