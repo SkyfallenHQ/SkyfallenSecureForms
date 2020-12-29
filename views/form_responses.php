@@ -38,10 +38,10 @@ function render_form_responses($form_id){
         <title><?php echo $form_object->getFormName(); ?></title>
         <?php link_std_inputs(); ?>
         <?php link_fa_icons(); ?>
-        <link href="<?php the_fileurl("static/css/form-responses.css"); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php the_fileurl("static/css/form-responses.css?version=1"); ?>" rel="stylesheet" type="text/css">
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
-        <script src="<?php the_fileurl("static/js/form-responses.js"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form-responses.js?version=1"); ?>"></script>
         <script>
             var current_form_id = "";
             var publicEncryptionKey = ""
