@@ -19,7 +19,7 @@ function handle_js_api($afterPrefix){
 
     $user_created_forms = SSF_Form::listUserForms(USERNAME);
 
-    if(!in_array($_GET["form_id"],$user_created_forms)){
+    if(@!in_array($_GET["form_id"],$user_created_forms) and @!in_array($_POST["form_id"],$user_created_forms)){
         include_once SSF_ABSPATH."/SSF_Includes/404.php";
         die();
     }
@@ -62,6 +62,14 @@ function handle_js_api($afterPrefix){
             }
 
             $form_obj->setKey("EncryptionStandard",$new_std);
+            break;
+
+        case "setFormDisclaimer":
+            $form_obj = new SSF_Form($_POST["form_id"]);
+
+            $new_disclaimer = strip_tags($_POST["new_disclaimer"],"<p></p><a></a><strong></strong><h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><ul></ul><li></li><style></style><tr></tr><table></table><thead></thead><tbody></tbody><td></td><ol></ol><div></div>");
+
+            $form_obj->saveLongMeta("FormDisclaimer",$new_disclaimer);
             break;
 
     }
