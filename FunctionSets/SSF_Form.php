@@ -366,4 +366,93 @@ class SSF_Form
 
     }
 
+    /**
+     * Saves a meta key into the database whose value exceed the MySQL character limit of 8192 chars
+     * @param String $keyname Name of the key
+     * @param String $keyvalue Value of the key
+     */
+    public function saveLongMeta($keyname,$keyvalue){
+
+        $keyLen = strlen($keyvalue);
+
+        if($keyLen < 1000){
+
+            $this->setKey($keyname,$keyvalue);
+
+        }
+
+        $blocks = str_split($keyvalue,1000);
+
+        $this->setKey($keyname,"::::|::::|".count($blocks));
+
+        $i = 0;
+
+        foreach ($blocks as $block){
+
+            echo $block;
+
+            $this->setKey($keyname."_".$i,$block);
+
+            $i = $i + 1;
+
+        }
+
+    }
+
+    /**
+     * Gets the value of a meta key from the database whose value exceed the MySQL character limit of 8192 chars
+     * @param String $keyname Name of the key
+     * @return bool|string
+     */
+    public function getLongMeta($keyname){
+
+        $keyValue = "";
+
+        $longFieldMetaBlocks = explode("|",$this->getKeyValue($keyname));
+
+        if($longFieldMetaBlocks[0] == "::::" and $longFieldMetaBlocks[1] == "::::"){
+
+            $longBlockCount  = $longFieldMetaBlocks[2];
+
+            for($i = 0; $i<$longBlockCount; ++$i){
+
+                $keyValue = $keyValue.$this->getKeyValue($keyname."_".$i);
+
+            }
+            return $keyValue;
+
+        } else {
+
+            return $this->getKeyValue($keyname);
+
+        }
+    }
+
+    /**
+     * Deletes the value of a meta key from the database whose value exceed the MySQL character limit of 8192 chars
+     * @param String $keyname Name of the key
+     * @return bool|string
+     */
+    public function deleteLongMeta($keyname){
+
+        $longFieldMetaBlocks = explode("|",$this->getKeyValue($keyname));
+
+        if($longFieldMetaBlocks[0] == "::::" and $longFieldMetaBlocks[1] == "::::"){
+
+            $longBlockCount  = $longFieldMetaBlocks[2];
+
+            for($i = 0; $i<$longBlockCount; ++$i){
+
+                $this->deleteKey($keyname."_".$i);
+
+            }
+            return true;
+
+        } else {
+
+            return $this->deleteKey($keyname);
+
+        }
+    }
+
 }
