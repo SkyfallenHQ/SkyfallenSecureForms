@@ -40,7 +40,6 @@ function render_form_responses($form_id){
         <?php link_fa_icons(); ?>
         <link href="<?php the_fileurl("static/css/form-responses.css"); ?>" rel="stylesheet" type="text/css">
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
-        <script src="<?php the_fileurl("static/js/jsencrypt.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/form-responses.js"); ?>"></script>
         <script>
@@ -74,14 +73,74 @@ function render_form_responses($form_id){
         <?php foreach ($respondents as $respondent) { ?>
         <div class="form-wrapper" id="<?php echo $respondent ?>">
             <?php
+
+            $enc_std = SSF_FormField::getResponse($form_id,"encryptionStandard",$respondent);
+
+            if($enc_std == ""){
+                $enc_std = "RSA_ONLY";
+            }
+
+            try {
+                $privateKey = \phpseclib3\Crypt\RSA::loadFormat('PKCS1', $privKey);
+            } catch (Exception $e) {
+                $privateKey = \phpseclib3\Crypt\RSA::loadFormat('PKCS8', $privKey);
+            }
+
+            ?>
+
+            <div class="encryption-standard-container">
+                <p><?php
+                    switch ($enc_std){
+
+                        case "RSA_ONLY":
+                            echo "All fields were RSA encrypted.";
+                            break;
+
+                        case "RSA_PLUS_AES":
+                            echo "AES Encryption was used to encrypt the fields. The AES Key was decrypted using your RSA Key.";
+                            break;
+
+                        case "DISABLED":
+                            echo "Fields weren't encrypted.";
+                            break;
+
+                        default:
+                            echo "Corrupted Encryption Meta;";
+                            break;
+                    }
+
+                    ?></p>
+            </div>
+
+            <?php
+
             foreach ($currentFormFields as $formFieldID) {
 
                 $formField = new SSF_FormField($formFieldID);
 
-                try {
-                    $privateKey = \phpseclib3\Crypt\RSA::loadFormat('PKCS1', $privKey);
-                } catch (Exception $e) {
-                    $privateKey = \phpseclib3\Crypt\RSA::loadFormat('PKCS8', $privKey);
+                $field_response = "";
+                $field_response_db = SSF_FormField::getResponse($form_id, $formFieldID, $respondent);
+
+                switch($enc_std){
+                    case "DISABLED":
+                        $field_response = $field_response_db;
+                        break;
+
+                    case "RSA_ONLY":
+                        $field_response = utf8_decode($privateKey->decrypt(base64_decode($field_response_db)));
+                        break;
+
+                    case "RSA_PLUS_AES":
+                        $encrypted_AES_Key = SSF_FormField::getResponse($form_id, "AES_KEY", $respondent);
+                        $encrypted_AES_IV = SSF_FormField::getResponse($form_id,"AES_IV",$respondent);
+
+                        $decrypted_AES_Key = $privateKey->decrypt(base64_decode($encrypted_AES_Key));
+                        $decrypted_AES_IV = $privateKey->decrypt(base64_decode($encrypted_AES_IV));
+
+                        $AES_Cipher = new Aes($decrypted_AES_Key, "CBC", $decrypted_AES_IV);
+
+                        $field_response = $AES_Cipher->decrypt(base64_decode($field_response_db));
+                        break;
                 }
 
                 switch ($formField->field_type) {
@@ -93,14 +152,14 @@ function render_form_responses($form_id){
                     case "textinput":
                         ?>
                         <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-input' class="std-label"><?php echo $formField->field_name; ?></label>
-                        <input class="std-textinput formfield" type="text" id="<?php echo $formFieldID; ?>-input" disabled value="<?php echo utf8_decode($privateKey->decrypt(base64_decode(SSF_FormField::getResponse($form_id, $formFieldID, $respondent)))); ?>">
+                        <input class="std-textinput formfield" type="text" id="<?php echo $formFieldID; ?>-input" disabled value="<?php echo $field_response; ?>">
                         <?php
                         break;
 
                     case "textarea":
                         ?>
                         <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
-                        <textarea class="std-textarea formfield" id="<?php echo $formFieldID; ?>-input" disabled><?php echo utf8_decode($privateKey->decrypt(base64_decode(SSF_FormField::getResponse($form_id, $formFieldID, $respondent)))); ?></textarea>
+                        <textarea class="std-textarea formfield" id="<?php echo $formFieldID; ?>-input" disabled><?php echo $field_response; ?></textarea>
                         <?php
                         break;
 
@@ -109,7 +168,7 @@ function render_form_responses($form_id){
                         <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
                         <select id="<?php echo $formFieldID; ?>-previewinput" class="std-select formfield" disabled>
                             <option><?php
-                                $optionIndex = $privateKey->decrypt(base64_decode(SSF_FormField::getResponse($form_id, $formFieldID, $respondent)));
+                                $optionIndex = $field_response;
                                 $field_Object = new SSF_FormField($formFieldID);
                                 $field_Options = explode("\n",$field_Object->field_options);
                                 echo $field_Options[$optionIndex-1];
