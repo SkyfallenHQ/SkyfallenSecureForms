@@ -38,12 +38,6 @@ function render_dashboard(){
             </a>
             <div class="user-col-parent">
                 <div class="user-col">
-                    <a><h3>Client Side RSA is enabled and working properly.</h3></a>
-                </div>
-                <div class="user-col">
-                    <a><h3>AES is not supported.</h3></a>
-                </div>
-                <div class="user-col">
                     <a href="<?php the_pageurl("updates"); ?>"><h3>Software Update</h3></a>
                 </div>
                 <div class="user-col">
