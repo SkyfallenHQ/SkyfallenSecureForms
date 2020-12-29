@@ -79,6 +79,7 @@ body {
     background: snow;
     margin-bottom: 100px;
     padding: 40px 40px 30px 30px;
+    font-family: sans-serif, 'Roboto';
 
 }
 
@@ -125,5 +126,11 @@ body {
 
     content: "*";
     color: red;
+
+}
+
+.hidden {
+
+    display: none;
 
 }
