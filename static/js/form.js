@@ -117,3 +117,10 @@ function binarifiy(input) {
     }
     return output;
 }
+
+function read_Disclaimer(){
+
+    document.getElementById("form-disclaimer").style.display = "none";
+    document.getElementById("form-wrapper").style.display = "initial";
+
+}
