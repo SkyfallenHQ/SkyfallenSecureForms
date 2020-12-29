@@ -22,7 +22,7 @@ function render_dashboard(){
 <html>
     <head>
         <title>Skyfallen SecureForms: Dashboard</title>
-        <link rel="stylesheet" type="text/css" href="<?php the_fileurl("static/css/dash.css"); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php the_fileurl("static/css/dash.css?version=1"); ?>">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
         <?php link_fa_icons(); ?>
