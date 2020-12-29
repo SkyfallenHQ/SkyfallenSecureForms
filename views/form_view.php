@@ -35,19 +35,30 @@ function render_form($form_id){
         $encryption_Standard = $form_object->getKeyValue("EncryptionStandard");
     }
 
+    $hasDisclaimer = "true";
+    $disclaimerClass = "hidden";
+
+    if(trim($form_object->getLongMeta("FormDisclaimer")) == ""){
+
+        $hasDisclaimer = "false";
+        $disclaimerClass = "";
+
+    }
+
     ?>
     <html>
     <head>
         <title><?php echo $form_object->getFormName(); ?></title>
         <?php link_std_inputs(); ?>
-        <link href="<?php the_fileurl("static/css/form.css"); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php the_fileurl("static/css/form.css?version=1"); ?>" rel="stylesheet" type="text/css">
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/forge.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
-        <script src="<?php the_fileurl("static/js/form.js"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form.js?version=1"); ?>"></script>
         <script>
             var current_form_id = "";
-            var publicEncryptionKey = ""
+            var publicEncryptionKey = "";
+            var haveDisclaimer = <?php echo $hasDisclaimer ?>;
             var respondentID = "<?php echo rand_md5_hash(); ?>";
             var web_url = "<?php echo the_weburl(); ?>";
             $(document).ready(function () {
@@ -77,7 +88,23 @@ function render_form($form_id){
         <div class="form-title-container">
             <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
         </div>
-        <div class="form-wrapper">
+        <?php
+
+        if(trim($form_object->getLongMeta("FormDisclaimer")) != ""){
+
+            ?>
+            <div class="form-wrapper" id="form-disclaimer">
+                <?php echo $form_object->getLongMeta("FormDisclaimer"); ?>
+
+                <div style="margin-top: 30px;">
+                   <button class="std-inputsubmit" type="button" onclick="read_Disclaimer()">Proceed</button>
+                </div>
+            </div>
+            <?php
+
+        }
+        ?>
+        <div class="form-wrapper <?php echo $disclaimerClass; ?>" id="form-wrapper">
             <?php
             foreach ($currentFormFields as $formFieldID) {
 
