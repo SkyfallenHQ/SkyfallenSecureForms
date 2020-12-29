@@ -42,6 +42,28 @@ function handle_js_api($afterPrefix){
             $field = new SSF_FormField($_GET["field_id"]);
             $field->setKey("isRequired",$_GET["is_required"]);
             break;
+
+        case "setFormName":
+            $form_obj = new SSF_Form($_GET["form_id"]);
+            $form_obj->renameForm($_GET["new_name"]);
+            break;
+
+        case "setEncryptionStandard":
+            $form_obj = new SSF_Form($_GET["form_id"]);
+
+            $available_options = array("RSA_ONLY","RSA_PLUS_AES","DISABLED");
+
+            $new_std = $_GET["newStandard"];
+
+            if(!in_array($_GET["newStandard"],$available_options)){
+
+                $new_std = "RSA_ONLY";
+
+            }
+
+            $form_obj->setKey("EncryptionStandard",$new_std);
+            break;
+
     }
 
     echo json_encode($retJSON);
