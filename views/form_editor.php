@@ -41,7 +41,7 @@ function render_form_editor($form_id){
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
         <?php link_std_inputs(); ?>
         <?php link_fa_icons(); ?>
-        <link type="text/css" rel="stylesheet" href="<?php the_fileurl("static/css/form-editor.css"); ?>">
+        <link type="text/css" rel="stylesheet" href="<?php the_fileurl("static/css/form-editor.css?version=1"); ?>">
         <script defer>
             const web_url = '<?php the_weburl(); ?>';
             const current_form_id = '<?php echo $form_id; ?>';
@@ -49,7 +49,7 @@ function render_form_editor($form_id){
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/jquery-ui.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
-        <script src="<?php the_fileurl("static/js/form-editor.js"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form-editor.js?version=1"); ?>"></script>
         <?php
 
         $currentFormFields = SSF_FormField::listFields($form_id);
@@ -111,6 +111,8 @@ function render_form_editor($form_id){
                 <div class="modal-tab-each" id="modal-tab-general">
                     <label for="settings_form_name" class="std-label">Form Name:</label>
                     <input class="std-textinput" placeholder="Form Name" id="settings_form_name" value="<?php echo $form_object->getFormName(); ?>">
+                    <label for="form-disclaimer-setting" class="std-label">Form Disclaimer:</label>
+                    <textarea class="std-textarea" placeholder="Form Disclaimer, HTML Allowed" id="form-disclaimer-setting" style="max-width: 580px; max-height: 350px;"><?php echo $form_object->getLongMeta("FormDisclaimer"); ?></textarea>
                     <input class="std-inputsubmit" type="submit" value="Save" onclick="save_General_Settings()">
                 </div>
                 <div class="modal-tab-each" id="modal-tab-data-security">
