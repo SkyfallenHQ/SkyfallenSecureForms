@@ -161,3 +161,19 @@ body {
     outline: none;
 
 }
+
+.encryption-standard-container{
+
+    border-radius: 20px;
+    height: 30px;
+    width: 100%;
+    background: #f3ebeb;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    align-content: center;
+    font-family: sans-serif;
+
+}
