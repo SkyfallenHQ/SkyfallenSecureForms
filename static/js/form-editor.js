@@ -281,3 +281,79 @@ function redirect_to_form_responses(){
     window.location.href = web_url+"forms/responses/"+current_form_id;
 
 }
+
+function showSettingsModal(){
+
+    if($(window).width()>799) {
+
+        $(".settings-modal")[0].style.display = "block";
+
+        switchToModalTab('general');
+
+        window.onclick = function(event) {
+            if (event.target == $(".settings-modal")[0]) {
+                $(".settings-modal")[0].style.display = "none";
+            }
+        }
+
+    } else {
+
+        swal("We can't display the settings on this display.");
+
+    }
+
+}
+
+function closeSettingsModal(){
+
+    $(".settings-modal")[0].style.display = "none";
+    document.body.style.pointerEvents = "initial";
+
+}
+
+function switchToModalTab(modal_tab_name) {
+
+
+        $(".modal-tab-each").each((index, object) => {
+
+            object.style.display = "none";
+
+        });
+
+        $(".modal-tab-button").each((index, object) => {
+
+            object.style.background = "#f8f6f6";
+
+        });
+
+        document.getElementById("modal-tab-btn-" + modal_tab_name).style.background = "#e2d9d9";
+
+        document.getElementById("modal-tab-" + modal_tab_name).style.display = "inline-block";
+
+}
+
+
+function save_General_Settings(){
+
+    const Http = new XMLHttpRequest();
+    const url=web_url+"jsapi/setFormName?form_id="+current_form_id+"&new_name="+$("#settings_form_name").val();
+    Http.open("GET", url);
+    Http.send();
+
+    Http.onreadystatechange = (e) => {
+        if(Http.status == 200){
+            $("#form-title-hdg").text($("#settings_form_name").val());
+        }
+    };
+
+}
+
+function save_Enc_Std(){
+
+
+    const Http = new XMLHttpRequest();
+    const url=web_url+"jsapi/setEncryptionStandard?form_id="+current_form_id+"&newStandard="+$("#encryption-select").val();
+    Http.open("GET", url);
+    Http.send();
+
+}
