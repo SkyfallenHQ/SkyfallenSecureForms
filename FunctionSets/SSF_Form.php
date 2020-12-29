@@ -66,7 +66,7 @@ class SSF_Form
     public function setKey($keyname,$keyvalue){
         global $connection;
         $stmt = $connection->stmt_init();
-        $stmt->prepare("SELECT value FROM ssf_form_meta WHERE formid=? AND form_meta=?");
+        $stmt->prepare("SELECT form_meta_value FROM ssf_form_meta WHERE formid=? AND form_meta=?");
         $stmt->bind_param("ss",$this->formid,$keyname);
         $stmt->execute();
         $res = $stmt->get_result();
@@ -83,23 +83,23 @@ class SSF_Form
 
         $addval_stmt = $connection->stmt_init();
         $addval_stmt->prepare("INSERT INTO ssf_form_meta (formid,form_meta,form_meta_value) VALUES (?,?,?)");
-        $addval_stmt->bind_param("ss",$this->formid,$keyname,$keyvalue);
+        $addval_stmt->bind_param("sss",$this->formid,$keyname,$keyvalue);
         $addval_stmt->execute();
     }
 
     /**
      * Fetches a key's value from the Settings Table
      * @param String $keyname Name of the key whose value will be retrieved
-     * @return String Returns key's value in the table
-     * @return Boolean if fails to execute
+     * @return String|bool Returns key's value in the table
      */
     public function getKeyValue($keyname){
         global $connection;
         $value = "";
         $stmt = $connection->stmt_init();
-        $stmt->prepare("SELECT value FROM ssf_form_meta WHERE formid=? AND form_meta=?");
+        $stmt->prepare("SELECT form_meta_value FROM ssf_form_meta WHERE formid=? AND form_meta=?");
         $stmt->bind_param("ss",$this->formid,$keyname);
         $stmt->execute();
+
         $res = $stmt->get_result();
         if($res->num_rows == 0){
             $res->free();
@@ -158,7 +158,7 @@ class SSF_Form
     }
 
     /**
-     * Checks the SQL database for all formids that are created by the given user.
+     * Checks the SQL database for all Form ID's that are created by the given user.
      * @param String $username Username to look for in the database
      * @return array containing all Form ID's that belong to the user.
      */
@@ -345,6 +345,24 @@ class SSF_Form
             return false;
 
         }
+
+    }
+
+    /**
+     * Renames the form bound to the current object.
+     * @param String $new_name The new name of the form
+     */
+    public function renameForm($new_name){
+
+        global $connection;
+
+        $stmt = $connection->stmt_init();
+
+        $stmt->prepare("UPDATE ssf_forms SET formname=? WHERE formid=?");
+
+        $stmt->bind_param("ss",$new_name,$this->formid);
+
+        $stmt->execute();
 
     }
 
