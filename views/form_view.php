@@ -28,6 +28,13 @@ function render_form($form_id){
 
     $currentFormFields = SSF_FormField::listFields($form_id);
 
+    $encryption_Standard = $form_object->getKeyValue("EncryptionStandard");
+
+    if(!$encryption_Standard){
+        $form_object->setKey("EncryptionStandard","RSA_ONLY");
+        $encryption_Standard = $form_object->getKeyValue("EncryptionStandard");
+    }
+
     ?>
     <html>
     <head>
@@ -48,6 +55,8 @@ function render_form($form_id){
                     publicEncryptionKey = $("#pec_textarea").val();
                 }
             );
+
+            const encryption_standard = "<?php echo $encryption_Standard; ?>";
         </script>
     </head>
 
@@ -63,6 +72,8 @@ function render_form($form_id){
 
         ?>
     </textarea>
+    <textarea id="aes_key" hidden></textarea>
+    <textarea id="aes_iv" hidden></textarea>
         <div class="form-title-container">
             <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
         </div>
