@@ -26,6 +26,13 @@ function handle_respond_api(){
 
             $fieldIDs = SSF_FormField::listFields($_POST["form_id"]);
 
+            SSF_FormField::respond($_POST["form_id"],$_POST["respondent_id"],"encryptionStandard",$_POST["encryption_std"]);
+
+            if(isset($_POST["aes_key"]) and isset($_POST["aes_iv"])){
+                SSF_FormField::respond($_POST["form_id"],$_POST["respondent_id"],"AES_KEY",binaryToString($_POST["aes_key"]));
+                SSF_FormField::respond($_POST["form_id"],$_POST["respondent_id"],"AES_IV",binaryToString($_POST["aes_iv"]));
+            }
+
             $i = 0;
 
             foreach ($fieldIDs as $fieldID) {
