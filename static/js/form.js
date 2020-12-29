@@ -25,21 +25,66 @@ function submitForm() {
 
         xhttp.open("POST", web_url+"respond", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        var post_params = "csrf_id="+document.getElementsByName("csrf_id")[0].value+"&csrf_token="+document.getElementsByName("csrf_token")[0].value+"&form_id="+current_form_id+"&respondent_id="+respondentID;
+        var post_params = "csrf_id="+document.getElementsByName("csrf_id")[0].value+"&csrf_token="+document.getElementsByName("csrf_token")[0].value+"&form_id="+current_form_id+"&respondent_id="+respondentID+"&encryption_std="+encryption_standard;
 
-        $(".formfield").each(function (index,obj) {
+        var publicKey = forge.pki.publicKeyFromPem(publicEncryptionKey);
 
-            var publicKey = forge.pki.publicKeyFromPem(publicEncryptionKey);
+        var key = forge.random.getBytesSync(32);
+        var iv = forge.random.getBytesSync(16);
 
-            var userPlainInput = forge.util.encodeUtf8(obj.value);
+        if(encryption_standard == "RSA_PLUS_AES"){
 
-            var encryptedInput = publicKey.encrypt(userPlainInput, "RSA-OAEP", {
+            var iv_encrypted = publicKey.encrypt(iv, "RSA-OAEP", {
                 md: forge.md.sha256.create(),
                 mgf1: forge.mgf1.create()
             });
-            var encodedEncryptedInput = forge.util.encode64(encryptedInput);
 
-            console.log(binarifiy(encodedEncryptedInput));
+            var key_encrypted = publicKey.encrypt(key, "RSA-OAEP", {
+                md: forge.md.sha256.create(),
+                mgf1: forge.mgf1.create()
+            });
+
+            key_encrypted = forge.util.encode64(key_encrypted);
+            iv_encrypted = forge.util.encode64(iv_encrypted);
+
+            $("#aes_key").val(binarifiy(key_encrypted));
+            $("#aes_iv").val(binarifiy(iv_encrypted));
+
+            post_params = post_params+"&aes_key="+$("#aes_key").val()+"&aes_iv="+$("#aes_iv").val();
+
+        }
+
+        $(".formfield").each(function (index,obj) {
+
+            var encodedEncryptedInput = "";
+
+            switch (encryption_standard) {
+                case "RSA_ONLY":
+                    publicKey = forge.pki.publicKeyFromPem(publicEncryptionKey);
+
+                    var userPlainInput = forge.util.encodeUtf8(obj.value);
+
+                    var encryptedInput = publicKey.encrypt(userPlainInput, "RSA-OAEP", {
+                        md: forge.md.sha256.create(),
+                        mgf1: forge.mgf1.create()
+                    });
+                    encodedEncryptedInput = forge.util.encode64(encryptedInput);
+                    break;
+
+                case "RSA_PLUS_AES":
+
+                    var cipher = forge.aes.createEncryptionCipher(key, 'CBC');
+                    cipher.start(iv);
+                    cipher.update(forge.util.createBuffer(obj.value));
+                    cipher.finish();
+                    var encrypted = cipher.output;
+
+                    encodedEncryptedInput = forge.util.encode64(encrypted.getBytes());
+                    break;
+
+                case "DISABLED":
+                    encodedEncryptedInput = obj.value;
+            }
 
             post_params = post_params + "&field_"+index.toString()+"="+binarifiy(encodedEncryptedInput);
 
