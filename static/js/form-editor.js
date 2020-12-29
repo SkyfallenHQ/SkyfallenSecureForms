@@ -346,6 +346,14 @@ function save_General_Settings(){
         }
     };
 
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("POST", web_url+"jsapi/setFormDisclaimer", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    var post_params = "form_id="+current_form_id+"&new_disclaimer="+$("#form-disclaimer-setting").val();
+
+    xhttp.send(post_params);
+
 }
 
 function save_Enc_Std(){
