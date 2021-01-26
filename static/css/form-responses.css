@@ -1,8 +1,9 @@
 body {
 
-    display: flex;
-    justify-items: center;
-    justify-content: center;
+    font-family: 'Oxygen', sans-serif;
+    margin: 0;
+    background: #f8f7f7;
+    scroll-behavior: smooth;
 
 }
 
@@ -10,8 +11,8 @@ body {
 
     .form-wrapper {
         width: 100% !important;
-        margin-right: 0 !important;
-        margin-left: 0 !important;
+        margin-right: 10px !important;
+        margin-left: 10px !important;
         border: none !important;
         background: transparent !important;
         min-height: initial !important;
@@ -19,37 +20,44 @@ body {
 
     .form-title-container{
         width: 100% !important;
-        border-radius: 0 !important;
-    }
-
-    .field-type-select {
-
-        width: 100% !important;
-
     }
 
     .std-textinput {
-        width: 100% !important;
+        width: 95% !important;
+        min-height: 5px !important;
     }
 
     .std-select {
-        width: 100% !important;
+        width: 95% !important;
+        min-height: 5px !important;
+    }
+
+    .std-textarea{
+
+        width: 95% !important;
+        min-height: 5px !important;
+
     }
 
 }
 
-.std-textinput {
-    width: 500px !important;
-}
+@media only screen and (min-width: 840px) {
+    .std-textinput {
+        width: 550px !important;
+        margin: 6px auto 30px auto;
+    }
 
-.std-select {
-    width: 500px !important;
-}
+    .std-select {
+        width: 550px !important;
+        margin: 6px auto 30px auto;
+    }
 
-.std-textarea {
-    min-width: initial !important;
-    width: 100% !important;
-    resize: none !important;
+    .std-textarea {
+        min-width: initial !important;
+        width: 550px !important;
+        resize: none !important;
+        margin: 6px auto 30px auto;
+    }
 }
 
 .swal-modal {
@@ -63,84 +71,55 @@ body {
 .submitparent {
 
     width: 100%;
-    padding-top: 40px;
+    padding-top: 20px;
     text-align: left;
-
-}
-
-.respondent-selector{
-
-    width: 800px;
-    border: 1px solid #d9d5d5;
-    margin-top: 250px;
-    background: ghostwhite;
-    height: 50px;
-    margin-bottom: 100px;
-    text-align: center;
-    position: absolute;
-
-}
-
-.std-blockcenter{
-
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 8px;
-    display: inline !important;
 
 }
 
 .form-wrapper{
 
-    /* TODO: Fix alignment later when using
-    width: 50%; */
-    width: 730px;
-    border: 1px solid #d9d5d5;
-    border-radius: 0px 0px 20px 20px;
-    margin-top: 300px;
-    background: snow;
-    margin-bottom: 100px;
-    padding: 40px 40px 30px 30px;
-    display: none;
-
+    width: 550px;
+    background: #f8f7f7;
+    padding-top: 50px;
+    font-family: sans-serif, 'Roboto';
+    margin: 30px auto 100px auto;
 }
 
 .form-title-container {
-
-    margin-top: 50px;
-    /* TODO: Fix alignment later when using
-    width: 50%; */
-    width: 800px;
-    height: 200px;
-    border-radius: 20px 20px 0px 0px;
-    background: #f1d4d4;
-    border: 1px solid #f1d4d4;
-    border-bottom: 1px solid pink;
-    position: absolute;
-
+    width: 100%;
+    background: #ffffff;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .form-title-hdg{
 
-    padding-left: 20px;
-    font-size: 100px;
-    margin-top: 100px;
-    position: relative;
+    padding: 20px;
+    font-size: 30px;
     bottom: 0;
-    padding-bottom: 0;
     display: block;
+    font-family: 'Oxygen', sans-serif;
 
 }
 
-#responded{
 
-    display: flex;
-    justify-content: center;
-    justify-items: center;
+.respondent-selector{
+
+    width: 800px;
+    background: #cccccf;
+    height: 55px;
     text-align: center;
-    height: 100%;
-    width: 100%;
-    align-items: center;
+    border-radius: 10px;
+    margin: 20px auto;
+
+}
+
+.std-blockcenter{
+
+    margin-top: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1px;
+    display: inline !important;
 
 }
 
@@ -153,6 +132,7 @@ body {
     border-radius: 20px;
     font-size: 30px;
     display: inline;
+    margin-top: 5px;
 
 }
 
@@ -167,7 +147,7 @@ body {
     border-radius: 20px;
     height: 30px;
     width: 100%;
-    background: #f3ebeb;
+    background: #e7e5e5;
     text-align: center;
     display: flex;
     align-items: center;
