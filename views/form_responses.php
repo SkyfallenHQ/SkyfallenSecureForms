@@ -38,10 +38,10 @@ function render_form_responses($form_id){
         <title><?php echo $form_object->getFormName(); ?></title>
         <?php link_std_inputs(); ?>
         <?php link_fa_icons(); ?>
-        <link href="<?php the_fileurl("static/css/form-responses.css?version=1"); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php the_fileurl("static/css/form-responses.css?version=2"); ?>" rel="stylesheet" type="text/css">
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
-        <script src="<?php the_fileurl("static/js/form-responses.js?version=1"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form-responses.js?version=2"); ?>"></script>
         <script>
             var current_form_id = "";
             var publicEncryptionKey = ""
@@ -56,9 +56,7 @@ function render_form_responses($form_id){
     </head>
 
     <body>
-        <div class="form-title-container">
-            <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
-        </div>
+
         <div class="respondent-selector">
             <button onclick="selectPrev()" class="nextprev-btn"><i class="fa fa-arrow-left"></i></button>
             <select class="std-select std-blockcenter" id="response-select">
@@ -72,6 +70,9 @@ function render_form_responses($form_id){
         </div>
         <?php foreach ($respondents as $respondent) { ?>
         <div class="form-wrapper" id="<?php echo $respondent ?>">
+            <div class="form-title-container">
+                <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
+            </div>
             <?php
 
             $enc_std = SSF_FormField::getResponse($form_id,"encryptionStandard",$respondent);
