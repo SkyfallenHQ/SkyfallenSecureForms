@@ -67,9 +67,17 @@ function handle_js_api($afterPrefix){
         case "setFormDisclaimer":
             $form_obj = new SSF_Form($_POST["form_id"]);
 
-            $new_disclaimer = strip_tags($_POST["new_disclaimer"],"<p></p><a></a><strong></strong><h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><ul></ul><li></li><style></style><tr></tr><table></table><thead></thead><tbody></tbody><td></td><ol></ol><div></div>");
+            $new_disclaimer = strip_tags($_POST["new_disclaimer"],"<p></p><a></a><strong></strong><h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><h6></h6><ul></ul><li></li><style></style><tr></tr><table></table><thead></thead><tbody></tbody><td></td><ol></ol><div></div>");
 
             $form_obj->saveLongMeta("FormDisclaimer",$new_disclaimer);
+            break;
+
+        case "setFormDescription":
+            $form_obj = new SSF_Form($_POST["form_id"]);
+
+            $new_description = strip_tags($_POST["new_description"],"<p></p><a></a><strong></strong><h1></h1><h2></h2><h3></h3><h4></h4><h5></h5><h6></h6><ul></ul><li></li><style></style><tr></tr><table></table><thead></thead><tbody></tbody><td></td><ol></ol><div></div>");
+
+            $form_obj->saveLongMeta("FormDescription",$new_description);
             break;
 
     }
