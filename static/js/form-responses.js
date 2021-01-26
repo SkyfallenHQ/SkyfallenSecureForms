@@ -6,7 +6,7 @@ $(document).ready(function () {
 
     });
 
-    document.getElementsByClassName("form-wrapper")[0].style.display = "initial";
+    document.getElementsByClassName("form-wrapper")[0].style.display = "block";
 
     $("#response-select").change(function () {
 
@@ -16,7 +16,7 @@ $(document).ready(function () {
 
         });
 
-        document.getElementById($("#response-select").val()).style.display = "initial";
+        document.getElementById($("#response-select").val()).style.display = "block";
     });
 
 })
@@ -31,7 +31,7 @@ function selectNext(){
 
         });
 
-        document.getElementById($("#response-select").val()).style.display = "initial";
+        document.getElementById($("#response-select").val()).style.display = "block";
     }
 }
 
@@ -45,6 +45,6 @@ function selectPrev(){
 
         });
 
-        document.getElementById($("#response-select").val()).style.display = "initial";
+        document.getElementById($("#response-select").val()).style.display = "block";
     }
 }
