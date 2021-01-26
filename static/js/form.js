@@ -95,9 +95,9 @@ function submitForm() {
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 $(document).ready(function () {
-                    document.getElementsByClassName("form-wrapper")[0].style.display = "none";
-                    document.getElementsByClassName("form-title-container")[0].style.display = "none";
                     document.getElementById("responded").style.display = "flex";
+                    document.getElementById("responded").scrollIntoView(true);
+                    document.getElementsByClassName("form-wrapper")[1].style.display = "none";
                 });
             }
         };
@@ -121,6 +121,6 @@ function binarifiy(input) {
 function read_Disclaimer(){
 
     document.getElementById("form-disclaimer").style.display = "none";
-    document.getElementById("form-wrapper").style.display = "initial";
+    document.getElementById("form-wrapper").style.display = "block";
 
 }
