@@ -1,17 +1,17 @@
 body {
 
-    display: flex;
-    justify-items: center;
-    justify-content: center;
+    font-family: 'Oxygen', sans-serif;
+    margin: 0;
+    background: #f8f7f7;
+    scroll-behavior: smooth;
 
 }
-
 @media only screen and (max-width: 840px){
 
     .form-wrapper {
         width: 100% !important;
-        margin-right: 0 !important;
-        margin-left: 0 !important;
+        margin-right: 10px !important;
+        margin-left: 10px !important;
         border: none !important;
         background: transparent !important;
         min-height: initial !important;
@@ -19,37 +19,44 @@ body {
 
     .form-title-container{
         width: 100% !important;
-        border-radius: 0 !important;
-    }
-
-    .field-type-select {
-
-        width: 100% !important;
-
     }
 
     .std-textinput {
-        width: 100% !important;
+        width: 95% !important;
+        min-height: 5px !important;
     }
 
     .std-select {
-        width: 100% !important;
+        width: 95% !important;
+        min-height: 5px !important;
+    }
+
+    .std-textarea{
+
+        width: 95% !important;
+        min-height: 5px !important;
+
     }
 
 }
 
-.std-textinput {
-    width: 500px !important;
-}
+@media only screen and (min-width: 840px) {
+    .std-textinput {
+        width: 550px !important;
+        margin: 6px auto 30px auto;
+    }
 
-.std-select {
-    width: 500px !important;
-}
+    .std-select {
+        width: 550px !important;
+        margin: 6px auto 30px auto;
+    }
 
-.std-textarea {
-    min-width: initial !important;
-    width: 100% !important;
-    resize: none !important;
+    .std-textarea {
+        min-width: initial !important;
+        width: 550px !important;
+        resize: none !important;
+        margin: 6px auto 30px auto;
+    }
 }
 
 .swal-modal {
@@ -63,50 +70,33 @@ body {
 .submitparent {
 
     width: 100%;
-    padding-top: 40px;
+    padding-top: 20px;
     text-align: left;
 
 }
 
 .form-wrapper{
 
-    /* TODO: Fix alignment later when using
-    width: 50%; */
-    width: 730px;
-    border: 1px solid #d9d5d5;
-    border-radius: 0px 0px 20px 20px;
-    margin-top: 250px;
-    background: snow;
-    margin-bottom: 100px;
-    padding: 40px 40px 30px 30px;
+    width: 550px;
+    background: #f8f7f7;
+    padding-top: 50px;
     font-family: sans-serif, 'Roboto';
-
+    margin: 30px auto 100px auto;
 }
 
 .form-title-container {
-
-    margin-top: 50px;
-    /* TODO: Fix alignment later when using
-    width: 50%; */
-    width: 800px;
-    height: 200px;
-    border-radius: 20px 20px 0px 0px;
-    background: #f1d4d4;
-    border: 1px solid #f1d4d4;
-    border-bottom: 1px solid pink;
-    position: absolute;
-
+    width: 100%;
+    background: #ffffff;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .form-title-hdg{
 
-    padding-left: 20px;
-    font-size: 100px;
-    margin-top: 100px;
-    position: relative;
+    padding: 20px 20px 5px;
+    font-size: 30px;
     bottom: 0;
-    padding-bottom: 0;
     display: block;
+    font-family: 'Oxygen', sans-serif;
 
 }
 
@@ -132,5 +122,46 @@ body {
 .hidden {
 
     display: none;
+
+}
+
+.form-footer{
+
+    background: #ffffff;
+    height: 150px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+}
+
+.footer-logo {
+
+    height: 75px;
+
+}
+
+.form-description{
+
+    font-family: Oxygen;
+    margin: 20px;
+    line-height: 20px;
+    padding-bottom: 20px;
+
+}
+
+a {
+
+    color: #205ef5;
+    font-weight: bold;
+
+}
+
+a:visited {
+
+    color: #205ef5;
+    font-weight: bold;
 
 }
