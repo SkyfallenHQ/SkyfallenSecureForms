@@ -26,7 +26,29 @@ function preparePreviousField(field_id){
         helper: "self",
         revert: "invalid",
         containment: 'parent',
+        axis: "y",
     });
+
+    if($("#"+field_id + "-typeselect").val()){
+
+        $("#"+field_id + "-dropdown-objects").change(function() {
+            var dropdown_objects = $("#"+field_id + "-dropdown-objects").val().split("\n");
+
+            var select_html = "<select class=\"std-select\" id=\""+field_id+"-previewinput"+"\">";
+
+            dropdown_objects.forEach(function (item,index) {
+
+                select_html = select_html + "<option value='"+index+"'>"+item+"</option>";
+
+            });
+
+            select_html = select_html+"</select>";
+
+            $("#"+field_id+"-previewinput").replaceWith(select_html);
+
+        });
+
+    }
 
     $(function(ready) {
         $("#"+field_id + "-labelset").change(function() {
@@ -89,10 +111,11 @@ function add_new_field(){
         "                        <option value='textarea'>Textarea</option>\n" +
         "                        <option value='dropdown'>Dropdown</option>\n" +
         "                    </select>\n" +
-        "                    <div class=\"text-right\">\n" +
-        "                            <label class=\"isrequiredlabel\" for=\""+field_id+"-isrequired\">Is Required?</label>\n" +
-        "                            <input type=\"checkbox\" id=\""+field_id+"-isrequired\" class=\"std-checkbox\">\n" +
-        "                    </div>"+
+        "                    <label class=\"std-checkbox-container\">\n" +
+        "                         Mark this field as required.\n" +
+        "                         <input type=\"checkbox\" id=\"<?php echo $formFieldID; ?>-isrequired\" class=\"std-checkbox\">\n" +
+        "                         <span class=\"checkmark\"></span>\n" +
+        "                    </label>\n" +
         "                </div>\n" +
         "                <p class=\"preview-label-explanation\">Preview: <button class='trash-field' onclick=\"deleteField('"+field_id+"')\"><i class='fa fa-trash'></i></button></p>\n" +
         "                <hr>\n" +
@@ -212,6 +235,7 @@ function saveForm(){
                     Http2.onreadystatechange = (e) => {
                         console.log("API RESPONSE RECEIVED:"+Http2.responseText);
                         if(Http2.responseText.includes("{\"status\":\"OK\"}")){
+                            saveFormDescription()
                             swal("Saved Successfully.");
                         }
 
@@ -363,5 +387,16 @@ function save_Enc_Std(){
     const url=web_url+"jsapi/setEncryptionStandard?form_id="+current_form_id+"&newStandard="+$("#encryption-select").val();
     Http.open("GET", url);
     Http.send();
+
+}
+
+function saveFormDescription(){
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", web_url+"jsapi/setFormDescription", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    var post_params = "form_id="+current_form_id+"&new_description="+$("#form-description-setting").val();
+
+    xhttp.send(post_params);
 
 }
