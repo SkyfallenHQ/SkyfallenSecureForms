@@ -25,6 +25,7 @@ function render_dashboard(){
         <link rel="stylesheet" type="text/css" href="<?php the_fileurl("static/css/dash.css?version=1"); ?>">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
         <?php link_fa_icons(); ?>
     </head>
 
@@ -123,6 +124,7 @@ function render_page_new_form(){
         <?php link_std_inputs(); ?>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
     </head>
 
 
@@ -151,8 +153,8 @@ function render_page_new_form(){
         ?>
         <form id="create-new-form-fields-data" method="post">
             <?php $new_form_csrf->put(); ?>
-            <label class="std-label" for="new-form-name-input">Name of the form:</label>
-            <input type="text" class="std-textinput" name="new_form_name" id="new-form-name-input">
+            <label class="std-label" for="new-form-name-input" style="font-family: sans-serif;">Name of the form:</label>
+            <input type="text" class="std-textinput" name="new_form_name" id="new-form-name-input" style="width: 400px;">
 
             <select class="std-select" name="form_visibility">
                 <option value="link_only" selected>Link Only</option>
@@ -236,7 +238,7 @@ function render_page_delete_form($afterPrefix){
         ?>
         <form id="create-new-form-fields-data" method="post">
             <?php $new_form_csrf->put(); ?>
-            <h3 class="std-label">Are you sure that you'd like to delete this form?</h3>
+            <h3 class="std-label" style="font-family: sans-serif;">Are you sure that you'd like to delete this form?</h3>
 
             <input type="submit" class="std-inputsubmit" id="submit-new-form" value="No" name="confirmNo" style="margin-top: 10px;">
             <input type="submit" class="std-inputsubmit" id="submit-new-form" value="Yes" name="confirmYes" style="margin-top: 10px;">
