@@ -39,9 +39,10 @@ function render_form_editor($form_id){
         <title>Edit SecureForm: <?php echo $form_object->getFormName(); ?></title>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
         <?php link_std_inputs(); ?>
         <?php link_fa_icons(); ?>
-        <link type="text/css" rel="stylesheet" href="<?php the_fileurl("static/css/form-editor.css?version=1"); ?>">
+        <link type="text/css" rel="stylesheet" href="<?php the_fileurl("static/css/form-editor.css?version=3"); ?>">
         <script defer>
             const web_url = '<?php the_weburl(); ?>';
             const current_form_id = '<?php echo $form_id; ?>';
@@ -49,7 +50,7 @@ function render_form_editor($form_id){
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/jquery-ui.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
-        <script src="<?php the_fileurl("static/js/form-editor.js?version=1"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form-editor.js?version=2"); ?>"></script>
         <?php
 
         $currentFormFields = SSF_FormField::listFields($form_id);
@@ -64,7 +65,7 @@ function render_form_editor($form_id){
 
                 foreach ($currentFormFields as $formFieldID) {
 
-                    echo "preparePreviousField('".$formFieldID."');";
+                    echo "preparePreviousField('".$formFieldID."'); \n";
 
                 }
 
@@ -153,6 +154,7 @@ function render_form_editor($form_id){
         </div>
         <div class="form-title-container">
             <h1 class="form-title-hdg" id="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
+            <textarea id="form-description-setting" class="std-textarea" placeholder="Form Description, HTML Allowed" style="margin-left: 10px; margin: auto; width: 620px !important; height: 100px !important; min-height: 0px !important; margin-bottom: 20px !important;"><?php echo $form_object->getLongMeta("FormDescription"); ?></textarea>
         </div>
         <div class="editor-wrapper">
             <?php
@@ -174,15 +176,17 @@ function render_form_editor($form_id){
                                         <option value='textarea'>Textarea</option>
                                         <option value='dropdown'>Dropdown</option>
                                     </select>
-                                    <div class="text-right">
-                                        <label class="isrequiredlabel" for="<?php echo $formFieldID; ?>-isrequired">Is Required?</label>
+                                    <label class="std-checkbox-container">
+                                        Mark this field as required
                                         <input type="checkbox" id="<?php echo $formFieldID; ?>-isrequired" class="std-checkbox" <?php $formField->getRequiredChecked(); ?>>
-                                    </div>
+                                        <span class="checkmark"></span>
+                                    </label>
                                 </div>
-                                <p class="preview-label-explanation">Preview:
-                                    <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button></p>
-                                <hr>
-                                <div class="field-preview-selector">
+                                <p class="preview-label-explanation">
+                                    <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button>
+                                </p>
+                                <hr id="<?php echo $formFieldID; ?>-hrdivider">
+                                <div class="field-preview-selector" id="<?php echo $formFieldID; ?>-previewselector">
                                     <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
                                     <input class="std-textinput" type="text" id="<?php echo $formFieldID; ?>-previewinput">
                                 </div>
@@ -201,14 +205,17 @@ function render_form_editor($form_id){
                                         <option value='textarea' selected>Textarea</option>
                                         <option value='dropdown'>Dropdown</option>
                                     </select>
-                                    <div class="text-right">
-                                        <label class="isrequiredlabel" for="<?php echo $formFieldID; ?>-isrequired">Is Required?</label>
+                                    <label class="std-checkbox-container">
+                                        Mark this field as required
                                         <input type="checkbox" id="<?php echo $formFieldID; ?>-isrequired" class="std-checkbox" <?php $formField->getRequiredChecked(); ?>>
-                                    </div>
+                                        <span class="checkmark"></span>
+                                    </label>
                                 </div>
-                                <p class="preview-label-explanation">Preview: <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button></p>
-                                <hr>
-                                <div class="field-preview-selector">
+                                <p class="preview-label-explanation">
+                                    <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button>
+                                </p>
+                                <hr id="<?php echo $formFieldID; ?>-hrdivider">
+                                <div class="field-preview-selector" id="<?php echo $formFieldID; ?>-previewselector">
                                     <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
                                     <textarea class="std-textarea" id="<?php echo $formFieldID; ?>-previewinput"></textarea>
                                 </div>
@@ -227,16 +234,19 @@ function render_form_editor($form_id){
                                         <option value='textarea'>Textarea</option>
                                         <option value='dropdown' selected>Dropdown</option>
                                     </select>
-                                    <div class="text-right">
-                                        <label class="isrequiredlabel" for="<?php echo $formFieldID; ?>-isrequired">Is Required?</label>
+                                    <label class="std-checkbox-container">
+                                        Mark this field as required
                                         <input type="checkbox" id="<?php echo $formFieldID; ?>-isrequired" class="std-checkbox" <?php $formField->getRequiredChecked(); ?>>
-                                    </div>
+                                        <span class="checkmark"></span>
+                                    </label>
                                     <label for="<?php echo $formFieldID; ?>-dropdown-objects" id="<?php echo $formFieldID; ?>-dropdown-objects-label" class="std-label" style="color: white;">Dropdown Options:</label>
                                     <textarea class="std-textarea" style="width: 550px; height: 100px; resize: none;" placeholder="Seperated by a line break" id="<?php echo $formFieldID; ?>-dropdown-objects"><?php echo $formField->field_options; ?></textarea>
                                 </div>
-                                <p class="preview-label-explanation">Preview: <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button></p>
-                                <hr>
-                                <div class="field-preview-selector">
+                                <p class="preview-label-explanation">
+                                    <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button>
+                                </p>
+                                <hr id="<?php echo $formFieldID; ?>-hrdivider">
+                                <div class="field-preview-selector" id="<?php echo $formFieldID; ?>-previewselector">
                                     <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
                                     <select id="<?php echo $formFieldID; ?>-previewinput" class="std-select">
                                         <?php
