@@ -221,12 +221,9 @@ hr {
     height: 40px;
     width: 40px;
     color: #000000;
-    font-size: 25px;
+    font-size: 20px;
     padding: 0;
-    float: right;
     display: inline;
-    margin-top: -22.5px;
-    margin-right: 20px;
 
 }
 
@@ -298,7 +295,7 @@ hr {
     margin-left: -400px;
     z-index: 200;
     background: #e5e2e2;
-    border-radius: 20px;
+    border-radius: 5px;
     display: none;
 
 }
@@ -378,5 +375,97 @@ hr {
     width: 100%;
     margin-top: -50px;
     position: fixed;
+
+}
+
+.field-wrap{
+
+    /* border: 2px solid #ecebeb; */
+    border-radius: 5px;
+    margin-bottom: 20px;
+
+}
+
+.field-wrap:hover{
+
+    background: #f3f1f1;
+
+}
+
+.field-wrap.focused{
+
+    background: #f3f1f1;
+
+}
+
+.floatright {
+
+    float: right;
+    margin-top: 15px;
+    margin-right: 10px;
+
+}
+
+.field-top-wrap{
+
+    border-bottom: 2px solid #ecebeb;
+    width: 100%;
+    height: 50px;
+
+}
+
+.field-type-select-alt{
+
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 150px;
+    display: inline-block;
+
+}
+
+.field-labelset{
+
+    width: 250px;
+    margin-bottom: 5px;
+    margin-top: 30px;
+
+}
+
+.field-preview-wrap{
+
+    padding: 10px;
+
+}
+
+.field-wrap.ui-sortable-helper{
+
+    box-shadow: 1px 1px 1px 1px #cfc9c9;
+
+}
+
+.field-bottom-wrap {
+
+    border-top: 2px solid #ecebeb;
+    width: 100%;
+    height: 150px;
+
+}
+
+.form-drop-objs{
+
+    margin-top: 5px;
+    margin-left: 10px;
+    width: 650px;
+    height: 100px;
+    resize: none;
+    min-height: 0px !important;
+
+}
+
+
+.required-label::after{
+
+    content: "*";
+    color: red;
 
 }
