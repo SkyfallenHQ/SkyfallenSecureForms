@@ -108,7 +108,7 @@
 }
 
 .std-checkbox-container {
-    display: block;
+    display: inline-block;
     position: relative;
     padding-left: 24px;
     margin-bottom: 12px;
@@ -159,7 +159,7 @@
 
 /* Show the checkmark when checked */
 .std-checkbox-container input:checked ~ .checkmark:after {
-    display: block;
+    display: inline-block;
 }
 
 /* Style the checkmark/indicator */
