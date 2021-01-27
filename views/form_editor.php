@@ -42,7 +42,7 @@ function render_form_editor($form_id){
         <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
         <?php link_std_inputs(); ?>
         <?php link_fa_icons(); ?>
-        <link type="text/css" rel="stylesheet" href="<?php the_fileurl("static/css/form-editor.css?version=6"); ?>">
+        <link type="text/css" rel="stylesheet" href="<?php the_fileurl("static/css/form-editor.css?version=7"); ?>">
         <script defer>
             const web_url = '<?php the_weburl(); ?>';
             const current_form_id = '<?php echo $form_id; ?>';
@@ -50,7 +50,7 @@ function render_form_editor($form_id){
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/jquery-ui.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
-        <script src="<?php the_fileurl("static/js/form-editor.js?revision=5"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form-editor.js?revision=6"); ?>"></script>
         <?php
 
         $currentFormFields = SSF_FormField::listFields($form_id);
@@ -96,10 +96,10 @@ function render_form_editor($form_id){
 
         </style>
         </noscript>
-
+        <div class="bgblurred">
         <div class="settings-modal">
             <div class="modal-top">
-                <div class="close-modal"><i onclick="closeSettingsModal()" class="fa fa-window-close"></i></div>
+                <div class="close-modal"><i onclick="closeSettingsModal()" class="fa fa-times"></i></div>
             </div>
             <div class="modal-tabs">
                 <div class="modal-tab">
@@ -141,7 +141,7 @@ function render_form_editor($form_id){
                 </div>
             </div>
         </div>
-
+        </div>
         <div class="hovering-controls">
             <button class="hover-ctrl-btn" onclick="add_new_field()">
                 <i class="fa fa-plus-circle"></i>
