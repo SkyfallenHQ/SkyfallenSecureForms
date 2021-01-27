@@ -50,7 +50,7 @@ function render_form_editor($form_id){
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/jquery-ui.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
-        <script src="<?php the_fileurl("static/js/form-editor.js?version=2"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form-editor.js?version=3"); ?>"></script>
         <?php
 
         $currentFormFields = SSF_FormField::listFields($form_id);
@@ -114,6 +114,15 @@ function render_form_editor($form_id){
                     <input class="std-textinput" placeholder="Form Name" id="settings_form_name" value="<?php echo $form_object->getFormName(); ?>">
                     <label for="form-disclaimer-setting" class="std-label">Form Disclaimer:</label>
                     <textarea class="std-textarea" placeholder="Form Disclaimer, HTML Allowed" id="form-disclaimer-setting" style="max-width: 580px; max-height: 350px;"><?php echo $form_object->getLongMeta("FormDisclaimer"); ?></textarea>
+                    <label for="settings_form_name" class="std-label">Form Style:</label>
+                    <select class="std-select" id="style-select">
+                        <?php
+
+                        $formStyle = $form_object->getKeyValue("FormStyle");
+                        ?>
+                        <option value="Style1" <?php if($formStyle == "Style1"){ echo "selected"; } ?>>Style 1</option>
+                        <option value="Style2" <?php if($formStyle == "Style2"){ echo "selected"; } ?>>Style 2</option>
+                    </select>
                     <input class="std-inputsubmit" type="submit" value="Save" onclick="save_General_Settings()">
                 </div>
                 <div class="modal-tab-each" id="modal-tab-data-security">
