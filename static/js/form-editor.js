@@ -369,14 +369,9 @@ function showSettingsModal(){
     if($(window).width()>799) {
 
         $(".settings-modal")[0].style.display = "block";
+        $(".bgblurred")[0].style.display = "block";
 
         switchToModalTab('general');
-
-        window.onclick = function(event) {
-            if (event.target == $(".settings-modal")[0]) {
-                $(".settings-modal")[0].style.display = "none";
-            }
-        }
 
     } else {
 
@@ -389,6 +384,7 @@ function showSettingsModal(){
 function closeSettingsModal(){
 
     $(".settings-modal")[0].style.display = "none";
+    $(".bgblurred")[0].style.display = "none";
     document.body.style.pointerEvents = "initial";
 
 }
