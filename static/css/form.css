@@ -85,9 +85,11 @@ body {
 }
 
 .form-title-container {
-    width: 100%;
+    width: 550px;
     background: #ffffff;
     border-radius: 10px 10px 0px 0px;
+    margin: auto;
+
 }
 
 .form-title-hdg{
@@ -146,9 +148,15 @@ body {
 .form-description{
 
     font-family: Oxygen;
-    margin: 20px;
     line-height: 20px;
     padding-bottom: 20px;
+
+}
+
+.description-alt{
+
+    padding-left: 20px;
+    padding-right: 20px;
 
 }
 
@@ -163,5 +171,25 @@ a:visited {
 
     color: #205ef5;
     font-weight: bold;
+
+}
+
+.form-title-wrapper{
+
+    width: 100%;
+    background: white;
+    padding-top: 30px;
+
+}
+
+.form-title-hdg.form-hdg-alt{
+
+    padding-left: 0px !important;
+
+}
+
+.title-container-alt{
+
+    margin-bottom: 20px;
 
 }
