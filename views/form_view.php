@@ -45,12 +45,19 @@ function render_form($form_id){
 
     }
 
+     $fStyle = $form_object->getKeyValue("FormStyle");
+
+    if(!$fStyle){
+        $form_object->setKey("FormStyle","Style1");
+    }
+
     ?>
     <html>
     <head>
         <title><?php echo $form_object->getFormName(); ?></title>
         <?php link_std_inputs(); ?>
-        <link href="<?php the_fileurl("static/css/form.css?version=4"); ?>" rel="stylesheet" type="text/css">
+        <?php link_fa_icons(); ?>
+        <link href="<?php the_fileurl("static/css/form.css?version=5"); ?>" rel="stylesheet" type="text/css">
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/forge.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
@@ -184,6 +191,49 @@ function render_form($form_id){
             </div>
         </div>
 
+        <div class="encr-exp" id="encr-exp">
+            <p class="branding-corner">SkyfallenSecureForms</p>
+            <p class="smalltext">
+            <?php
+                switch($encryption_Standard){
+
+                    case "RSA_ONLY":
+                        echo "This form uses RSA Encryption. <br> Your response will be sent over to the server securely, but your answers can not be longer than 200 characters. <br> Only the form owner's Private Key can decrypt your responses.";
+                        break;
+
+                    case "RSA_PLUS_AES":
+                        echo "This form uses 256-Bit AES Encryption. <br> Your response will be sent over to the server securely. <br> Only the form owner's Private Key can decrypt your AES Key and IV.";
+                        break;
+
+                    case "DISABLED":
+                        echo "This form is not encrypted, but it may still be secure if you are using HTTPS. <br> Please ask your form owner to enable encryption on this form.";
+                        break;
+
+                    default:
+                        echo "Corrupted Encryption Meta;";
+                        break;
+
+                }
+            ?>
+            </p>
+        </div>
+
+        <div class="padlock-corner" onclick="toggleEncryptionExplainer()" aria-label="For Nerds">
+            <?php
+            switch($encryption_Standard){
+
+                case "RSA_ONLY":
+                case "RSA_PLUS_AES":
+                    echo "<i class='fa fa-lock'></i>";
+                break;
+
+                default:
+                    echo "<i class='fa fa-lock-open'></i>";
+                    break;
+
+            }
+            ?>
+        </div>
     <div id="responded" style="display: none;">
         <h2 style="font-family: sans-serif, 'Roboto'; ">Your response was saved.</h2>
     </div>
