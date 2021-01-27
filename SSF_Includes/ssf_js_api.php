@@ -80,6 +80,12 @@ function handle_js_api($afterPrefix){
             $form_obj->saveLongMeta("FormDescription",$new_description);
             break;
 
+        case "setFormStyle":
+            $form_obj = new SSF_Form($_POST["form_id"]);
+
+            $form_obj->setKey("FormStyle",$_POST["new_style"]);
+            break;
+
     }
 
     echo json_encode($retJSON);
