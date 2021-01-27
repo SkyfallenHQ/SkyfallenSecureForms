@@ -50,11 +50,11 @@ function render_form($form_id){
     <head>
         <title><?php echo $form_object->getFormName(); ?></title>
         <?php link_std_inputs(); ?>
-        <link href="<?php the_fileurl("static/css/form.css?version=3"); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php the_fileurl("static/css/form.css?version=4"); ?>" rel="stylesheet" type="text/css">
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/forge.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
-        <script src="<?php the_fileurl("static/js/form.js?version=3"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form.js?version=4"); ?>"></script>
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
 
@@ -89,14 +89,25 @@ function render_form($form_id){
     <textarea id="aes_key" hidden></textarea>
     <textarea id="aes_iv" hidden></textarea>
         <?php
+        if($form_object->getKeyValue("FormStyle") == "Style1"){ ?>
+        <div id="form-title-wrapper" class="form-title-wrapper">
+            <div class="form-title-container">
+                <h1 class="form-title-hdg form-hdg-alt"><?php echo $form_object->getFormName(); ?></h1>
+                <div class="form-description"><?php echo $form_object->getLongMeta("FormDescription"); ?></div>
+            </div>
+        </div>
+        <?php }
 
         if(trim($form_object->getLongMeta("FormDisclaimer")) != ""){
 
             ?>
             <div class="form-wrapper" id="form-disclaimer" style="font-family: Oxygen;">
-                <div class="form-title-container">
-                    <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
-                </div>
+                <?php if($form_object->getKeyValue("FormStyle") == "Style2"){ ?>
+                    <div class="form-title-container title-container-alt">
+                        <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
+                        <div class="form-description description-alt"><?php echo $form_object->getLongMeta("FormDescription"); ?></div>
+                    </div>
+                <?php }?>
                 <?php echo $form_object->getLongMeta("FormDisclaimer"); ?>
 
                 <div style="margin-top: 30px;">
@@ -107,11 +118,14 @@ function render_form($form_id){
 
         }
         ?>
+
         <div class="form-wrapper <?php echo $disclaimerClass; ?>" id="form-wrapper">
-            <div class="form-title-container">
-                <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
-                <div class="form-description"><?php echo $form_object->getLongMeta("FormDescription"); ?></div>
-            </div>
+        <?php if($form_object->getKeyValue("FormStyle") == "Style2"){ ?>
+        <div class="form-title-container title-container-alt">
+            <h1 class="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
+            <div class="form-description description-alt"><?php echo $form_object->getLongMeta("FormDescription"); ?></div>
+        </div>
+        <?php }?>
             <?php
             foreach ($currentFormFields as $formFieldID) {
 
