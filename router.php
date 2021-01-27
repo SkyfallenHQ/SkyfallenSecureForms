@@ -49,6 +49,10 @@ SSF_Router::routePage("respond","handle_respond_api");
 include_once SSF_ABSPATH."/views/updates_page.php";
 SSF_Router::routePage("updates","render_updates_page",true,"redirect_to_login");
 
+// Redirects for the Excel Export
+include_once SSF_ABSPATH."/SSF_Includes/excelExport.php";
+SSF_Router::routePrefix("forms/exportResponses","exportExcel",true,true,"redirect_to_login");
+
 // If nothing was routed, display 404
 if(!defined("ROUTED")){
 
