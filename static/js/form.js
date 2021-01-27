@@ -124,3 +124,17 @@ function read_Disclaimer(){
     document.getElementById("form-wrapper").style.display = "block";
 
 }
+
+function toggleEncryptionExplainer(){
+
+    if(document.getElementById("encr-exp").style.display == "block"){
+
+        document.getElementById("encr-exp").style.display = "none";
+
+    } else {
+
+        document.getElementById("encr-exp").style.display = "block";
+
+    }
+
+}
