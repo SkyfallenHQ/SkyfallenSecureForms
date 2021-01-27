@@ -61,6 +61,7 @@
     border-radius: 5px;
     line-height: 30px;
     font-weight: 100;
+    -webkit-appearance: none;
 }
 
 .std-inputsubmit:hover{
