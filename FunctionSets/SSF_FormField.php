@@ -274,15 +274,36 @@ class SSF_FormField
     }
 
     /**
+     * Deletes a response for a given form and respondent id
+     * @param String $form_id Form ID
+     * @param String $respondent_id Respondent ID
+     */
+    public static function deleteResponse($form_id, $respondent_id){
+
+        global $connection;
+
+        $stmt = $connection->stmt_init();
+
+        $stmt->prepare("DELETE FROM ssf_responses WHERE ssf_form_id=? and ssf_respondent_id=?");
+
+        $stmt->bind_param("ss",$form_id, $respondent_id);
+
+        $stmt->execute();
+
+    }
+
+    /**
      * Deletes a key from a form's field's meta
      * @param String $keyname Name of the meta key to delete
      */
     public function deleteKey($keyname){
+
         global $connection;
         $stmt = $connection->stmt_init();
         $stmt->prepare("DELETE FROM ssf_key_meta WHERE keyid=? AND meta=?");
         $stmt->bind_param("ss",$this->field_id,$keyname);
         $stmt->execute();
+
     }
 
     /**
