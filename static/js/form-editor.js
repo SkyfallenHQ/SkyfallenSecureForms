@@ -478,22 +478,22 @@ function swapEditPreview(event,field_id){
         return;
     }
 
-    $(".field-wrap").each( function (index,elm) {
-
-        if(document.getElementById(elm.id+"-topwrap").style.display == "block") {
-
-            document.getElementById(elm.id+"-bottomwrap").style.display = "none";
-            document.getElementById(elm.id+"-topwrap").style.display = "none";
-            var fieldElement = document.getElementById(elm.id);
-            fieldElement.classList.remove("focused");
-            document.getElementById(elm.id+"-labelset").style.display = "none";
-            document.getElementById(elm.id+"-previewlabel").style.display = "block";
-
-        }
-
-    })
-
     if(document.getElementById(field_id+"-topwrap").style.display == "block"){
+
+        $(".field-wrap").each( function (index,elm) {
+
+            if(document.getElementById(elm.id+"-topwrap").style.display == "block") {
+
+                document.getElementById(elm.id+"-bottomwrap").style.display = "none";
+                document.getElementById(elm.id+"-topwrap").style.display = "none";
+                var fieldElement = document.getElementById(elm.id);
+                fieldElement.classList.remove("focused");
+                document.getElementById(elm.id+"-labelset").style.display = "none";
+                document.getElementById(elm.id+"-previewlabel").style.display = "block";
+
+            }
+
+        })
 
         document.getElementById(field_id+"-bottomwrap").style.display = "none";
         document.getElementById(field_id+"-topwrap").style.display = "none";
