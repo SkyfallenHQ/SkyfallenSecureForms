@@ -378,6 +378,17 @@ function save_General_Settings(){
 
     xhttp.send(post_params);
 
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", web_url+"jsapi/setFormStyle", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    var post_params = "form_id="+current_form_id+"&new_style="+$("#style-select").val();
+
+    xhttp.send(post_params);
+
+    xhttp.onreadystatechange = (e) => {
+        console.log(xhttp.response)
+    };
+
 }
 
 function save_Enc_Std(){
