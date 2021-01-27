@@ -38,10 +38,10 @@ function render_form_responses($form_id){
         <title><?php echo $form_object->getFormName(); ?></title>
         <?php link_std_inputs(); ?>
         <?php link_fa_icons(); ?>
-        <link href="<?php the_fileurl("static/css/form-responses.css?version=2"); ?>" rel="stylesheet" type="text/css">
+        <link href="<?php the_fileurl("static/css/form-responses.css?version=3"); ?>" rel="stylesheet" type="text/css">
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
-        <script src="<?php the_fileurl("static/js/form-responses.js?version=2"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form-responses.js?version=3"); ?>"></script>
         <script>
             var current_form_id = "";
             var publicEncryptionKey = ""
@@ -59,14 +59,16 @@ function render_form_responses($form_id){
 
         <div class="respondent-selector">
             <button onclick="selectPrev()" class="nextprev-btn"><i class="fa fa-arrow-left"></i></button>
+            <button onclick="deleteResponse()" class="nextprev-btn"><i class="fa fa-trash"></i></button>
+            <button onclick="exportExcel()" class="nextprev-btn"><i class="fa fa-file-export"></i></button>
+            <button onclick="selectNext()" class="nextprev-btn"><i class="fa fa-arrow-right"></i></button> <br>
             <select class="std-select std-blockcenter" id="response-select">
                 <?php
                 foreach ($respondents as $respondent) {
-                    echo "<option>".$respondent."</option>";
+                    echo "<option value='".$respondent."'>".$respondent."</option>";
                 }
                 ?>
             </select>
-            <button onclick="selectNext()" class="nextprev-btn"><i class="fa fa-arrow-right"></i></button>
         </div>
         <?php foreach ($respondents as $respondent) { ?>
         <div class="form-wrapper" id="<?php echo $respondent ?>">
@@ -94,11 +96,11 @@ function render_form_responses($form_id){
                     switch ($enc_std){
 
                         case "RSA_ONLY":
-                            echo "All fields were RSA encrypted.";
+                            echo "RSA Encryption";
                             break;
 
                         case "RSA_PLUS_AES":
-                            echo "AES Encryption was used to encrypt the fields. The AES Key was decrypted using your RSA Key.";
+                            echo "256-bit AES Encryption";
                             break;
 
                         case "DISABLED":
@@ -170,6 +172,7 @@ function render_form_responses($form_id){
                         <select id="<?php echo $formFieldID; ?>-previewinput" class="std-select formfield" disabled>
                             <option><?php
                                 $optionIndex = $field_response;
+                                $optionIndex = intval(trim($optionIndex));
                                 $field_Object = new SSF_FormField($formFieldID);
                                 $field_Options = explode("\n",$field_Object->field_options);
                                 echo $field_Options[$optionIndex-1];
@@ -186,6 +189,9 @@ function render_form_responses($form_id){
             ?>
         </div>
         <?php } ?>
+        <div class="exporting-notification" style="display: none;">
+            <p class="exporting-notification-text">Exporting...</p>
+        </div>
     </body>
     </html>
 <?php
