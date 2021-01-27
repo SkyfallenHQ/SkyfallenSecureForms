@@ -9,7 +9,7 @@
 /***********************************************************************************/
 
 // Check if we are called from the main process
-defined("SSF_ABSPATH") or die("Screw It!");
+defined("SSF_ABSPATH") or die("Oh no!");
 
 /**
  * Handles JS API Requests
@@ -84,6 +84,10 @@ function handle_js_api($afterPrefix){
             $form_obj = new SSF_Form($_POST["form_id"]);
 
             $form_obj->setKey("FormStyle",$_POST["new_style"]);
+            break;
+
+        case "deleteResponse":
+            SSF_FormField::deleteResponse($_POST["form_id"],$_POST["respondent_id"]);
             break;
 
     }
