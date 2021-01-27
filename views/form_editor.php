@@ -42,7 +42,7 @@ function render_form_editor($form_id){
         <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
         <?php link_std_inputs(); ?>
         <?php link_fa_icons(); ?>
-        <link type="text/css" rel="stylesheet" href="<?php the_fileurl("static/css/form-editor.css?version=3"); ?>">
+        <link type="text/css" rel="stylesheet" href="<?php the_fileurl("static/css/form-editor.css?version=5"); ?>">
         <script defer>
             const web_url = '<?php the_weburl(); ?>';
             const current_form_id = '<?php echo $form_id; ?>';
@@ -50,7 +50,7 @@ function render_form_editor($form_id){
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/jquery-ui.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
-        <script src="<?php the_fileurl("static/js/form-editor.js?version=3"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form-editor.js?revision=4"); ?>"></script>
         <?php
 
         $currentFormFields = SSF_FormField::listFields($form_id);
@@ -66,6 +66,7 @@ function render_form_editor($form_id){
                 foreach ($currentFormFields as $formFieldID) {
 
                     echo "preparePreviousField('".$formFieldID."'); \n";
+                    echo "fieldDoubleInitialise('".$formFieldID."'); \n";
 
                 }
 
@@ -161,11 +162,12 @@ function render_form_editor($form_id){
                 <i class="fa fa-clipboard"></i>
             </button>
         </div>
-        <div class="form-title-container">
+        <div class="form-title-container" onclick="toggleDescription(event)">
             <h1 class="form-title-hdg" id="form-title-hdg"><?php echo $form_object->getFormName(); ?></h1>
-            <textarea id="form-description-setting" class="std-textarea" placeholder="Form Description, HTML Allowed" style="margin-left: 10px; margin: auto; width: 620px !important; height: 100px !important; min-height: 0px !important; margin-bottom: 20px !important;"><?php echo $form_object->getLongMeta("FormDescription"); ?></textarea>
+            <textarea id="form-description-setting" class="std-textarea" placeholder="Form Description, HTML Allowed" style="margin-left: 10px; margin: auto; width: 620px !important; height: 100px !important; min-height: 0px !important; margin-bottom: 20px !important; display: none;"><?php echo $form_object->getLongMeta("FormDescription"); ?></textarea>
         </div>
         <div class="editor-wrapper">
+
             <?php
 
                 foreach ($currentFormFields as $formFieldID){
@@ -175,106 +177,102 @@ function render_form_editor($form_id){
                     switch ($formField->field_type) {
 
                         case "textinput":
-                        ?>
-                            <div class="field-container" id='<?php echo $formFieldID; ?>'>
-                                <div class="field-label-selector" id='<?php echo $formFieldID; ?>-labelselector'>
-                                    <label for='<?php echo $formFieldID; ?>-labelset' class="std-label field-label-domlabel">Field Label:</label>
-                                    <input class="std-textinput field-label-input" type="text" id='<?php echo $formFieldID; ?>-labelset' placeholder="Field Label" value="<?php echo $formField->field_name; ?>">
-                                    <select class="std-select field-type-select" id='<?php echo $formFieldID; ?>-typeselect'>
+
+                            ?>
+
+                            <div class="field-wrap" id="<?php echo $formFieldID; ?>" onclick="swapEditPreview(event,'<?php echo $formFieldID; ?>')">
+                                <div class="field-top-wrap" id="<?php echo $formFieldID; ?>-topwrap">
+                                    <select class="std-select field-type-select-alt" id='<?php echo $formFieldID; ?>-typeselect'>
                                         <option value='textinput' selected>Text Input</option>
                                         <option value='textarea'>Textarea</option>
                                         <option value='dropdown'>Dropdown</option>
                                     </select>
-                                    <label class="std-checkbox-container">
+                                    <label class="std-checkbox-container floatright">
                                         Mark this field as required
                                         <input type="checkbox" id="<?php echo $formFieldID; ?>-isrequired" class="std-checkbox" <?php $formField->getRequiredChecked(); ?>>
                                         <span class="checkmark"></span>
                                     </label>
-                                </div>
-                                <p class="preview-label-explanation">
                                     <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button>
-                                </p>
-                                <hr id="<?php echo $formFieldID; ?>-hrdivider">
-                                <div class="field-preview-selector" id="<?php echo $formFieldID; ?>-previewselector">
-                                    <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
+                                </div>
+
+                                <div class="field-preview-wrap" id="<?php echo $formFieldID; ?>-previewwrap">
+                                    <input class="std-textinput field-label-input field-labelset" type="text" id='<?php echo $formFieldID; ?>-labelset' placeholder="Field Label" value="<?php echo $formField->field_name; ?>">
+                                    <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label <?php if($formField->isRequired()){ echo "required-label"; } ?>" style="display: none;"><?php echo $formField->field_name; ?></label>
                                     <input class="std-textinput" type="text" id="<?php echo $formFieldID; ?>-previewinput">
                                 </div>
+                                <div class="field-bottom-wrap" id="<?php echo $formFieldID; ?>-bottomwrap"></div>
                             </div>
+
                         <?php
                             break;
 
                         case "textarea":
                         ?>
-                            <div class="field-container" id='<?php echo $formFieldID; ?>'>
-                                <div class="field-label-selector" id='<?php echo $formFieldID; ?>-labelselector'>
-                                    <label for='<?php echo $formFieldID; ?>-labelset' class="std-label field-label-domlabel">Field Label:</label>
-                                    <input class="std-textinput field-label-input" type="text" id='<?php echo $formFieldID; ?>-labelset' placeholder="Field Label" value="<?php echo $formField->field_name; ?>">
-                                    <select class="std-select field-type-select" id='<?php echo $formFieldID; ?>-typeselect'>
+                            <div class="field-wrap" id="<?php echo $formFieldID; ?>" onclick="swapEditPreview(event,'<?php echo $formFieldID; ?>')">
+                                <div class="field-top-wrap" id="<?php echo $formFieldID; ?>-topwrap">
+                                    <select class="std-select field-type-select-alt" id='<?php echo $formFieldID; ?>-typeselect'>
                                         <option value='textinput'>Text Input</option>
                                         <option value='textarea' selected>Textarea</option>
                                         <option value='dropdown'>Dropdown</option>
                                     </select>
-                                    <label class="std-checkbox-container">
+                                    <label class="std-checkbox-container floatright">
                                         Mark this field as required
                                         <input type="checkbox" id="<?php echo $formFieldID; ?>-isrequired" class="std-checkbox" <?php $formField->getRequiredChecked(); ?>>
                                         <span class="checkmark"></span>
                                     </label>
-                                </div>
-                                <p class="preview-label-explanation">
                                     <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button>
-                                </p>
-                                <hr id="<?php echo $formFieldID; ?>-hrdivider">
-                                <div class="field-preview-selector" id="<?php echo $formFieldID; ?>-previewselector">
-                                    <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
-                                    <textarea class="std-textarea" id="<?php echo $formFieldID; ?>-previewinput"></textarea>
                                 </div>
+
+                                <div class="field-preview-wrap" id="<?php echo $formFieldID; ?>-previewwrap">
+                                    <input class="std-textinput field-label-input field-labelset" type="text" id='<?php echo $formFieldID; ?>-labelset' placeholder="Field Label" value="<?php echo $formField->field_name; ?>">
+                                    <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label <?php if($formField->isRequired()){ echo "required-label"; } ?>" style="display: none;"><?php echo $formField->field_name; ?></label>
+                                    <textarea class="std-textarea" type="text" id="<?php echo $formFieldID; ?>-previewinput"></textarea>
+                                </div>
+                                <div class="field-bottom-wrap" id="<?php echo $formFieldID; ?>-bottomwrap"></div>
                             </div>
                         <?php
                             break;
 
                         case "dropdown":
                         ?>
-                            <div class="field-container" id='<?php echo $formFieldID; ?>'>
-                                <div class="field-label-selector" id='<?php echo $formFieldID; ?>-labelselector'>
-                                    <label for='<?php echo $formFieldID; ?>-labelset' class="std-label field-label-domlabel">Field Label:</label>
-                                    <input class="std-textinput field-label-input" type="text" id='<?php echo $formFieldID; ?>-labelset' placeholder="Field Label" value="<?php echo $formField->field_name; ?>">
-                                    <select class="std-select field-type-select" id='<?php echo $formFieldID; ?>-typeselect'>
-                                        <option value='textinput'>Text Input</option>
-                                        <option value='textarea'>Textarea</option>
-                                        <option value='dropdown' selected>Dropdown</option>
-                                    </select>
-                                    <label class="std-checkbox-container">
-                                        Mark this field as required
-                                        <input type="checkbox" id="<?php echo $formFieldID; ?>-isrequired" class="std-checkbox" <?php $formField->getRequiredChecked(); ?>>
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <label for="<?php echo $formFieldID; ?>-dropdown-objects" id="<?php echo $formFieldID; ?>-dropdown-objects-label" class="std-label" style="color: white;">Dropdown Options:</label>
-                                    <textarea class="std-textarea" style="width: 550px; height: 100px; resize: none;" placeholder="Seperated by a line break" id="<?php echo $formFieldID; ?>-dropdown-objects"><?php echo $formField->field_options; ?></textarea>
-                                </div>
-                                <p class="preview-label-explanation">
-                                    <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button>
-                                </p>
-                                <hr id="<?php echo $formFieldID; ?>-hrdivider">
-                                <div class="field-preview-selector" id="<?php echo $formFieldID; ?>-previewselector">
-                                    <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label"><?php echo $formField->field_name; ?></label>
-                                    <select id="<?php echo $formFieldID; ?>-previewinput" class="std-select">
-                                        <?php
+            <div class="field-wrap" id="<?php echo $formFieldID; ?>" onclick="swapEditPreview(event,'<?php echo $formFieldID; ?>')">
+                <div class="field-top-wrap" id="<?php echo $formFieldID; ?>-topwrap">
+                    <select class="std-select field-type-select-alt" id='<?php echo $formFieldID; ?>-typeselect'>
+                        <option value='textinput'>Text Input</option>
+                        <option value='textarea'>Textarea</option>
+                        <option value='dropdown' selected>Dropdown</option>
+                    </select>
+                    <label class="std-checkbox-container floatright">
+                        Mark this field as required
+                        <input type="checkbox" id="<?php echo $formFieldID; ?>-isrequired" class="std-checkbox" <?php $formField->getRequiredChecked(); ?>>
+                        <span class="checkmark"></span>
+                    </label>
+                    <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button>
+                </div>
 
-                                            $selectOptionsForField = explode("\n",$formField->field_options);
+                <div class="field-preview-wrap" id="<?php echo $formFieldID; ?>-previewwrap">
+                    <input class="std-textinput field-label-input field-labelset" type="text" id='<?php echo $formFieldID; ?>-labelset' placeholder="Field Label" value="<?php echo $formField->field_name; ?>">
+                    <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label <?php if($formField->isRequired()){ echo "required-label"; } ?>" style="display: none;"><?php echo $formField->field_name; ?></label>
+                    <select class="std-select" type="text" id="<?php echo $formFieldID; ?>-previewinput">
+                        <?php
 
-                                            $i = 1;
+                        $selectOptionsForField = explode("\n",$formField->field_options);
 
-                                            foreach ($selectOptionsForField as $selectOptionForField){
+                        $i = 1;
 
-                                                echo "<option value='".$i."'>".$selectOptionForField."</option>";
+                        foreach ($selectOptionsForField as $selectOptionForField){
 
-                                                $i = $i+1;
+                            echo "<option value='".$i."'>".$selectOptionForField."</option>";
 
-                                            }
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
+                            $i = $i+1;
+
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <div class="field-bottom-wrap" id="<?php echo $formFieldID; ?>-bottomwrap"><textarea class="std-textarea form-drop-objs" placeholder="Dropdown Objects, Separated by a line break" id="<?php echo $formFieldID; ?>-dropdown-objects"><?php echo $formField->field_options; ?></textarea></div>
+            </div>
                         <?php
                             break;
 
