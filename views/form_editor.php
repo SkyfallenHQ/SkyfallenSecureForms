@@ -42,7 +42,7 @@ function render_form_editor($form_id){
         <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
         <?php link_std_inputs(); ?>
         <?php link_fa_icons(); ?>
-        <link type="text/css" rel="stylesheet" href="<?php the_fileurl("static/css/form-editor.css?version=5"); ?>">
+        <link type="text/css" rel="stylesheet" href="<?php the_fileurl("static/css/form-editor.css?version=6"); ?>">
         <script defer>
             const web_url = '<?php the_weburl(); ?>';
             const current_form_id = '<?php echo $form_id; ?>';
@@ -50,7 +50,7 @@ function render_form_editor($form_id){
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/jquery-ui.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
-        <script src="<?php the_fileurl("static/js/form-editor.js?revision=4"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form-editor.js?revision=5"); ?>"></script>
         <?php
 
         $currentFormFields = SSF_FormField::listFields($form_id);
