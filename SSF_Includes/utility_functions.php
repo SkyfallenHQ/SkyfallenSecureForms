@@ -39,7 +39,7 @@ function the_fileurl($path){
  */
 function link_std_inputs(){
     ?>
-    <link href="<?php the_fileurl("static/standard-input/css/std-inputs.css?rev=4"); ?>" rel="stylesheet" type="text/css">
+    <link href="<?php the_fileurl("static/standard-input/css/std-inputs.css?rev=5"); ?>" rel="stylesheet" type="text/css">
     <?php
 }
 
