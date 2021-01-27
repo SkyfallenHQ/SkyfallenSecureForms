@@ -27,9 +27,14 @@ function preparePreviousField(field_id){
         revert: "invalid",
         containment: 'parent',
         axis: "y",
+        stop: function() {
+            return $(this).css({
+                height: 'auto'
+            });
+        },
     });
 
-    if($("#"+field_id + "-typeselect").val()){
+    if($("#"+field_id + "-typeselect").val() == "dropdown"){
 
         $("#"+field_id + "-dropdown-objects").change(function() {
             var dropdown_objects = $("#"+field_id + "-dropdown-objects").val().split("\n");
@@ -59,14 +64,12 @@ function preparePreviousField(field_id){
             switch ($("#"+field_id + "-typeselect").val()) {
                 case "textinput":
                     $("#"+field_id+"-dropdown-objects").remove();
-                    $("#"+field_id+"-dropdown-objects-label").remove();
                     $("#"+field_id+"-previewinput").replaceWith("<input class=\"std-textinput\" type=\"text\" id=\""+field_id+"-previewinput"+"\">");
                     break;
 
                 case "dropdown":
                     $("#"+field_id+"-dropdown-objects").remove();
-                    $("#"+field_id+"-dropdown-objects-label").remove();
-                    $("#"+field_id+"-labelselector").append("<label for='"+field_id+"-dropdown-objects"+"' id='"+field_id+"-dropdown-objects-label"+"' class='std-label' style='color: white;'>Dropdown Options:</label><textarea class=\"std-textarea\" style=\"width: 550px; height: 100px; resize: none;\" placeholder='Seperated by a line break' id='"+field_id+"-dropdown-objects"+"'></textarea>");
+                    $("#"+field_id+"-bottomwrap").append("<textarea class=\"std-textarea form-drop-objs\" placeholder='Dropdown Objects, Separated by a line break' id='"+field_id+"-dropdown-objects"+"'></textarea>");
                     $("#"+field_id+"-previewinput").replaceWith("<select class=\"std-select\" id=\""+field_id+"-previewinput"+"\"></select>");
 
                     $("#"+field_id + "-dropdown-objects").change(function() {
@@ -89,9 +92,22 @@ function preparePreviousField(field_id){
 
                 case "textarea":
                     $("#"+field_id+"-dropdown-objects").remove();
-                    $("#"+field_id+"-dropdown-objects-label").remove();
                     $("#"+field_id+"-previewinput").replaceWith("<textarea class=\"std-textarea\" type=\"text\" id=\""+field_id+"-previewinput"+"\"></textarea>");
                     break;
+            }
+            if(document.getElementById(field_id+"-bottomwrap").hasChildNodes()){
+                document.getElementById(field_id+"-bottomwrap").style.display = "block";
+            } else {
+                document.getElementById(field_id+"-bottomwrap").style.display = "none";
+            }
+        });
+        $("#"+field_id+"-isrequired").change(function() {
+            if(this.checked) {
+                var fieldElement = document.getElementById(field_id+"-previewlabel");
+                fieldElement.classList.add("required-label");
+            }else{
+                var fieldElement = document.getElementById(field_id+"-previewlabel");
+                fieldElement.classList.remove("required-label");
             }
         });
     });
@@ -102,28 +118,28 @@ function add_new_field(){
 
     var field_id = makeid(25);
 
-    $(".editor-wrapper").append(" <div class=\"field-container\" id='"+field_id+"'>\n" +
-        "                <div class=\"field-label-selector\" id='"+field_id+"-labelselector"+"'>\n" +
-        "                    <label for=\""+field_id+"-labelset"+"\" class=\"std-label field-label-domlabel\">Field Label:</label>\n" +
-        "                    <input class=\"std-textinput field-label-input\" type=\"text\" id=\""+field_id+"-labelset"+"\" placeholder=\"Field Label\">\n" +
-        "                    <select class=\"std-select field-type-select\" id=\""+field_id+"-typeselect"+"\">\n" +
-        "                        <option value='textinput' selected>Text Input</option>\n" +
-        "                        <option value='textarea'>Textarea</option>\n" +
-        "                        <option value='dropdown'>Dropdown</option>\n" +
-        "                    </select>\n" +
-        "                    <label class=\"std-checkbox-container\">\n" +
-        "                         Mark this field as required.\n" +
-        "                         <input type=\"checkbox\" id=\"<?php echo $formFieldID; ?>-isrequired\" class=\"std-checkbox\">\n" +
-        "                         <span class=\"checkmark\"></span>\n" +
-        "                    </label>\n" +
-        "                </div>\n" +
-        "                <p class=\"preview-label-explanation\">Preview: <button class='trash-field' onclick=\"deleteField('"+field_id+"')\"><i class='fa fa-trash'></i></button></p>\n" +
-        "                <hr>\n" +
-        "                <div class=\"field-preview-selector\">\n" +
-        "                    <label id=\""+field_id+"-previewlabel"+"\" for=\""+field_id+"-previewinput"+"\" class=\"std-label\">Field Label:</label>\n" +
-        "                    <input class=\"std-textinput\" type=\"text\" id=\""+field_id+"-previewinput"+"\">\n" +
-        "                </div>\n" +
-        "            </div>");
+    $(".editor-wrapper").append("<div class=\"field-wrap\" id=\""+field_id+"\" onclick=\"swapEditPreview(event,'"+field_id+"')\">\n" +
+        "                                <div class=\"field-top-wrap\" id=\""+field_id+"-topwrap\">\n" +
+        "                                    <select class=\"std-select field-type-select-alt\" id='"+field_id+"-typeselect'>\n" +
+        "                                        <option value='textinput' selected>Text Input</option>\n" +
+        "                                        <option value='textarea'>Textarea</option>\n" +
+        "                                        <option value='dropdown'>Dropdown</option>\n" +
+        "                                    </select>\n" +
+        "                                    <label class=\"std-checkbox-container floatright\">\n" +
+        "                                        Mark this field as required\n" +
+        "                                        <input type=\"checkbox\" id=\""+field_id+"-isrequired\" class=\"std-checkbox\">\n" +
+        "                                        <span class=\"checkmark\"></span>\n" +
+        "                                    </label>\n" +
+        "                                    <button class='trash-field' onclick=\"deleteField('"+field_id+"')\"><i class='fa fa-trash'></i></button>\n" +
+        "                                </div>\n" +
+        "\n" +
+        "                                <div class=\"field-preview-wrap\" id=\""+field_id+"-previewwrap\">\n" +
+        "                                    <input class=\"std-textinput field-label-input field-labelset\" type=\"text\" id='"+field_id+"-labelset' placeholder=\"Field Label\">\n" +
+        "                                    <label id='"+field_id+"-previewlabel' for='"+field_id+"-previewinput' class=\"std-label\" style=\"display: none;\"></label>\n" +
+        "                                    <input class=\"std-textinput\" type=\"text\" id=\""+field_id+"-previewinput\">\n" +
+        "                                </div>\n" +
+        "                                <div class=\"field-bottom-wrap\" id=\""+field_id+"-bottomwrap\"></div>\n" +
+        "                            </div>");
 
     $(".editor-wrapper").sortable({
         revert: false,
@@ -135,9 +151,40 @@ function add_new_field(){
         helper: "self",
         revert: "invalid",
         containment: 'parent',
+        stop: function() {
+            return $(this).css({
+                height: 'auto'
+            });
+        },
     });
 
     $(function(ready) {
+
+        $(".field-wrap").each( function (index,elm) {
+
+            if (document.getElementById(elm.id + "-topwrap").style.display == "block") {
+
+                document.getElementById(elm.id + "-bottomwrap").style.display = "none";
+                document.getElementById(elm.id + "-topwrap").style.display = "none";
+                var fieldElement = document.getElementById(elm.id);
+                fieldElement.classList.remove("focused");
+                document.getElementById(elm.id + "-labelset").style.display = "none";
+                document.getElementById(elm.id + "-previewlabel").style.display = "block";
+
+            }
+        });
+
+        document.getElementById(field_id+"-topwrap").style.display = "block";
+        if(document.getElementById(field_id+"-bottomwrap").hasChildNodes()){
+            document.getElementById(field_id+"-bottomwrap").style.display = "block";
+        } else {
+            document.getElementById(field_id+"-bottomwrap").style.display = "none";
+        }
+        var fieldElement = document.getElementById(field_id);
+        fieldElement.classList.add("focused");
+        document.getElementById(field_id+"-previewlabel").style.display = "none";
+        document.getElementById(field_id+"-labelset").style.display = "block";
+
         $("#"+field_id + "-labelset").change(function() {
             $("#"+field_id+"-previewlabel").text($("#"+field_id + "-labelset").val());
         });
@@ -146,28 +193,26 @@ function add_new_field(){
             switch ($("#"+field_id + "-typeselect").val()) {
                 case "textinput":
                     $("#"+field_id+"-dropdown-objects").remove();
-                    $("#"+field_id+"-dropdown-objects-label").remove();
                     $("#"+field_id+"-previewinput").replaceWith("<input class=\"std-textinput\" type=\"text\" id=\""+field_id+"-previewinput"+"\">");
                     break;
 
                 case "dropdown":
                     $("#"+field_id+"-dropdown-objects").remove();
-                    $("#"+field_id+"-dropdown-objects-label").remove();
-                    $("#"+field_id+"-labelselector").append("<label for='"+field_id+"-dropdown-objects"+"' id='"+field_id+"-dropdown-objects-label"+"' class='std-label' style='color: white;'>Dropdown Options:</label><textarea class=\"std-textarea\" style=\"width: 550px; height: 100px; resize: none;\" placeholder='Seperated by a line break' id='"+field_id+"-dropdown-objects"+"'></textarea>");
+                    $("#"+field_id+"-bottomwrap").append("<textarea class=\"std-textarea form-drop-objs\" placeholder='Dropdown Objects, Separated by a line break' id='"+field_id+"-dropdown-objects"+"'></textarea>");
                     $("#"+field_id+"-previewinput").replaceWith("<select class=\"std-select\" id=\""+field_id+"-previewinput"+"\"></select>");
 
                     $("#"+field_id + "-dropdown-objects").change(function() {
-                       var dropdown_objects = $("#"+field_id + "-dropdown-objects").val().split("\n");
+                        var dropdown_objects = $("#"+field_id + "-dropdown-objects").val().split("\n");
 
-                       var select_html = "<select class=\"std-select\" id=\""+field_id+"-previewinput"+"\">";
+                        var select_html = "<select class=\"std-select\" id=\""+field_id+"-previewinput"+"\">";
 
-                       dropdown_objects.forEach(function (item,index) {
+                        dropdown_objects.forEach(function (item,index) {
 
-                           select_html = select_html + "<option value='"+index+"'>"+item+"</option>";
+                            select_html = select_html + "<option value='"+index+"'>"+item+"</option>";
 
-                       });
+                        });
 
-                       select_html = select_html+"</select>";
+                        select_html = select_html+"</select>";
 
                         $("#"+field_id+"-previewinput").replaceWith(select_html);
 
@@ -176,9 +221,22 @@ function add_new_field(){
 
                 case "textarea":
                     $("#"+field_id+"-dropdown-objects").remove();
-                    $("#"+field_id+"-dropdown-objects-label").remove();
                     $("#"+field_id+"-previewinput").replaceWith("<textarea class=\"std-textarea\" type=\"text\" id=\""+field_id+"-previewinput"+"\"></textarea>");
                     break;
+            }
+            if(document.getElementById(field_id+"-bottomwrap").hasChildNodes()){
+                document.getElementById(field_id+"-bottomwrap").style.display = "block";
+            } else {
+                document.getElementById(field_id+"-bottomwrap").style.display = "none";
+            }
+        });
+        $("#"+field_id+"-isrequired").change(function() {
+            if(this.checked) {
+                var fieldElement = document.getElementById(field_id+"-previewlabel");
+                fieldElement.classList.add("required-label");
+            }else{
+                var fieldElement = document.getElementById(field_id+"-previewlabel");
+                fieldElement.classList.remove("required-label");
             }
         });
     });
@@ -198,7 +256,7 @@ function saveForm(){
 
             if(Http.responseText == "{\"status\":\"OK\"}"){
 
-                $('.field-container').each(function (field_pos, dom_obj){
+                $('.field-wrap').each(function (field_pos, dom_obj){
                     console.log("Iterating Fields:"+field_pos);
                     var current_field_id = dom_obj.id;
 
@@ -409,5 +467,85 @@ function saveFormDescription(){
     var post_params = "form_id="+current_form_id+"&new_description="+$("#form-description-setting").val();
 
     xhttp.send(post_params);
+
+}
+
+function swapEditPreview(event,field_id){
+
+    var elm = event.target;
+
+    if (elm.id === field_id+"-labelset" || elm.id === field_id+"-previewinput" || elm.id === field_id+"-topwrap" || elm.id === field_id+"-typeselect" || elm.id === field_id+"-dropdown-objects") {
+        return;
+    }
+
+    $(".field-wrap").each( function (index,elm) {
+
+        if(document.getElementById(elm.id+"-topwrap").style.display == "block") {
+
+            document.getElementById(elm.id+"-bottomwrap").style.display = "none";
+            document.getElementById(elm.id+"-topwrap").style.display = "none";
+            var fieldElement = document.getElementById(elm.id);
+            fieldElement.classList.remove("focused");
+            document.getElementById(elm.id+"-labelset").style.display = "none";
+            document.getElementById(elm.id+"-previewlabel").style.display = "block";
+
+        }
+
+    })
+
+    if(document.getElementById(field_id+"-topwrap").style.display == "block"){
+
+        document.getElementById(field_id+"-bottomwrap").style.display = "none";
+        document.getElementById(field_id+"-topwrap").style.display = "none";
+        var fieldElement = document.getElementById(field_id);
+        fieldElement.classList.remove("focused");
+        document.getElementById(field_id+"-labelset").style.display = "none";
+        document.getElementById(field_id+"-previewlabel").style.display = "block";
+
+    } else {
+
+        document.getElementById(field_id+"-topwrap").style.display = "block";
+        if(document.getElementById(field_id+"-bottomwrap").hasChildNodes()){
+            document.getElementById(field_id+"-bottomwrap").style.display = "block";
+        } else {
+            document.getElementById(field_id+"-bottomwrap").style.display = "none";
+        }
+        var fieldElement = document.getElementById(field_id);
+        fieldElement.classList.add("focused");
+        document.getElementById(field_id+"-previewlabel").style.display = "none";
+        document.getElementById(field_id+"-labelset").style.display = "block";
+
+    }
+
+}
+
+function fieldDoubleInitialise(field_id){
+
+    document.getElementById(field_id + "-bottomwrap").style.display = "none";
+    document.getElementById(field_id+"-topwrap").style.display = "none";
+    var fieldElement = document.getElementById(field_id);
+    fieldElement.classList.remove("focused");
+    document.getElementById(field_id+"-labelset").style.display = "none";
+    document.getElementById(field_id+"-previewlabel").style.display = "block";
+
+}
+
+function toggleDescription(event) {
+
+    var elm = event.target;
+
+    if (elm.id === "form-description-setting") {
+        return;
+    }
+
+    if(document.getElementById("form-description-setting").style.display == "block"){
+
+        document.getElementById("form-description-setting").style.display = "none";
+
+    } else {
+
+        document.getElementById("form-description-setting").style.display = "block";
+
+    }
 
 }
