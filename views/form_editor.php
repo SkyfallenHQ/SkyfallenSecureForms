@@ -42,7 +42,7 @@ function render_form_editor($form_id){
         <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap" rel="stylesheet">
         <?php link_std_inputs(); ?>
         <?php link_fa_icons(); ?>
-        <link type="text/css" rel="stylesheet" href="<?php the_fileurl("static/css/form-editor.css?version=7"); ?>">
+        <link type="text/css" rel="stylesheet" href="<?php the_fileurl("static/css/form-editor.css?version=8"); ?>">
         <script defer>
             const web_url = '<?php the_weburl(); ?>';
             const current_form_id = '<?php echo $form_id; ?>';
@@ -50,7 +50,7 @@ function render_form_editor($form_id){
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/jquery-ui.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
-        <script src="<?php the_fileurl("static/js/form-editor.js?revision=7"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form-editor.js?revision=8"); ?>"></script>
         <?php
 
         $currentFormFields = SSF_FormField::listFields($form_id);
@@ -186,6 +186,7 @@ function render_form_editor($form_id){
                                         <option value='textinput' selected>Text Input</option>
                                         <option value='textarea'>Textarea</option>
                                         <option value='dropdown'>Dropdown</option>
+                                        <option value='radio'>Radio Buttons</option>
                                     </select>
                                     <label class="std-checkbox-container floatright">
                                         Mark this field as required
@@ -214,6 +215,7 @@ function render_form_editor($form_id){
                                         <option value='textinput'>Text Input</option>
                                         <option value='textarea' selected>Textarea</option>
                                         <option value='dropdown'>Dropdown</option>
+                                        <option value='radio'>Radio Buttons</option>
                                     </select>
                                     <label class="std-checkbox-container floatright">
                                         Mark this field as required
@@ -241,6 +243,7 @@ function render_form_editor($form_id){
                         <option value='textinput'>Text Input</option>
                         <option value='textarea'>Textarea</option>
                         <option value='dropdown' selected>Dropdown</option>
+                        <option value='radio'>Radio Buttons</option>
                     </select>
                     <label class="std-checkbox-container floatright">
                         Mark this field as required
@@ -274,6 +277,60 @@ function render_form_editor($form_id){
                 <div class="field-bottom-wrap" id="<?php echo $formFieldID; ?>-bottomwrap"><textarea class="std-textarea form-drop-objs" placeholder="Dropdown Objects, Separated by a line break" id="<?php echo $formFieldID; ?>-dropdown-objects"><?php echo $formField->field_options; ?></textarea></div>
             </div>
                         <?php
+                            break;
+
+                        case "radio":
+                            ?>
+                            <div class="field-wrap" id="<?php echo $formFieldID; ?>" onclick="swapEditPreview(event,'<?php echo $formFieldID; ?>')">
+                                <div class="field-top-wrap" id="<?php echo $formFieldID; ?>-topwrap">
+                                    <select class="std-select field-type-select-alt" id='<?php echo $formFieldID; ?>-typeselect'>
+                                        <option value='textinput'>Text Input</option>
+                                        <option value='textarea'>Textarea</option>
+                                        <option value='dropdown'>Dropdown</option>
+                                        <option value='radio' selected>Radio Buttons</option>
+                                    </select>
+                                    <label class="std-checkbox-container floatright">
+                                        Mark this field as required
+                                        <input type="checkbox" id="<?php echo $formFieldID; ?>-isrequired" class="std-checkbox" <?php $formField->getRequiredChecked(); ?>>
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <button class='trash-field' onclick="deleteField('<?php echo $formFieldID; ?>')"><i class='fa fa-trash'></i></button>
+                                </div>
+
+                                <div class="field-preview-wrap" id="<?php echo $formFieldID; ?>-previewwrap">
+                                    <input class="std-textinput field-label-input field-labelset" type="text" id='<?php echo $formFieldID; ?>-labelset' placeholder="Field Label" value="<?php echo $formField->field_name; ?>">
+                                    <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label <?php if($formField->isRequired()){ echo "required-label"; } ?>" style="display: none;"><?php echo $formField->field_name; ?></label>
+                                    <div id="<?php echo $formFieldID; ?>-previewinput">
+                                        <?php
+
+                                        $selectOptionsForField = explode("\n",$formField->field_options);
+
+                                        $i = 1;
+
+                                        foreach ($selectOptionsForField as $selectOptionForField){
+
+                                            ?>
+
+                                            <label class="radio-container">
+                                                <div class="radio-label"><?php echo $selectOptionForField; ?></div>
+                                                <input type="radio" value="<?php echo $i; ?>" name="<?php echo $formFieldID; ?>-previewinput">
+                                                <span class="radio-checkmark"></span>
+                                            </label>
+
+                                            <?php
+
+                                            $i = $i+1;
+
+                                        }
+                                        ?>
+                                </div>
+                                </div>
+
+                                <div class="field-bottom-wrap" id="<?php echo $formFieldID; ?>-bottomwrap"><textarea class="std-textarea form-drop-objs" placeholder="Dropdown Objects, Separated by a line break" id="<?php echo $formFieldID; ?>-dropdown-objects"><?php echo $formField->field_options; ?></textarea></div>
+                            </div>
+
+
+                            <?php
                             break;
 
                         default:
