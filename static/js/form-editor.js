@@ -55,6 +55,31 @@ function preparePreviousField(field_id){
 
     }
 
+    if($("#"+field_id + "-typeselect").val() == "radio") {
+
+        $("#" + field_id + "-dropdown-objects").change(function () {
+            var dropdown_objects = $("#" + field_id + "-dropdown-objects").val().split("\n");
+
+            var select_html = "<div id=\"" + field_id + "-previewinput" + "\">";
+
+            dropdown_objects.forEach(function (item, index) {
+
+                select_html = select_html + "<label class=\"radio-container\">\n" +
+                    "<div class=\"radio-label\">" + item + "</div>\n" +
+                    "<input type=\"radio\" value=\"" + index + "\" name=\"<?php echo $formFieldID; ?>-previewinput\">\n" +
+                    "<span class=\"radio-checkmark\"></span>\n" +
+                    "</label>";
+
+            });
+
+            select_html = select_html + "</div>";
+
+            $("#" + field_id + "-previewinput").replaceWith(select_html);
+
+        });
+
+    }
+
     $(function(ready) {
         $("#"+field_id + "-labelset").change(function() {
             $("#"+field_id+"-previewlabel").text($("#"+field_id + "-labelset").val());
@@ -94,6 +119,33 @@ function preparePreviousField(field_id){
                     $("#"+field_id+"-dropdown-objects").remove();
                     $("#"+field_id+"-previewinput").replaceWith("<textarea class=\"std-textarea\" type=\"text\" id=\""+field_id+"-previewinput"+"\"></textarea>");
                     break;
+
+                case "radio":
+                    $("#"+field_id+"-dropdown-objects").remove();
+                    $("#"+field_id+"-bottomwrap").append("<textarea class=\"std-textarea form-drop-objs\" placeholder='Radio Objects, Separated by a line break' id='"+field_id+"-dropdown-objects"+"'></textarea>");
+                    $("#"+field_id+"-previewinput").replaceWith("<div id=\""+field_id+"-previewinput"+"\"></div>");
+
+                    $("#"+field_id + "-dropdown-objects").change(function() {
+                        var dropdown_objects = $("#"+field_id + "-dropdown-objects").val().split("\n");
+
+                        var select_html = "<div id=\""+field_id+"-previewinput"+"\">";
+
+                        dropdown_objects.forEach(function (item,index) {
+
+                            select_html = select_html + "<label class=\"radio-container\">\n" +
+                                "<div class=\"radio-label\">"+item+"</div>\n" +
+                                "<input type=\"radio\" value=\""+index+"\" name=\"<?php echo $formFieldID; ?>-previewinput\">\n" +
+                                "<span class=\"radio-checkmark\"></span>\n" +
+                                "</label>";
+
+                        });
+
+                        select_html = select_html+"</div>";
+
+                        $("#"+field_id+"-previewinput").replaceWith(select_html);
+
+                    });
+                    break;
             }
             if(document.getElementById(field_id+"-bottomwrap").hasChildNodes()){
                 document.getElementById(field_id+"-bottomwrap").style.display = "block";
@@ -124,6 +176,7 @@ function add_new_field(){
         "                                        <option value='textinput' selected>Text Input</option>\n" +
         "                                        <option value='textarea'>Textarea</option>\n" +
         "                                        <option value='dropdown'>Dropdown</option>\n" +
+        "                                        <option value='radio'>Radio Buttons</option>\n" +
         "                                    </select>\n" +
         "                                    <label class=\"std-checkbox-container floatright\">\n" +
         "                                        Mark this field as required\n" +
@@ -223,6 +276,34 @@ function add_new_field(){
                     $("#"+field_id+"-dropdown-objects").remove();
                     $("#"+field_id+"-previewinput").replaceWith("<textarea class=\"std-textarea\" type=\"text\" id=\""+field_id+"-previewinput"+"\"></textarea>");
                     break;
+
+                case "radio":
+                    $("#"+field_id+"-dropdown-objects").remove();
+                    $("#"+field_id+"-bottomwrap").append("<textarea class=\"std-textarea form-drop-objs\" placeholder='Radio Objects, Separated by a line break' id='"+field_id+"-dropdown-objects"+"'></textarea>");
+                    $("#"+field_id+"-previewinput").replaceWith("<div id=\""+field_id+"-previewinput"+"\"></div>");
+
+                    $("#"+field_id + "-dropdown-objects").change(function() {
+                        var dropdown_objects = $("#"+field_id + "-dropdown-objects").val().split("\n");
+
+                        var select_html = "<div id=\""+field_id+"-previewinput"+"\">";
+
+                        dropdown_objects.forEach(function (item,index) {
+
+                            select_html = select_html + "<label class=\"radio-container\">\n" +
+                                "<div class=\"radio-label\">"+item+"</div>\n" +
+                                "<input type=\"radio\" value=\""+index+"\" name=\"<?php echo $formFieldID; ?>-previewinput\">\n" +
+                                "<span class=\"radio-checkmark\"></span>\n" +
+                                "</label>";
+
+                        });
+
+                        select_html = select_html+"</div>";
+
+                        $("#"+field_id+"-previewinput").replaceWith(select_html);
+
+                    });
+                    break;
+
             }
             if(document.getElementById(field_id+"-bottomwrap").hasChildNodes()){
                 document.getElementById(field_id+"-bottomwrap").style.display = "block";
