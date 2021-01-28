@@ -146,22 +146,22 @@ function render_form($form_id){
 
                     case "textinput":
                         ?>
-                        <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-input' class="std-label <?php if($formField->isRequired()){ echo "required-label"; } ?>"><?php echo $formField->field_name; ?></label>
-                        <input class="std-textinput formfield <?php $formField->getRequiredClassName(); ?>" type="text" id="<?php echo $formFieldID; ?>-input">
+                        <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>' class="std-label <?php if($formField->isRequired()){ echo "required-label"; } ?>"><?php echo $formField->field_name; ?></label>
+                        <input class="std-textinput formfield <?php $formField->getRequiredClassName(); ?>" type="text" id="<?php echo $formFieldID; ?>" data-field-type="textinput">
                         <?php
                         break;
 
                     case "textarea":
                         ?>
-                        <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>-previewinput' class="std-label <?php if($formField->isRequired()){ echo "required-label"; } ?>"><?php echo $formField->field_name; ?></label>
-                        <textarea class="std-textarea formfield <?php $formField->getRequiredClassName(); ?>" id="<?php echo $formFieldID; ?>-input"></textarea>
+                        <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>' class="std-label <?php if($formField->isRequired()){ echo "required-label"; } ?>"><?php echo $formField->field_name; ?></label>
+                        <textarea class="std-textarea formfield <?php $formField->getRequiredClassName(); ?>" id="<?php echo $formFieldID; ?>" data-field-type="textarea"></textarea>
                         <?php
                         break;
 
                     case "dropdown":
                         ?>
-                        <label id='<?php echo $formFieldID; ?>-previewlabel' for='<?php echo $formFieldID; ?>-previewinput' class="std-label <?php if($formField->isRequired()){ echo "required-label"; } ?>"><?php echo $formField->field_name; ?></label>
-                        <select id="<?php echo $formFieldID; ?>-previewinput" class="std-select formfield <?php $formField->getRequiredClassName(); ?>">
+                        <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>' class="std-label <?php if($formField->isRequired()){ echo "required-label"; } ?>"><?php echo $formField->field_name; ?></label>
+                        <select id="<?php echo $formFieldID; ?>" class="std-select formfield <?php $formField->getRequiredClassName(); ?>" data-field-type="dropdown">
                             <?php
 
                             $selectOptionsForField = explode("\n",$formField->field_options);
@@ -178,6 +178,33 @@ function render_form($form_id){
                             ?>
                         </select>
                         <?php
+                        break;
+                    case "radio":
+                    ?>
+                    <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>' class="std-label <?php if($formField->isRequired()){ echo "required-label"; } ?>"><?php echo $formField->field_name; ?></label>
+                    <div id="<?php echo $formFieldID; ?>" data-field-type="radio" class="formfield <?php $formField->getRequiredClassName(); ?>">
+                        <?php
+
+                        $selectOptionsForField = explode("\n",$formField->field_options);
+
+                        $i = 1;
+
+                        foreach ($selectOptionsForField as $selectOptionForField){
+
+                            ?>
+
+                            <label class="radio-container">
+                                <div class="radio-label"><?php echo $selectOptionForField; ?></div>
+                                <input type="radio" value="<?php echo $i; ?>" name="<?php echo $formFieldID; ?>">
+                                <span class="radio-checkmark"></span>
+                            </label>
+
+                            <?php
+
+                            $i = $i+1;
+
+                        }
+                        echo "</div>";
                         break;
 
                 }
