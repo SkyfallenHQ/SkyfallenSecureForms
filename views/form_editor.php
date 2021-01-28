@@ -50,7 +50,7 @@ function render_form_editor($form_id){
         <script src="<?php the_fileurl("static/js/jquery.min.js"); ?>" ></script>
         <script src="<?php the_fileurl("static/js/jquery-ui.min.js"); ?>"></script>
         <script src="<?php the_fileurl("static/js/sweetalert.min.js"); ?>"></script>
-        <script src="<?php the_fileurl("static/js/form-editor.js?revision=6"); ?>"></script>
+        <script src="<?php the_fileurl("static/js/form-editor.js?revision=7"); ?>"></script>
         <?php
 
         $currentFormFields = SSF_FormField::listFields($form_id);
