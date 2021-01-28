@@ -4,7 +4,22 @@ function validateFields(){
 
     $(".required-field").each(function (index,obj) {
 
-        if(!obj.value){
+        var fieldID = "";
+        var fieldValue = "";
+
+        if(obj.getAttribute("data-field-type") == "radio"){
+
+            fieldID = obj.id;
+            fieldValue = $('input[name="'+fieldID+'"]:checked').val();
+
+        } else {
+
+            fieldID = obj.id;
+            fieldValue = obj.value;
+
+        }
+
+        if(!fieldValue){
 
             status = false;
 
@@ -20,7 +35,6 @@ function validateFields(){
 function submitForm() {
 
     if(validateFields()){
-
         var xhttp = new XMLHttpRequest();
 
         xhttp.open("POST", web_url+"respond", true);
@@ -58,11 +72,27 @@ function submitForm() {
 
             var encodedEncryptedInput = "";
 
+            var fieldID = "";
+
+            var fieldValue = "";
+
+            if(obj.getAttribute("data-field-type") == "radio"){
+
+                fieldID = obj.id;
+                fieldValue = $('input[name="'+fieldID+'"]:checked').val();
+
+            } else {
+
+                fieldID = obj.id;
+                fieldValue = obj.value;
+
+            }
+
             switch (encryption_standard) {
                 case "RSA_ONLY":
                     publicKey = forge.pki.publicKeyFromPem(publicEncryptionKey);
 
-                    var userPlainInput = forge.util.encodeUtf8(obj.value);
+                    var userPlainInput = forge.util.encodeUtf8(fieldValue);
 
                     var encryptedInput = publicKey.encrypt(userPlainInput, "RSA-OAEP", {
                         md: forge.md.sha256.create(),
@@ -75,7 +105,7 @@ function submitForm() {
 
                     var cipher = forge.aes.createEncryptionCipher(key, 'CBC');
                     cipher.start(iv);
-                    cipher.update(forge.util.createBuffer(obj.value));
+                    cipher.update(forge.util.createBuffer(fieldValue));
                     cipher.finish();
                     var encrypted = cipher.output;
 
