@@ -180,6 +180,29 @@ function render_form_responses($form_id){
                         </select>
                         <?php
                         break;
+                    case "radio":
+                    ?>
+                    <label id='<?php echo $formFieldID; ?>-label' for='<?php echo $formFieldID; ?>' class="std-label"><?php echo $formField->field_name; ?></label>
+                    <div id="<?php echo $formFieldID; ?>" class="formfield">
+                        <?php
+
+                        $optionIndex = $field_response;
+                        $optionIndex = intval(trim($optionIndex));
+                        $field_Object = new SSF_FormField($formFieldID);
+                        $field_Options = explode("\n",$field_Object->field_options);
+
+                        ?>
+                            <label class="radio-container">
+                                <div class="radio-label"><?php echo $field_Options[$optionIndex-1];; ?></div>
+                                <input type="radio" checked="checked">
+                                <span class="radio-checkmark"></span>
+                            </label>
+
+                            <?php
+
+                        
+                        echo "</div>";
+                        break;
 
                 }
 
