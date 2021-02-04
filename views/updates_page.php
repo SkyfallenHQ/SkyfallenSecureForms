@@ -16,7 +16,11 @@ function render_updates_page() {
     $provider_info = \SkyfallenCodeLibrary\UpdatesConsoleConnector::getProviderData(UC_API_ENDPOINT);
     $new_vname = \SkyfallenCodeLibrary\UpdatesConsoleConnector::getLatestVersion(UC_API_APPID,UC_API_APPSEED,UC_API_ENDPOINT);
     $new_version_data = \SkyfallenCodeLibrary\UpdatesConsoleConnector::getLatestVersionData(UC_API_APPID,UC_API_APPSEED,UC_API_ENDPOINT);
-
+    $user = new SSFUser(USERNAME);
+    if($user->role != "SUPERUSER"){
+        include_once SSF_ABSPATH."/SSF_Includes/404.php";
+        die();
+    }
     ?>
 <html>
     <head>
