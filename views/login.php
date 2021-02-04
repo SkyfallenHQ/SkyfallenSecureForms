@@ -62,41 +62,118 @@ function render_login(){
 
     ?>
     <html>
-        <head>
-            <title>Skyfallen SecureForms: Login</title>
-            <link rel="stylesheet" type="text/css" href="<?php the_fileurl("static/css/login.css"); ?>">
-            <link rel="preconnect" href="https://fonts.gstatic.com">
-            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-        </head>
+    <head>
+        <title>Skyfallen SecureForms: Login</title>
+        <link rel="stylesheet" type="text/css" href="<?php the_fileurl("static/css/login.css?v=2"); ?>">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    </head>
 
-        <body>
-            <div class="left-col" style="background: url('<?php the_fileurl("static/img/color_splash.jpg"); ?>') center"></div>
-            <div class="right-col">
-                <div class="loginform">
-                    <div class="skyfallen-logo">
-                        <img src="<?php the_fileurl("static/img/Skyfallen_Logo.png"); ?>" class="skyfallen-logo-img">
-                    </div>
-                    <?php
-                        if($errorMessage != "OK"){
-                            ?>
-                            <div class="error-msg">
-                                <p><?php echo $errorMessage; ?></p>
-                            </div>
-                            <?php
-                        }
-                    ?>
-                    <form id="mainform" method="post">
-                        <?php
-                            $CSRF->put();
-                        ?>
-                        <input class="std-input" name="username" placeholder="Username" type="text">
-                        <input class="std-input" name="password" placeholder="Password" type="password">
-                        <br>
-                        <input class="std-submit" name="submit-form" type="submit" value="Login">
-                    </form>
-                </div>
+    <body>
+    <div class="left-col" style="background: url('<?php the_fileurl("static/img/color_splash.jpg"); ?>') center"></div>
+    <div class="right-col">
+        <div class="loginform">
+            <div class="skyfallen-logo">
+                <img src="<?php the_fileurl("static/img/Skyfallen_Logo.png"); ?>" class="skyfallen-logo-img">
             </div>
-        </body>
+            <?php
+            if($errorMessage != "OK"){
+                ?>
+                <div class="error-msg">
+                    <p><?php echo $errorMessage; ?></p>
+                </div>
+                <?php
+            }
+            ?>
+            <form id="mainform" method="post">
+                <?php
+                $CSRF->put();
+                ?>
+                <input class="std-input" name="username" placeholder="Username" type="text">
+                <input class="std-input" name="password" placeholder="Password" type="password">
+                <br>
+                <input class="std-submit" name="submit-form" type="submit" value="Login">
+                <a class="linkto-register" href="<?php the_weburl(); ?>accounts/register">Don't have an account? Register</a>
+            </form>
+        </div>
+    </div>
+    </body>
+    </html>
+    <?php
+}
+
+/**
+ * Renders the registration page
+ */
+
+function render_register(){
+
+    if(ISLOGGEDIN){
+        ssf_redirect("accounts/dashboard");
+    }
+
+    $CSRF = new SSF_CSRF();
+
+    $errorMessage = "OK";
+
+    if(!empty($_POST)){
+        if(SSF_CSRF::verifyCSRF()){
+            SSF_CSRF::invalidateCurrentCSRF();
+            if(isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["email"])){
+                $user = new SSFUser($_POST["username"]);
+                if($user->error == "No such user."){
+                   SSFUser::createNewUser($_POST["username"],$_POST["email"],"USER",password_hash($_POST["password"],PASSWORD_DEFAULT));
+                   $user = new SSFUser($_POST["username"]);
+                   $user->login();
+                } else {
+                    $errorMessage = "This username is already taken.";
+                }
+            } else {
+                $errorMessage = "All fields are required.";
+            }
+        } else {
+            $errorMessage = "Invalid CSRF Token!";
+        }
+    }
+
+    ?>
+    <html>
+    <head>
+        <title>Skyfallen SecureForms: Registration</title>
+        <link rel="stylesheet" type="text/css" href="<?php the_fileurl("static/css/login.css"); ?>">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+    <div class="left-col" style="background: url('<?php the_fileurl("static/img/color_splash.jpg"); ?>') center"></div>
+    <div class="right-col">
+        <div class="loginform">
+            <div class="skyfallen-logo">
+                <img src="<?php the_fileurl("static/img/Skyfallen_Logo.png"); ?>" class="skyfallen-logo-img">
+            </div>
+            <?php
+            if($errorMessage != "OK"){
+                ?>
+                <div class="error-msg">
+                    <p><?php echo $errorMessage; ?></p>
+                </div>
+                <?php
+            }
+            ?>
+            <form id="mainform" method="post">
+                <?php
+                $CSRF->put();
+                ?>
+                <input class="std-input" name="username" placeholder="Username" type="text">
+                <input class="std-input" name="email" placeholder="Email" type="text">
+                <input class="std-input" name="password" placeholder="Password" type="password">
+                <br>
+                <input class="std-submit" name="submit-form" type="submit" value="Register">
+            </form>
+        </div>
+    </div>
+    </body>
     </html>
     <?php
 }

@@ -96,3 +96,15 @@ body{
     font-family: sans-serif,'Roboto';
     background-color: snow
 }
+
+.linkto-register{
+
+    text-align: center;
+    color: #c3c3c3;
+    display: block;
+    font-size: 18px;
+    margin-top: 20px;
+    text-decoration: none;
+    font-family: sans-serif;
+
+}

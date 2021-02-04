@@ -17,6 +17,7 @@ defined("SSF_ABSPATH") or die("Don't mess!");
 include_once SSF_ABSPATH."/views/login.php";
 SSF_Router::routePage("/","redirect_to_login");
 SSF_Router::routePage("accounts/login","render_login");
+SSF_Router::routePage("accounts/register","render_register");
 SSF_Router::routePage("accounts/logout","do_logout");
 
 // Redirects for the user's panel
